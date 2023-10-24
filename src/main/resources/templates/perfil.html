@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+
+        <header th:replace="/fragments/header :: header" ></header>
+
+        <div>USUARIO PERFIL</div>
+
+        <div class="card mb-3" style="max-width:600px;">
+            <div class="card-header d-flex align-items-center justify-content-evenly bg-secondary"><h4 class="fw-bold">Perfil</h4></div>
+            <div class="row g-0">
+                <div class="col-md-4 d-flex">
+                    <div class=" d-flex ">
+                        <img  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="Img logo" width="200" >
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+
+                        <table class="table">
+                            <tbody >
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th scope="row">Nombre : </th>
+                                    <td th:text= "${session.usuariosession.nombre}"></td>
+                                </tr>
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th scope="row">Username : </th>
+                                    <td th:text= "${session.usuariosession.apellido}"></td>
+                                </tr>
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th scope="row">Email : </th>
+                                    <td th:text= "${session.usuariosession.email}"></td>
+                                </tr>
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th scope="row">Rol : </th>
+                                    <td th:text= "${session.usuariosession.rol}"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <p class="card-text"><small class="text-body-secondary">... alguna otra info</small></p>
+                        <a th:href="@{/proveedor-registro/__${session.usuariosession.id}__}" class="btn-warning">Upgrade Proveedor</a>
+                    </div>
+                </div>
+            </div>
+            <div  class="card-footer bg-secondary ">
+                <p class="fw-semibold " th:text= "'User Id : '+${session.usuariosession.id}" ></p>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
+</html>
