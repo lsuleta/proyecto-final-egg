@@ -22,3 +22,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     margin-top: 0px;
     margin-left: 0px;
 }
+
+.img-fondo{
+    background-image: url("../images/main/fondo2.jpg");
+    background-repeat: no-repeat;
+    
+    background-size: 100% 100%;
+}
