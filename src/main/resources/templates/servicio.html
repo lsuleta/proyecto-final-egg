@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+
+        <header th:replace="/fragments/header :: header" ></header>
+
+        <main class="container">
+
+
+            <div class="row g-5">
+                <div class="col-md-8">
+
+                    <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                        Servicio de tal cosa
+                    </h3>
+
+                    <article  class="blog-post border p-3 m-3 fondo ">
+
+                        <div  class="row ">
+                            <div class="row ">
+                                <div class="col-9 ">
+                                    <h2  name="titulo" class="display-5 link-body-emphasis mb-1">Sample blog post</h2>
+                                </div>
+
+                                <div class="col-3 d-flex flex-column align-items-center align-self-center ">
+                                    <div class="col imagen-recortada bg-dark ">
+                                        <img th:src="@{/imagen/perfil/}" class="rounded-end" alt="usuario-imagen"  > 
+                                    </div>
+                                    <div class="col ">
+                                        <p>
+                                            <small  class="text-body-secondary"> asdasdasda</small>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row ">
+                                <img  class="img-fluid " th:src="@{/imagen/noticia/}" alt="Img Servicio">
+                            </div>
+
+                            <div class="row ">
+                                <p  name="cuerpo" >Descripcion y datos de servicio</p>
+                                <hr>
+                            </div>
+                            <!-- SECCION COMENTARIOS -->
+
+                            <div class="row ">
+                                <hr>
+                                <h5>COMENTARIOS</h5>
+                                <hr>
+                            </div>  
+                            <!-- INGRESAR COMENTARIO -->
+                            <div class="row ">
+                                <div class=" mx-auto p-2 ">
+
+                                    <div class="card"  th:if="${session.usuariosession != null}" >
+
+                                        <form th:action="@{/}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden th:value="${session.usuariosession.id}" name="id">
+                                            <input hidden  name="idNoticia">
+                                            <div >
+                                                <textarea class="form-control comentario" id="comentario" name="comentario" rows="3" th:placeholder="${session.usuariosession.nombre + ', deja aqui tu comentaio'}"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary ">Submit</button>
+                                        </form>     
+                                    </div>
+                                    <div class="text-center  " th:if="${session.usuariosession == null}" >
+                                        <a th:href="@{/login}" type="button"  class="btn btn-outline-dark btn-warning me-2">Debe estar logueado para porder comentar</a>
+                                    </div>
+
+                                </div>
+                            </div> 
+                            <!-- MOSTRAR COMENTARIOS-- iterar una lista de comentarios ordenados por fecha -->
+                            <div class="row ">
+                                <div class=" mx-auto p-2 comentarios-container ">
+
+                                    <div class="card m-3"  > <!-- ITERAR COMENTARIOS -->
+                                        <div class="row g-0 comentario ">
+                                            <div class="col-md-4 imagen-comentario ">
+                                                <img th:src="@{/imagen/perfil}" class="img-fluid rounded-start" alt="usuario-imagen"> 
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5   class="card-title">Card title</h5>
+                                                    <p  class="card-text">Esto es una caja de comentarios... </p>
+                                                    <p   class="card-text"><small  class="text-body-secondary">Comentado tal FECHA Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="col-md-4">
+                    <div class="position-sticky" style="top: 2rem;">
+                        <div class="p-4 mb-3 bg-body-tertiary rounded">
+                            <h4 class="fst-italic">About</h4>
+                            <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="fst-italic">Recent posts</h4>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">Example blog post title</h6>
+                                            <small class="text-body-secondary">January 15, 2023</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">This is another blog post title</h6>
+                                            <small class="text-body-secondary">January 14, 2023</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
+                                            <small class="text-body-secondary">January 13, 2023</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                      
+                        <div class="p-4">
+                            <h4 class="fst-italic">Elsewhere</h4>
+                            <ol class="list-unstyled">
+                                <li><a href="#">GitHub</a></li>
+                                <li><a href="#">Twitter</a></li>
+                                <li><a href="#">Facebook</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+
+    </body>
+</html>

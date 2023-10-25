@@ -1,0 +1,36 @@
+<form th:action="@{/}" method="POST" enctype="multipart/form-data" class=" row text-start ">
+
+    <h2 class="text-center mt-3 mb-3">REGISTRO DE USUARIO</h2>
+
+
+    <div class="col-md-6 mb-2">
+        <label for="nomobre" class="form-label">Nombre: </label>
+        <input type="text" name="nombre" class="form-control bg-dark" id="nombre" placeholder="Nombre">
+    </div>
+    <div class="col-md-6 mb-2">
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input type="text" name="apellido" class="form-control bg-dark" id="apellido" placeholder="Apellido">
+    </div>
+
+    <div class="col-md-12 mb-2">
+        <label class="form-label" for="mail">Correo Electrónico:</label>
+        <input type="text" id="mail" name="email" placeholder="Email" class="form-control bg-dark " />
+    </div> 
+
+    <div class="col-md-6 mb-2">
+        <label for="contraseña" class="form-label">Conrtaseña</label>
+        <input type="password" name="password" class="form-control bg-dark" id="contraseña" placeholder="contraseña">
+    </div>
+    <div class="col-md-6 mb-2">
+        <label for="contraseña2" class="form-label">Repetir contraseña</label>
+        <input type="password" name="password2" class="form-control bg-dark " id="contraseña2" placeholder="contraseña">
+    </div>
+
+    <div class="col-md-12 mb-2">
+        <label class="form-label" for="imagen">Perfil imagen:</label>
+        <input type="file" id="imagen" name="archivo" class="form-control bg-dark " > <!-- accept="image/*"-->
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-2 my-3">Registrarse</button>         
+
+</form>
