@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.borrador.appservicios;
 
 import com.borrador.appservicios.servicios.UsuarioServicio;
@@ -17,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  *
- * @author facun
+ * @author kyouma
  */
 
 @Configuration
@@ -38,9 +34,9 @@ public class SeguridadWeb {
     protected SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
         http
             .authorizeRequests()
-                .requestMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/admin/*").hasRole("ADMIN")
                 //.requestMatchers("/admin/*").hasRole("PROVEEDOR")// solo admin
-                .requestMatchers("/css/*","/js/*","/img/*","/**")
+                .antMatchers("/css/*","/js/*","/img/*","/**")
                 .permitAll()
             .and().formLogin()
                 .loginPage("/login")
