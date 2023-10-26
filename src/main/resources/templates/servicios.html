@@ -1,10 +1,13 @@
+<!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="/fragments/head :: head" ></head>
-    <body>
+<head>
+<div th:replace="/fragments/head :: head"></div>
+<title>Servicios</title>
+</head>
 
-        <header th:replace="/fragments/header :: header" ></header>
-
-        <main>
+<body style=" background: lightgray">
+<header th:replace="/fragments/header :: header" ></header>
+<main>
  
             <div><h3 class="text-center" >Servicios Ofrecidos</h3></div>
 
@@ -478,14 +481,11 @@
                 </div>
             </div>
 
+</main>
 
+<div class="container">
+<footer th:replace="/fragments/footer :: footer" > </footer>
+</div>
 
-        </main>
-
-
-        <div class="container">
-            <footer th:replace="/fragments/footer :: footer" > </footer>
-        </div>
-
-    </body>
+</body>
 </html>
