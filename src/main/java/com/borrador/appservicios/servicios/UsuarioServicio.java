@@ -83,9 +83,8 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setApellido(apellido);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.USER);
-            usuario.setActivo(true);
-            
+          
+ 
             String idImagen = null;
             if (usuario.getImagen() != null) {
                 idImagen = usuario.getImagen().getId();
