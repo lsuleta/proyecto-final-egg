@@ -45,24 +45,39 @@
             </div>
 
             <div class="switch" id="switch-cnt">
+                
                 <div class="switch__circle"></div>
                 <div class="switch__circle switch__circle--t"></div>
                 <div class="switch__container" id="switch-c1">
+                     
                     <h2 class="switch__title title">Proveedor</h2>
                     <p class="switch__description description">Estás interesado en brindar un servicio?</p>
                     <button class="switch__button button switch-btn">Registrarme</button>
                     <br>
                     <a href="/"><button class="switch__button button switch-btn">Volver</button></a>
+                    
+                    <div class="bottom-form">
+                <div class="no-account">¿Ya tienes cuenta?</div>
+                <a th:href="@{/login}" class="sigup">Ingresa</a>
+            </div>
                 </div>
 
                 <div class="switch__container is-hidden" id="switch-c2">
+                    
+                   
                     <h2 class="switch__title title">Cliente</h2>
                     <p class="switch__description description">Quieres contratar un servicio?</p>
                     <button class="switch__button button switch-btn">Registrarme</button>
                     <br>
                     <a href="/"><button class="switch__button button switch-btn">Volver</button></a>
+                    <div class="bottom-form">
+                <div class="no-account">¿Ya tienes cuenta?</div>
+                <a th:href="@{/login}" class="sigup">Ingresa</a>
+            </div>
                 </div>
-
+                
+                    
+                
 
             </div>
         </div>
