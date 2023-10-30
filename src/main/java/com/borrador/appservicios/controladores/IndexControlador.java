@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.borrador.appservicios.controladores;
 
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Genero;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.servicios.UsuarioServicio;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author facun
+ * @author kyouma
  */
 @Controller
 @RequestMapping("/")
@@ -49,7 +45,7 @@ public class IndexControlador {
         try {
             usuarioServicio.persistirUsuario(nombre, apellido, email, password, password2, archivo);
             modelo.put("exito", "usuario registrado correctamente");
-            return "index.html";
+            return "redirect:/";
 
         } catch (Excepciones ex) {
             modelo.put("error", ex.getMessage());
@@ -87,6 +83,7 @@ public class IndexControlador {
 
         return "perfil.html";
     }
+    
     @GetMapping("/proveedor-registro/{id}")
     public String proveedorFormulario() {
 

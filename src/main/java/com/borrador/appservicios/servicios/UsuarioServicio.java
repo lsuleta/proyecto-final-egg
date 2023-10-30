@@ -1,21 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
-import com.borrador.appservicios.enumeradores.Genero;
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import javax.xml.crypto.Data;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -83,9 +78,8 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setApellido(apellido);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.USER);
-            usuario.setActivo(true);
-            
+          
+ 
             String idImagen = null;
             if (usuario.getImagen() != null) {
                 idImagen = usuario.getImagen().getId();
