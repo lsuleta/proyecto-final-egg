@@ -1,7 +1,9 @@
 package com.borrador.appservicios.entidades;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -20,10 +22,11 @@ public class Imagen {
     private String id;
 
     private String mime;
-
+    
+    @Column(name = "nombre",nullable = false)
     private String nombre;
 
-    @Lob
+    @Lob @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "LONGBLOB")
     private byte[] contenido;
 

@@ -66,7 +66,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
-    public void modificarUsuario(String id, String nombre, String apellido, String email,
+    /*public void modificarUsuario(String id, String nombre, String apellido, String email,
             String password, String password2, MultipartFile archivo) throws Excepciones {
 
         validar(nombre, apellido, email, password, password2);
@@ -88,7 +88,7 @@ public class UsuarioServicio implements UserDetailsService {
                 usuarioRepositorio.save(usuario);
             }
         }
-    }
+    }*/
 
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
@@ -134,5 +134,53 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
+    
+    
+    @Transactional
+    public Usuario actualizar(MultipartFile archivo, String id, String nombre, String apellido, String email, String password, String password2) throws Exception {
+
+        validar(nombre, apellido, email, password, password2);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+
+            usuario.setImagen(null);
+            String idImagen = null;
+
+            if (usuario.getImagen() != null) {
+                idImagen = usuario.getImagen().getId();
+            }
+
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+
+            usuario.setImagen(imagen);
+            usuarioRepositorio.save(usuario);
+            return usuario;
+        }
+        return null;
+        
+
+    }
+
+   
+
+    @Transactional(readOnly = true)
+    public List<Usuario> listarUsuarios() {
+
+        List<Usuario> usuarios = new ArrayList();
+
+        usuarios = usuarioRepositorio.findAll();
+
+        return usuarios;
+    }
+    
+    
 
 }
