@@ -53,6 +53,7 @@ public class Usuario {
 
     private Boolean activo;
 
+   // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "imagen_id", nullable = true)
     private Imagen imagen;
