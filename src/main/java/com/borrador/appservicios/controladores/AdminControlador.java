@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
- * @author facun
+ * @author Kyouma
  */
 @Controller
 @RequestMapping("/admin")
@@ -47,6 +47,12 @@ public class AdminControlador {
     @GetMapping("/modificarRol/{id}")
     public String cambiarRol(@PathVariable String id){
         usuarioServicio.cambiarRol(id);
+        return "redirect:/admin/usuarios";
+    }
+    
+    @GetMapping("/modificarAlta/{id}")
+    public String cambiarAlta(@PathVariable String id){
+        usuarioServicio.cambiarAlta(id);
         return "redirect:/admin/usuarios";
     }
 
