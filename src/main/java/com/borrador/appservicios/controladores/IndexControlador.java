@@ -79,30 +79,28 @@ public class IndexControlador {
 
         return "inicio.html";
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfilUsuario() {
 
         return "perfiles.html";
     }
-    
+
     @GetMapping("/proveedor-registro/{id}")
     public String proveedorFormulario() {
 
         return "proveedor_registro.html";
     }
-    
+
     @GetMapping("/servicios")
     public String servi() {
 
         return "servicios.html";
     }
+
     
-    
-    
-    
-    
+    //ver perfil
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils")
     public String perfil(ModelMap modelo, HttpSession session) {
@@ -110,12 +108,11 @@ public class IndexControlador {
         modelo.put("usuario", usuario);
         return "modificar_cliente.html";
     }
-
     
-    
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    ///funcion actualizar datos de perfil
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/perfils/{id}")
-    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,
+    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
 
         try {
@@ -126,7 +123,7 @@ public class IndexControlador {
             Usuario logueado = (Usuario) session.getAttribute("usuariosession");
 
             if (logueado.getRol().toString().equals("ADMIN")) {
-                session.setAttribute("usuariosession",usuarioactualizado);
+                session.setAttribute("usuariosession", usuarioactualizado);
                 return "redirect:/admin/dashboard";
             } else {
                 session.setAttribute("usuariosession", usuarioactualizado);
@@ -143,7 +140,30 @@ public class IndexControlador {
 
     }
     
-    
-    
+//eliminar foto funcion btn
+    @GetMapping("/perfils/emilinar-foto/{id}")
+    public String eliminarFoto(@PathVariable String id,HttpSession session,MultipartFile archivo) {
+        try {
+            Usuario usuarioactualizado = usuarioServicio.eliminarImagenDeUsuario(id);
+            
+            Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+            
+            session.setAttribute("usuariosession", usuarioactualizado);
+            
+            return "redirect:/perfil";
+        } catch (Exception e) {
+            return "redirect:/";
+        }
+    }
+
+    //alta-baja usuario
+    @GetMapping("/perfils/modificar-alta/{id}")
+    public String cambiarAltaUser(@PathVariable String id) {
+        
+        System.out.println("CAMBIANDO ALTA-------");
+        usuarioServicio.cambiarAlta(id);
+        return "redirect:/perfil";
+    }
+
     
 }
