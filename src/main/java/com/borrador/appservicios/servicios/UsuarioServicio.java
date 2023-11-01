@@ -158,16 +158,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    @Transactional(readOnly = true)
-    public List<Usuario> listarUsuarios() {
-
-        List<Usuario> usuarios = new ArrayList();
-
-        usuarios = usuarioRepositorio.findAll();
-
-        return usuarios;
-    }
-    
 //eliminar foto funcion btn
     @Transactional
     public Usuario eliminarImagenDeUsuario(String id) {
@@ -196,4 +186,30 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+// Listar Usuarios --
+    @Transactional(readOnly = true)
+    public List<Usuario> listarUsuarios() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.findAll();
+        return usuarios;
+    }
+
+    @Transactional
+    public void cambiarRol(String id) {
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            usuario = respuesta.get();
+
+            if (usuario.getRol().equals(Rol.USER)) {
+                usuario.setRol(Rol.ADMIN);
+            } else if (usuario.getRol().equals(Rol.ADMIN)) {
+                usuario.setRol(Rol.USER);
+            }
+
+        }
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.borrador.appservicios.entidades;
+ package com.borrador.appservicios.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +37,6 @@ public class Proveedor extends Usuario {
     
     @OneToOne 
     private Imagen imagen;
-
+    
 
 }

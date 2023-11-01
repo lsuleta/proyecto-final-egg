@@ -10,6 +10,8 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/" class="nav-link px-2 text-secondary text-white">INICIO</a></li>
                 <li><a href="/servicios" class="nav-link px-2 text-secondary ">SERVICIOS</a></li>
+                <li><a th:href="@{/admin/dashboard}"  class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">DASHBOARD</a></li>
+                <li><a th:href="@{/admin/usuarios}" class="nav-link px-2 text-secondary " sec:authorize="hasRole('ADMIN')" >LISTAR USUARIOS</a></li>
             </ul>
 
 
