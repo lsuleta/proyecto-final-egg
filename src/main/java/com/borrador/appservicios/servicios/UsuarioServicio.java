@@ -196,29 +196,4 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-//    @Transactional
-//    public void eliminarImagenDeUsuario(String id) {
-//        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-//        if (respuesta.isPresent()) {
-//            Usuario usuario = respuesta.get();
-//
-//            String idImagen = usuario.getImagen().getId();
-//            usuario.setImagen(null);
-//            usuarioRepositorio.save(usuario);
-//
-//            imagenRepositorio.deleteById(idImagen);
-//        }
-//    }
-//
-//    @Transactional
-//    public void cambiarAlta(String id) {
-//        Optional<Usuario> resp = usuarioRepositorio.findById(id);
-//
-//        if (resp.isPresent()) {
-//            Usuario cliente = resp.get();
-//            boolean b = cliente.getActivo();
-//            cliente.setActivo(!b);
-//        }
-//    }
-
 }
