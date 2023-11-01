@@ -99,11 +99,8 @@ public class IndexControlador {
         return "servicios.html";
     }
 
-<<<<<<< HEAD
-=======
     
     //ver perfil
->>>>>>> 5f3f0ef74094fdcb1ae26093dbc1ed3ffa57eb2f
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils")
     public String perfil(ModelMap modelo, HttpSession session) {
@@ -111,14 +108,9 @@ public class IndexControlador {
         modelo.put("usuario", usuario);
         return "modificar_cliente.html";
     }
-<<<<<<< HEAD
-
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-=======
     
     ///funcion actualizar datos de perfil
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
->>>>>>> 5f3f0ef74094fdcb1ae26093dbc1ed3ffa57eb2f
     @PostMapping("/perfils/{id}")
     public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
@@ -147,20 +139,7 @@ public class IndexControlador {
         }
 
     }
-
-    @GetMapping("/perfils/emilinar-foto/{id}")
-    public String eliminarFoto(@PathVariable String id) {
-        try {
-            usuarioServicio.eliminarImagenDeUsuario(id);
-            return "redirect:/perfil";
-        } catch (Exception e) {
-            return "redirect:/";
-        }
-    }
-
     
-<<<<<<< HEAD
-=======
 //eliminar foto funcion btn
     @GetMapping("/perfils/emilinar-foto/{id}")
     public String eliminarFoto(@PathVariable String id,HttpSession session,MultipartFile archivo) {
@@ -178,7 +157,6 @@ public class IndexControlador {
     }
 
     //alta-baja usuario
->>>>>>> 5f3f0ef74094fdcb1ae26093dbc1ed3ffa57eb2f
     @GetMapping("/perfils/modificar-alta/{id}")
     public String cambiarAltaUser(@PathVariable String id) {
         
