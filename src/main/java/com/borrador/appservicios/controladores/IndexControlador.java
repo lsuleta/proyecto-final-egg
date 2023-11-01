@@ -146,6 +146,7 @@ public class IndexControlador {
     }
     
 //eliminar foto funcion btn
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/emilinar-foto/{id}")
     public String eliminarFoto(@PathVariable String id,HttpSession session,MultipartFile archivo) {
         try {
@@ -162,6 +163,7 @@ public class IndexControlador {
     }
 
     //alta-baja usuario
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/modificar-alta/{id}")
     public String cambiarAltaUser(@PathVariable String id) {
         
