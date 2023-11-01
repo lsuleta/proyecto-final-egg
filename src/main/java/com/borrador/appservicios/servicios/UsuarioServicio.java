@@ -148,7 +148,9 @@ public class UsuarioServicio implements UserDetailsService {
             cargarImagen(archivo);
 
             usuarioRepositorio.save(usuario);
+            System.out.println("-------------------------------------------------------------");
             System.out.println("Perfil Actualizado: " + usuario.getEmail());
+            System.out.println("-------------------------------------------------------------");
             return usuario;
 
         }
@@ -165,9 +167,10 @@ public class UsuarioServicio implements UserDetailsService {
 
         return usuarios;
     }
-
+    
+//eliminar foto funcion btn
     @Transactional
-    public void eliminarImagenDeUsuario(String id) {
+    public Usuario eliminarImagenDeUsuario(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
@@ -177,7 +180,9 @@ public class UsuarioServicio implements UserDetailsService {
             usuarioRepositorio.save(usuario);
 
             imagenRepositorio.deleteById(idImagen);
+            return usuario;
         }
+        return null;
     }
 
     @Transactional
@@ -190,5 +195,30 @@ public class UsuarioServicio implements UserDetailsService {
             cliente.setActivo(!b);
         }
     }
+
+//    @Transactional
+//    public void eliminarImagenDeUsuario(String id) {
+//        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+//        if (respuesta.isPresent()) {
+//            Usuario usuario = respuesta.get();
+//
+//            String idImagen = usuario.getImagen().getId();
+//            usuario.setImagen(null);
+//            usuarioRepositorio.save(usuario);
+//
+//            imagenRepositorio.deleteById(idImagen);
+//        }
+//    }
+//
+//    @Transactional
+//    public void cambiarAlta(String id) {
+//        Optional<Usuario> resp = usuarioRepositorio.findById(id);
+//
+//        if (resp.isPresent()) {
+//            Usuario cliente = resp.get();
+//            boolean b = cliente.getActivo();
+//            cliente.setActivo(!b);
+//        }
+//    }
 
 }
