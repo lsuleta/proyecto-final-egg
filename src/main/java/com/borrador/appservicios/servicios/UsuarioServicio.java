@@ -4,8 +4,8 @@ import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
+import com.borrador.appservicios.repositorios.ImagenRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +37,9 @@ public class UsuarioServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
+    private ImagenRepositorio imagenRepositorio;
+
+    @Autowired
     private ImagenServicio imagenServicio;
 
     public Usuario crearUsuario(String nombre, String apellido, String email,
@@ -51,8 +54,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setFechaDeAlta(new Date());
-        
-        cargarImagen(archivo);
+
+        cargarImagen(archivo);// setea la imagen desde el metodo
 
         usuario.setRol(Rol.USER);
         usuario.setActivo(true);
@@ -60,14 +63,17 @@ public class UsuarioServicio implements UserDetailsService {
         return usuario;
     }
 //carga imagen nula si no sube un archivo
+
     public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
         if (!archivo.isEmpty()) {
             Imagen imagen = imagenServicio.guardar(archivo);
             usuario.setImagen(imagen);
             return true;
-        }else
-            //usuario.setImagen(null);
-        return false;
+        } else //usuario.setImagen(null);
+        {
+            return false;
+        }
+
     }
 
     @Transactional
@@ -76,32 +82,9 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario = crearUsuario(nombre, apellido, email, password, password2, archivo);
         usuarioRepositorio.save(usuario);
-        System.out.println("Usuario creado"+ usuario.getEmail());
+        System.out.println("Usuario creado" + usuario.getEmail());
     }
 
-    /*public void modificarUsuario(String id, String nombre, String apellido, String email,
-            String password, String password2, MultipartFile archivo) throws Excepciones {
-
-        validar(nombre, apellido, email, password, password2);
-
-        Optional<Usuario> resp = usuarioRepositorio.findById(id);
-        if (resp.isPresent()) {
-            Usuario usuario =resp.get();
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-          
- 
-            String idImagen = null;
-            if (usuario.getImagen() != null) {
-                idImagen = usuario.getImagen().getId();
-                Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-                usuario.setImagen(imagen);
-                usuarioRepositorio.save(usuario);
-            }
-        }
-    }*/
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
@@ -162,14 +145,14 @@ public class UsuarioServicio implements UserDetailsService {
 
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-   
             cargarImagen(archivo);
 
-            
             usuarioRepositorio.save(usuario);
+            System.out.println("-------------------------------------------------------------");
             System.out.println("Perfil Actualizado: " + usuario.getEmail());
+            System.out.println("-------------------------------------------------------------");
             return usuario;
-            
+
         }
         return null;
 
@@ -183,6 +166,34 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.findAll();
 
         return usuarios;
+    }
+    
+//eliminar foto funcion btn
+    @Transactional
+    public Usuario eliminarImagenDeUsuario(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+
+            String idImagen = usuario.getImagen().getId();
+            usuario.setImagen(null);
+            usuarioRepositorio.save(usuario);
+
+            imagenRepositorio.deleteById(idImagen);
+            return usuario;
+        }
+        return null;
+    }
+
+    @Transactional
+    public void cambiarAlta(String id) {
+        Optional<Usuario> resp = usuarioRepositorio.findById(id);
+
+        if (resp.isPresent()) {
+            Usuario cliente = resp.get();
+            boolean b = cliente.getActivo();
+            cliente.setActivo(!b);
+        }
     }
 
 }
