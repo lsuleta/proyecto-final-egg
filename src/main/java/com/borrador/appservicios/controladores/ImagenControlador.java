@@ -16,30 +16,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author kyouma
  */
-
-
 @Controller
 @RequestMapping("/imagen")
 public class ImagenControlador {
-    
-      @Autowired
+
+    @Autowired
     private UsuarioServicio usuarioServicio;
-    
-  
+
     @GetMapping("/perfil/{id}")
-    public ResponseEntity<byte[]> imagenUsuario (@PathVariable String id){
-        
+    public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {
+
         Usuario usuario = usuarioServicio.getOne(id);
-        
-        byte[] imagen = usuario.getImagen().getContenido();
-        
-        HttpHeaders headers = new HttpHeaders();
-        
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
-        
+        if (usuario.getImagen() != null) {
+
+            byte[] imagen = usuario.getImagen().getContenido();
+
+            HttpHeaders headers = new HttpHeaders();
+
+            headers.setContentType(MediaType.IMAGE_JPEG);
+
+            return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+            
+        }else{
+            
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
-    
 
 }
