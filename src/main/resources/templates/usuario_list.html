@@ -53,6 +53,7 @@
                     
                     <td >
                     <a><img th:if="${usuario.imagen != null}" class="logo" th:src="@{/imagen/perfil/__${usuario.id}__}" ></a>  
+                    <a><img th:if="${usuario.imagen == null}" class="logo" th:src="@{/images/perfil.png}" ></a> 
                     </td>
 
                     

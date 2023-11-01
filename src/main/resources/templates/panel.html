@@ -21,6 +21,9 @@
     <a th:if="${session.usuariosession.imagen != null}" class="d-flex align-items-center">
         <img class="logo"  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" height="120px">
     </a>
+    <a th:if="${session.usuariosession.imagen == null}" class="d-flex align-items-center">
+        <img class="logo" th:src="@{/images/perfil.png}" height="120px">
+    </a>
 </div>
 
 <br>
