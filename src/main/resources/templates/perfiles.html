@@ -20,7 +20,7 @@
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" class=" d-flex perfil">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
                     </div>
-                    
+
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" class=" d-flex perfil">
                         <img th:src="@{/images/perfil.png}">
                     </div>
@@ -52,13 +52,53 @@
                                     <th th:text="'Rol: '+ ${session.usuariosession.rol}" scope="row"></th>
                                     <td text= ""></td>
                                 </tr>
+                                
+                                <!-- MODIFICAR ALTA -->
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th scope="row">Activo : </th>
+
+                                    <td  >
+                                        <button th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a th:href="@{/perfils/modificar-alta/__${session.usuariosession.id}__}" class="dropdown-item">Cambiar Alta/Baja</a></li>
+                                        </ul>
+
+                                    </td>
+                                </tr>      
 
                             </tbody>
                         </table>
 
                         <p class="card-text"><small class="text-body-secondary"></small></p>
-                        <a href="/perfils" class=" btn btn-warning">Modificar Datos</a>
-                        <a href="/perfils" class=" btn btn-danger mt-4">Eliminar Foto de Perfil</a>
+                        <a href="/perfils" class=" btn btn-warning">Modificar Datos</a>     
+                        <!--    <a href="/perfils" class=" btn btn-danger mt-4">Eliminar Foto de Perfil</a>     -->
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Eliminar Foto de Perfil
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-warning">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Importante!!!</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        Estas seguro que deseas eliminar<br>tu foto de perfil? 
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a th:href="@{/perfils/emilinar-foto/__${session.usuariosession.id}__}" type="button" class="btn btn-danger">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
