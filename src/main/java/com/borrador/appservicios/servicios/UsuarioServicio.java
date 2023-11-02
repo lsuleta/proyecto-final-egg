@@ -176,14 +176,22 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void cambiarAlta(String id) {
+    public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
-
         if (resp.isPresent()) {
-            Usuario cliente = resp.get();
-            boolean b = cliente.getActivo();
-            cliente.setActivo(!b);
+            Usuario usuario = resp.get();
+            boolean b = usuario.getActivo();
+            usuario.setActivo(!b);
+
+            System.out.println("");
+            System.out.println(usuario.getActivo());
+            System.out.println("Alta servicio");
+            System.out.println("");
+            
+            
+            return usuario;
         }
+        return null;
     }
 
 // Listar Usuarios --

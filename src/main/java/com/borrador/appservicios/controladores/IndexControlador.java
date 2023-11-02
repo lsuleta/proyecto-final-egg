@@ -165,10 +165,19 @@ public class IndexControlador {
     //alta-baja usuario
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/modificar-alta/{id}")
-    public String cambiarAltaUser(@PathVariable String id) {
+    public String cambiarAltaUser(@PathVariable String id, HttpSession session) {
+        
         
         System.out.println("CAMBIANDO ALTA-------");
-        usuarioServicio.cambiarAlta(id);
+        
+        Usuario usuarioactualizado = usuarioServicio.cambiarAlta(id);
+        
+        
+        session.setAttribute("usuariosession", usuarioactualizado);
+        
+        System.out.println("");
+        System.out.println(usuarioactualizado.getActivo());
+        System.out.println("controlador");
         return "redirect:/perfil";
     }
 
