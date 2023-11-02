@@ -51,9 +51,9 @@ public class AdminControlador {
     }
 
     @GetMapping("/modificarAlta/{id}")
-    public String cambiarAlta(@PathVariable String id) {
-        usuarioServicio.cambiarAlta(id);
-
+    public String cambiarAlta(@PathVariable String id,HttpSession session) {
+            Usuario usuarioactualizado = usuarioServicio.cambiarAlta(id);
+        session.setAttribute("usuariosession", usuarioactualizado);
         return "redirect:/admin/usuarios";
     }
 

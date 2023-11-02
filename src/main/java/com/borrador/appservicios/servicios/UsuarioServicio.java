@@ -78,7 +78,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional
     public void persistirUsuario(String nombre, String apellido, String email,
-            String password, String password2, MultipartFile archivo) throws Excepciones {
+        String password, String password2, MultipartFile archivo) throws Excepciones {
 
         usuario = crearUsuario(nombre, apellido, email, password, password2, archivo);
         usuarioRepositorio.save(usuario);
@@ -163,7 +163,7 @@ public class UsuarioServicio implements UserDetailsService {
     public Usuario eliminarImagenDeUsuario(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
-            Usuario usuario = respuesta.get();
+            usuario = respuesta.get();
 
             String idImagen = usuario.getImagen().getId();
             usuario.setImagen(null);
@@ -179,7 +179,7 @@ public class UsuarioServicio implements UserDetailsService {
     public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
         if (resp.isPresent()) {
-            Usuario usuario = resp.get();
+            usuario = resp.get();
             boolean b = usuario.getActivo();
             usuario.setActivo(!b);
 

@@ -48,9 +48,9 @@
                     </td>
                     
                     <td>
-                        <button th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                        <button th:text="${usuario.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                         <ul class="dropdown-menu">
-                            <li><a th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
+                        <li><a th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
                         </ul>
                     </td>
                     
