@@ -14,12 +14,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -146,21 +148,31 @@ public class IndexControlador {
     }
     
 //eliminar foto funcion btn
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/perfils/emilinar-foto/{id}")
-    public String eliminarFoto(@PathVariable String id,HttpSession session,MultipartFile archivo) {
-        try {
-            Usuario usuarioactualizado = usuarioServicio.eliminarImagenDeUsuario(id);
-            
-            Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-            
-            session.setAttribute("usuariosession", usuarioactualizado);
-            
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+@GetMapping("/perfils/emilinar-foto/{id}")
+public String eliminarFoto(@PathVariable String id, HttpSession session, MultipartFile archivo, RedirectAttributes redirectAttributes) {
+    try {
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuariosession");
+        System.out.println(usuarioActual.getId());
+        System.out.println(id);
+        if (usuarioActual != null && usuarioActual.getId().equals(id)) {
+            Usuario usuarioActualizado = usuarioServicio.eliminarImagenDeUsuario(id);
+            session.setAttribute("usuariosession", usuarioActualizado);
             return "redirect:/perfil";
-        } catch (Exception e) {
-            return "redirect:/";
+            
+        } else 
+            {System.out.println("estamos en else");
+            throw new Exception("No tienes permisos");
+         
         }
+    } catch (Exception e) {
+        
+        
+        redirectAttributes.addFlashAttribute("msj", e.getMessage());
+        System.out.println(" estamos en catch: "+e.getMessage());
+        return "redirect:/error"; 
     }
+}
 
     //alta-baja usuario
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
