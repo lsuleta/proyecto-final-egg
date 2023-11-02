@@ -4,6 +4,7 @@
     <div th:replace="/fragments/head :: head"></div>
     <title>Perfil</title>
 </head>
+
 <style th:replace="/fragments/style :: style"></style>
 <body style="background-color: lightgrey">
     <header th:replace="/fragments/header :: header" ></header>
@@ -70,11 +71,11 @@
                         </table>
 
                         <p class="card-text"><small class="text-body-secondary"></small></p>
-                        <a href="/perfils" class=" btn btn-warning">Modificar Datos</a>     
-                        <!--    <a href="/perfils" class=" btn btn-danger mt-4">Eliminar Foto de Perfil</a>     -->
+                        <a href="/perfils" class="btn btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
+  
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style="--bs-btn-bg: #d04a57!important;">
                             Eliminar Foto de Perfil
                         </button>
 

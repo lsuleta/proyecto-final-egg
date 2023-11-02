@@ -11,7 +11,7 @@
                         <a th:href="@{/admin/dashboard}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">DASHBOARD</a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/usuarios}" class="nav-link px-2 text-secondary" style="color: blueviolet!important;" sec:authorize="hasRole('ADMIN')">LISTAR USUARIOS</a>
+                        <a th:href="@{/admin/usuarios}" class="nav-link px-2 text-secondary" style="color: blueviolet!important;font-weight: 550;" sec:authorize="hasRole('ADMIN')">LISTAR USUARIOS</a>
                     </li>
                 </ul>
                 <div th:if="${session.usuariosession == null}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
