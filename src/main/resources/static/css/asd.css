@@ -63,6 +63,16 @@
     transition: 1.25s;
   }
   
+  .warnings{
+  
+  text-align: center;
+  margin: auto;
+  color: red;
+  padding-top: 20px;
+  font-size: 15px;
+  }
+  
+  
   .form {
     display: flex;
     justify-content: center;
@@ -100,6 +110,10 @@
   }
   .form__input:focus {
     box-shadow: inset 4px 4px 4px #d1d9e6, inset -4px -4px 4px #f9f9f9;
+  }
+  
+  .form__input:invalid{
+      
   }
   .form__span {
     margin-top: 30px;

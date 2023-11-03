@@ -28,7 +28,7 @@
                                 <p class="card-text">Limpiador de Piscinas</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        Logea
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
