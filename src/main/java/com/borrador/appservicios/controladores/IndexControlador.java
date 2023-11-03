@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/")
 public class IndexControlador {
 
+    Usuario usuario;
     @Autowired
     private UsuarioServicio usuarioServicio;
 
@@ -64,15 +66,22 @@ public class IndexControlador {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+    public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
+        session.invalidate(); // Invalida la sesión actual primero
 
-        if (error != null) {
-            modelo.put("error", "Usuario o contraseña invalidas!");
+        if (error != null && verificarContraseña(usuario, password)) {
+            modelo.put("error", "Usuario o contraseña inválidas!");
+            return "login.html"; // Retornar inmediatamente en caso de error
         }
 
+        // Si la contraseña es válida, la sesión será reemplazada con una nueva sesión cuando se cree una nueva.
         return "login.html";
     }
-    
+
+    private boolean verificarContraseña(Usuario usuario, String contraseña) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(contraseña, usuario.getPassword());
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
