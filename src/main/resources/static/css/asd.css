@@ -266,6 +266,16 @@
       width: 500px;
     }
     
-   
-    
+  }
+  
+  .warnings{
+  
+  text-align: center;
+  margin: auto;
+  color: red;
+  padding-top: 20px;
+  font-size: 15px;
+  }
+  .form__input:invalid{
+      
   }
