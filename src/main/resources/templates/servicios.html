@@ -25,15 +25,15 @@
                         <div class="card shadow-sm">
                             <img th:src="@{/images/servicios/piscinas.png}" width="100%" height="225" alt="Servicio foto"/>
                             <div class="card-body">
-                                <p class="card-text">Limpiador de Piscinas</p>
+                                <p class="card-text">Limpiador de Piscinas.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary"> ⭐ ⭐ ⭐ ⭐ ⭐Calificacion</small>
                                 </div>
                             </div>
@@ -44,15 +44,15 @@
                         <div class="card shadow-sm">
                             <img th:src="@{/images/servicios/limpieza.png}" width="100%" height="225" alt="Servicio foto"/>
                             <div class="card-body">
-                                <p class="card-text">Limpiezas generales</p>
+                                <p class="card-text">Limpiezas generales.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐Calificacion</small>
                                 </div>
                             </div>
@@ -66,12 +66,12 @@
                                 <p class="card-text">Necesitas podar tu pasto?</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -98,12 +98,12 @@
                                 <p class="card-text">Médico General</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -117,12 +117,12 @@
                                 <p class="card-text">Pediatra</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -136,12 +136,12 @@
                                 <p class="card-text">Dentista.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -168,12 +168,12 @@
                                 <p class="card-text">Electricista 10 años de experiencia.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
-                                        <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
+                                        <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary"> Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary"> Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -187,12 +187,12 @@
                                 <p class="card-text">Plomero con alta disponibilidad horaria.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary"> Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
@@ -206,12 +206,12 @@
                                 <p class="card-text">Arquitecto para planificar sus obras.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div th:if="${session.usuariosession == null}" class="btn bg-warning">
-                                        debes estar logeado para ver el servicio
+                                        <a style="text-decoration: none; color: black; font-weight: 500;" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
                                     </div>
                                     <div th:if="${session.usuariosession != null}" class="btn-group">
                                         <a th:href="@{/servicios}" type="button" class="btn btn-sm btn-outline-secondary">Ver Servicio</a>
                                     </div>
-                                    <small th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion</small>
+                                    <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">Calificacion.</small>
                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
                                 </div>
                             </div>
