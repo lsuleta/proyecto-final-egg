@@ -22,8 +22,8 @@
                     <input type="text" id="nombre" name="nombre" placeholder="NOMBRE" th:value="${session.usuariosession.nombre}" class="form__input" />
                     <input type="text" id="apellido" name="apellido" placeholder="APELLIDO" th:value="${session.usuariosession.apellido}" class="form__input"/>
                     <input type="text" id="mail" name="email" placeholder="EMAIL" th:value="${session.usuariosession.email}" class="form__input" />           
-                    <input type="password" id="contraseña" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" />
-                    <input type="password" id="contraseña2" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input"/>
+                    <input type="password" id="contraseña" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" required/>
+                    <input type="password" id="contraseña2" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input" required/>
                     <input type="file" id="imagen" name="archivo" class="form__input" >
 
                     <button type="submit" class="form__button button switch-btn">Modificar</button>         
