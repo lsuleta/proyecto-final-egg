@@ -98,7 +98,7 @@
 
 .tarjeta-index{
     background-color: #ecf0f3;
-    box-shadow: 0px 0px 11px 6px #d1d9e6, 0px 0px 5px 0px #f9f9f9;
+   /* box-shadow: 0px 0px 11px 6px #d1d9e6, 0px 0px 5px 0px #f9f9f9;*/
     border: none;
     border-radius: 12px;
 }

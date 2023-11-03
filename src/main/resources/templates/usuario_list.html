@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Modificar ROL</title>
+    <title>LISTA USUARIOS</title>
     <link rel="stylesheet" href="/css/index.css">
     <div th:replace="/fragments/head :: head"></div>
 </head>
 
 <style th:replace="/fragments/style :: style"></style>
 
-<body style=" background: lightgray">
+<body style=" background: #F2F2F2">
 
     <header th:replace="/fragments/header :: header"></header>
     
-<div style="background: #a12727; text-align: center; margin-bottom: -28px;">
-    <h2>Lista Usuarios:</h2>
+<div style="background: #27363D; text-align: center; margin-bottom: -8px;">
+    <h2 style="color: #DFE2F2">Lista Usuarios:</h2>
 </div>
-    <div style="padding: 20px;" >
+    <div style="padding: 0px;" >
 
         <table class="table table-dark" >
             <thead class="align-items-center" >
@@ -48,9 +48,9 @@
                     </td>
                     
                     <td>
-                        <button th:text="${usuario.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                        <button  style="color:#668797" th:text="${usuario.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                         <ul class="dropdown-menu">
-                        <li><a th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
+                        <li><a  th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
                         </ul>
                     </td>
                     
@@ -83,7 +83,7 @@
         <section class="py-3 text-center container">
             <div class="row py-lg-2">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <a th:href="@{/admin/dashboard }" class="btn btn-primary my-2">Volver</a>
+                    <a style="background-color: #27363D; color:#DFE2F2!important;" th:href="@{/admin/dashboard }" class="btn btn my-2">Volver</a>
                     </p>
                 </div>
             </div>

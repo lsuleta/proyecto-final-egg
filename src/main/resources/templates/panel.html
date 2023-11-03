@@ -5,7 +5,7 @@
     <title>Admin DASHBOARD</title>
 </head>
 
-<body style=" background: lightgray">
+<body style=" background: #F2F2F2">
 <header th:replace="/fragments/header :: header"></header>
 
 <style th:replace="/fragments/style :: style"></style>
@@ -13,7 +13,7 @@
 
 <div class="centered" style = "display: flex ;justify-content: center;align-items: center;">
   <h2 sec:authorize="hasRole('ADMIN')" th:if="${session.usuariosession != null}">
-    Hola »<span class="username-color" th:text=" ${session.usuariosession.nombre}"></span>« eres <span style="color: blueviolet" th:text=" ${session.usuariosession.Rol}"></span>
+    Hola »<span style="color: #7c4819!important; font-family: fangsong;" class="username-color" th:text=" ${session.usuariosession.nombre}"></span>« eres <span style="color: #7c4819!important; font-family: fangsong; font-weight: 700;" th:text=" ${session.usuariosession.Rol}"></span>
   </h2>
 </div>
 

@@ -93,7 +93,7 @@ public class IndexControlador {
             return "redirect:/admin/dashboard";
         }
 
-        return "inicio.html";
+        return "redirect:/";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
