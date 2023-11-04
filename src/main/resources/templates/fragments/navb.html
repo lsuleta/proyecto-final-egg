@@ -1,0 +1,45 @@
+<nav style="background-color: #151D21!important" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+
+        <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-black" th:href="@{/}">INICIO</a>
+        <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-rojo" th:href="@{/servicios}">SERVICIOS</a>
+        <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/dashboard}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">DASHBOARD</a>
+        <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/usuarios}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">LISTAR USUARIOS</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div style="margin-right: 50px!important;" class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a style="color: #DFE2F2!important" sec:authorize="hasRole('PROVEEDOR')" class="nav-link text-black " href="/servicio/registrar">REGISTRAR UN SERVICIO</a>
+                </li>
+            </ul>
+
+
+            <div class="cabito" style="display: contents;">
+                <h4 style="margin-left: auto; margin-top: 20px; color:#DDE0E7;left: 12px;position: relative;" th:if="${session.usuariosession != null}">
+                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.nombre}"></span>
+                </h4>
+                
+                <div th:if="${session.usuariosession != null}" class="dropdown text-end">
+                    <a th:if="${session.usuariosession.imagen != null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle imagen-header" data-bs-toggle="dropdown" aria-expanded="false">
+                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="Img logo" class="rounded-circle">
+                    </a>
+                    <a th:if="${session.usuariosession.imagen == null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle imagen-header" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/images/perfil.png}" alt="Img logo" class="rounded-circle">
+                    </a>
+                    
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/perfil">Editar Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+                </div>
+            
+        </div>
+    </div>
+</nav>
