@@ -119,7 +119,7 @@ public class IndexControlador {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils")
     public String perfil(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuario);
         return "modificar_cliente.html";
     }
