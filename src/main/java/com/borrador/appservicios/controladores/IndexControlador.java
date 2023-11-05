@@ -67,22 +67,27 @@ public class IndexControlador {
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
-        session.invalidate(); // Invalida la sesión actual primero
-
-        if (error != null && verificarContraseña(usuario, password)) {
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        
+        if (error != null) {
+            session.invalidate();
             modelo.put("error", "Usuario o contraseña inválidas!");
+
+            System.out.println("");
             return "login.html"; // Retornar inmediatamente en caso de error
+            
+        }if (logueado !=null ) {
+
+            System.out.println("");
+            return "redirect:/";
+        } else {
+            return "login.html";
         }
 
-        // Si la contraseña es válida, la sesión será reemplazada con una nueva sesión cuando se cree una nueva.
-        return "login.html";
     }
 
-    private boolean verificarContraseña(Usuario usuario, String contraseña) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(contraseña, usuario.getPassword());
-    }
-
+    
+    
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
