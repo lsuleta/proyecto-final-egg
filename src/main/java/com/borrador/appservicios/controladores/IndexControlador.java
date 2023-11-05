@@ -43,9 +43,13 @@ public class IndexControlador {
     }
 
     @GetMapping("/registrar-usuario")
-    public String registrarUsuario() {
-
-        return "usuario_registro.html";
+    public String registrarUsuario(HttpSession session) {
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        if (logueado != null) {
+            return "redirect:/";
+        } else {
+            return "usuario_registro.html";
+        }
     }
 
     @PostMapping("/registro")
@@ -68,15 +72,16 @@ public class IndexControlador {
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-        
+
         if (error != null) {
             session.invalidate();
             modelo.put("error", "Usuario o contraseña inválidas!");
 
             System.out.println("");
             return "login.html"; // Retornar inmediatamente en caso de error
-            
-        }if (logueado !=null ) {
+
+        }
+        if (logueado != null) {
 
             System.out.println("");
             return "redirect:/";
@@ -86,8 +91,6 @@ public class IndexControlador {
 
     }
 
-    
-    
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
