@@ -224,9 +224,8 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
-    @Transactional
-    public void cambiarRol(String id) {
 
+<<<<<<< HEAD
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
@@ -294,4 +293,6 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+=======
+>>>>>>> bbecf73a5f64c783016bd2348a9b4f8b9450766f
 }

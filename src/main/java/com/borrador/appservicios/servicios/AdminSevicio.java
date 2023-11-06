@@ -100,6 +100,28 @@ public class AdminSevicio implements UserDetailsService {
 
         return usuario;
     }
+    
+        @Transactional
+    public void cambiarRol(String id) {
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            usuario = respuesta.get();
+
+            if (usuario.getRol().equals(Rol.USER)) {
+                usuario.setRol(Rol.ADMIN);
+            } else if (usuario.getRol().equals(Rol.ADMIN)) {
+                usuario.setRol(Rol.USER);
+            }
+
+        }
+
+    }
+    
+    
+    
     //---------- Cambio Roles ----------
 
     @Transactional

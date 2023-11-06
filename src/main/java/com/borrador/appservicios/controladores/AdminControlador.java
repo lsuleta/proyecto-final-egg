@@ -4,12 +4,10 @@ import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.servicios.AdminSevicio;
 import com.borrador.appservicios.servicios.UsuarioServicio;
 import java.util.List;
-import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +52,7 @@ public class AdminControlador {
 
     @GetMapping("/modificarRol/{id}")
     public String cambiarRol(@PathVariable String id) {
-        usuarioServicio.cambiarRol(id);
+        adminSevicio.cambiarRol(id);
         return "redirect:/admin/usuarios";
     }
 
