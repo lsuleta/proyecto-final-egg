@@ -7,5 +7,6 @@ package com.borrador.appservicios.enumeradores;
 public enum Rol {
     USER,
     PROVEEDOR,
+    MODERADOR,
     ADMIN;
 }

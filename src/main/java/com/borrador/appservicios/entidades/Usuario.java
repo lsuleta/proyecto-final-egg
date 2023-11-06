@@ -44,6 +44,8 @@ public class Usuario {
     private String email;
     private String password;
 
+    private Integer loginContador;
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaDeAlta;
@@ -53,6 +55,7 @@ public class Usuario {
 
     private Boolean activo;
 
+   // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "imagen_id", nullable = true)
     private Imagen imagen;

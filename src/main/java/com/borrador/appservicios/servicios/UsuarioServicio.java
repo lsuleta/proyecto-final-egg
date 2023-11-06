@@ -4,8 +4,8 @@ import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
+import com.borrador.appservicios.repositorios.ImagenRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,9 +21,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -35,6 +37,9 @@ public class UsuarioServicio implements UserDetailsService {
     Usuario usuario;
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired
+    private ImagenRepositorio imagenRepositorio;
 
     @Autowired
     private ImagenServicio imagenServicio;
@@ -51,8 +56,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setFechaDeAlta(new Date());
-        
-        cargarImagen(archivo);
+
+        cargarImagen(archivo);// setea la imagen desde el metodo
 
         usuario.setRol(Rol.USER);
         usuario.setActivo(true);
@@ -60,14 +65,17 @@ public class UsuarioServicio implements UserDetailsService {
         return usuario;
     }
 //carga imagen nula si no sube un archivo
+
     public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
         if (!archivo.isEmpty()) {
             Imagen imagen = imagenServicio.guardar(archivo);
             usuario.setImagen(imagen);
             return true;
-        }else
-            //usuario.setImagen(null);
-        return false;
+        } else //usuario.setImagen(null);
+        {
+            return false;
+        }
+
     }
 
     @Transactional
@@ -76,32 +84,9 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario = crearUsuario(nombre, apellido, email, password, password2, archivo);
         usuarioRepositorio.save(usuario);
-        System.out.println("Usuario creado"+ usuario.getEmail());
+        System.out.println("Usuario creado" + usuario.getEmail());
     }
 
-    /*public void modificarUsuario(String id, String nombre, String apellido, String email,
-            String password, String password2, MultipartFile archivo) throws Excepciones {
-
-        validar(nombre, apellido, email, password, password2);
-
-        Optional<Usuario> resp = usuarioRepositorio.findById(id);
-        if (resp.isPresent()) {
-            Usuario usuario =resp.get();
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-          
- 
-            String idImagen = null;
-            if (usuario.getImagen() != null) {
-                idImagen = usuario.getImagen().getId();
-                Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-                usuario.setImagen(imagen);
-                usuarioRepositorio.save(usuario);
-            }
-        }
-    }*/
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
@@ -122,7 +107,7 @@ public class UsuarioServicio implements UserDetailsService {
         } else {
             return null;
         }
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
     public void validar(String nombre, String apellido, String email,
@@ -148,41 +133,96 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario actualizar(MultipartFile archivo, String id, String nombre, String apellido, String email, String password, String password2) throws Exception {
-
+    public Usuario actualizar(MultipartFile archivo, String id, String nombre, String apellido, String email, @RequestParam(required = true) String password, String password2) throws Exception {
         validar(nombre, apellido, email, password, password2);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
+            // Verificar la contraseña antes de realizar las actualizaciones
+            if (verificarContraseña(usuario, password)) {
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                usuario.setEmail(email);
 
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+                usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-   
-            cargarImagen(archivo);
+                cargarImagen(archivo);
 
-            
+                usuarioRepositorio.save(usuario);
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("Perfil Actualizado: " + usuario.getEmail());
+                System.out.println("-------------------------------------------------------------");
+                return usuario;
+            } else {
+                System.out.println("estas en el else ");
+                throw new Exception("La contraseña proporcionada no coincide con la contraseña en la base de datos");
+            }
+        }
+
+        return null;
+    }
+
+    private boolean verificarContraseña(Usuario usuario, String contraseña) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(contraseña, usuario.getPassword());
+    }
+
+//eliminar foto funcion btn
+    @Transactional
+    public Usuario eliminarImagenDeUsuario(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+
+            String idImagen = usuario.getImagen().getId();
+            usuario.setImagen(null);
             usuarioRepositorio.save(usuario);
-            System.out.println("Perfil Actualizado: " + usuario.getEmail());
+
+            imagenRepositorio.deleteById(idImagen);
             return usuario;
-            
         }
         return null;
-
     }
 
+    @Transactional
+    public Usuario cambiarAlta(String id) {
+        Optional<Usuario> resp = usuarioRepositorio.findById(id);
+
+        if ((resp.isPresent() && usuario.getId().equals(id)) || (usuario.getRol().toString().equals("ADMIN"))) {
+            usuario = resp.get();
+            boolean b = usuario.getActivo();
+            usuario.setActivo(!b);
+
+            System.out.println("");
+            System.out.println(usuario.getActivo());
+            System.out.println("Alta servicio");
+
+            System.out.println("");
+            System.out.println("");
+            System.out.println("email: " + usuario.getEmail());
+
+            System.out.println("");
+            System.out.println("");
+
+            return usuario;
+
+        } else {
+            System.out.println("");
+            System.out.println("No tienes Permisos");
+        }
+
+        return usuario;
+    }
+
+// Listar Usuarios --
     @Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
-
         List<Usuario> usuarios = new ArrayList();
-
         usuarios = usuarioRepositorio.findAll();
-
         return usuarios;
     }
+
 
 }

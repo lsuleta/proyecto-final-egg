@@ -15,46 +15,43 @@ import org.springframework.security.web.SecurityFilterChain;
  *
  * @author kyouma
  */
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SeguridadWeb {
-    
+
     @Autowired
     public UsuarioServicio UsuarioServicio;
-    
+
     @Autowired  // encriptaion de contraseña?? 
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(UsuarioServicio)//recibe la contraseña desde el servicio
                 .passwordEncoder(new BCryptPasswordEncoder());// devuelve la contraseña encriptada antes de persistirla
     }
-    
+
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+                .authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 //.requestMatchers("/admin/*").hasRole("PROVEEDOR")// solo admin
-                .antMatchers("/css/*","/js/*","/img/*","/**")
+                .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
-            .and().formLogin()
+                .and().formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/inicio")
                 .permitAll()
-            .and().logout()
+                .and().logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .permitAll()
-            .and().csrf() 
+                .and().csrf()
                 .disable();
-                
-                
-                return http.build();
+
+        return http.build();
     }
-   
-    
+
 }
