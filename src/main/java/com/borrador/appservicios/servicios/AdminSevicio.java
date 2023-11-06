@@ -133,6 +133,7 @@ public class AdminSevicio implements UserDetailsService {
     @Transactional
     public void eliminar(String idUsuario) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+        System.out.println("Usuario : "+respuesta.get().getNombre().toString());
         if (respuesta.isPresent()) {
             System.out.println("Usuario : "+respuesta.get().getNombre().toString());
             usuarioRepositorio.deleteById(idUsuario);

@@ -24,7 +24,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Email</th>
-                    <!--                <th scope="col">Rol</th>  -->
+
 
                     <th scope="col">Cambiar Rol</th>
                     <th scope="col">Activo / Eliminar</th>
@@ -46,28 +46,20 @@
                     <td>
                         <button  style="color:#668797" th:text="${usuario.rol}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                         <ul class="dropdown-menu">
-                            <!-- <li><a th:href= "@{/admin/modificarRol/__${usuario.id}__}" class="dropdown-item"> USER/ADMIN</a> </li> -->
+
                             <li><a th:href= "@{/admin/modificarRolUser/__${usuario.id}__}" class="dropdown-item"> USER</a> </li>
                             <li><a th:href= "@{/admin/modificarRolProveedor/__${usuario.id}__}" class="dropdown-item"> PROVEEDOR</a> </li>
                             <li><a th:href= "@{/admin/modificarRolModerador/__${usuario.id}__}" class="dropdown-item"> MODERADOR</a> </li>
                             <li><a th:href= "@{/admin/modificarRolAdministrador/__${usuario.id}__}" class="dropdown-item"> ADMIN</a> </li>
                         </ul>
                     </td>
-                    <!--                <td th:text="${usuario.rol}"></td>
-                    
-                                        <td>
-                                        <a th:href= "@{/admin/modificarRol/__${usuario.id}__}"><i class="fas fa-feather-alt"></i>Cambiar</a>   
-                                        </td>
-                    -->                
+            
                     <td>
 
                         <a  th:href="@{/admin/Alta/__${usuario.id}__}" th:text="'Activo: '+${usuario.activo}" class="btn btn-outline-secondary " >Cambiar Alta/Baja</a>
-                        <button type="button" class="btn mt-2 btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" >ELIMINAR CUENTA</button>
+                        <!--<button type="button" class="btn mt-2 btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" >ELIMINAR CUENTA</button>-->
+                        <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>
 
-                        <!-- Button trigger modal 
-                        <a type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" th:data-bs-target="${usuario.id}" >ELIMINAR CUENTA</a>
-                        -->
-                        <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -89,7 +81,6 @@
                             </div>
                         </div>
 
-                        <!--    <a  th:href="@{/admin/modificarAlta/__${usuario.id}__}" th:text="${usuario.activo}" class="btn btn-outline-secondary">Cambiar Alta/Baja</a>  -->
                     </td>
 
 
@@ -98,14 +89,10 @@
                         <a><img th:if="${usuario.imagen == null}" class="logo" th:src="@{/images/perfil.png}" ></a> 
                     </td>
 
-                    <td  >
-
-                                <a th:href="@{/admin/modificar/__${usuario.id}__}" type="button"  class="icon-link icon-link-hover link-warning link-underline-dark link-underline-opacity-25 fs-2"  ><i class="bi bi-gear-fill"></i></a>
-
+                    <td>
+                     <a th:href="@{/admin/modificar/__${usuario.id}__}" type="button"  class="icon-link icon-link-hover link-warning link-underline-dark link-underline-opacity-25 fs-2"  ><i class="bi bi-gear-fill"></i></a>
                     </td>
-
                 </tr>
-
             </tbody>
         </table>
 
