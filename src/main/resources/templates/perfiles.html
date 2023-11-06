@@ -57,8 +57,9 @@
 
                                     <td  >
                                         
-                                        <button style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                                        <ul class="dropdown-menu">
+                                        <button onclick="desplegar3()" id="btnAlta" style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                        
+                                        <ul id="btnd" class="dropdown-menu">
                                             <li><a th:href="@{/perfils/modificar-alta/__${session.usuariosession.id}__}" class="dropdown-item">Cambiar Alta/Baja</a></li>
                                         </ul>
 
