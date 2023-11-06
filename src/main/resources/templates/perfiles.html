@@ -7,14 +7,14 @@
 
 <style th:replace="/fragments/style :: style"></style>
 <body style="background-color: #F2F2F2">
-    <header th:replace="/fragments/header :: header" ></header>
+<nav th:replace="/fragments/navbar :: nav"></nav>
 
     <br><br>
 
 
     <div class="container">
         <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-evenly bg-danger"><h4 style="    color: #DFE2F2!important" class="fw-bold">Perfil</h4></div>
+            <div style="background-color: #151D21!important" class="card-header d-flex align-items-center justify-content-evenly bg-danger"><h4 style=" color: #DFE2F2!important" class="fw-bold">Perfil</h4></div>
             <div class="row g-0">
                 <div class="col-md-4 d-flex">
 
@@ -56,8 +56,10 @@
                                     <th scope="row">Activo : </th>
 
                                     <td  >
-                                        <button style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                                        <ul class="dropdown-menu">
+                                        
+                                        <button onclick="desplegar3()" id="btnAlta" style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                        
+                                        <ul id="btnd" class="dropdown-menu">
                                             <li><a th:href="@{/perfils/modificar-alta/__${session.usuariosession.id}__}" class="dropdown-item">Cambiar Alta/Baja</a></li>
                                         </ul>
 
@@ -66,7 +68,7 @@
 
                             </tbody>
                         </table>
-
+                        
                         <p class="card-text"><small class="text-body-secondary"></small></p>
                         <a href="/perfils" class="btn mt-5 btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
   
@@ -100,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div  class="card-footer bg-danger ">
+            <div style="background-color: #151D21!important"  class="card-footer bg-danger ">
                 <p class="fw-semibold " text= "'User Id : '+${usuario.id}" ></p>
             </div>
         </div>
