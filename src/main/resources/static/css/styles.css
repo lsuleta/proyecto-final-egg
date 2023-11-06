@@ -71,8 +71,8 @@
 
 
 .imagen-header {
-    width: 70px; 
-    height: 70px; 
+    width: 90px; 
+    height: 100%; 
     overflow: hidden;
     margin-left: 20px; 
 }
@@ -94,6 +94,8 @@
 
 .perfil img{
    width: 100%;
+   height: 100%;
+   object-fit: contain;
 }
 
 .tarjeta-index{

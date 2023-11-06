@@ -1,62 +1,56 @@
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav style="background-color: #151D21!important;" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <div class="centered" >
-            <span class="number"></span>
-            <img height="150" src="/Rose.png">
-        </div>
-        <a class="navbar-brand text-black" th:href="@{/}">INICIO</a>
-        <a class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')" th:href="@{/inicio}">Dashboard</a>
 
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <button onClick="desplegar()" id="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor01">
+        <div style="margin-right: 50px!important;" class="collapse navbar-collapse" id="navbarColor01">
+
             <ul class="navbar-nav me-auto">
-
-                <li class="nav-item">
-                    <a sec:authorize="hasRole('ADMIN')"class="nav-link active text-black " href="/autor/registrar">Registrar Autor
-                    <span class="visually-hidden">(current)</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a sec:authorize="hasRole('ADMIN')" class="nav-link text-black " href="/libro/registrar">Cargar Libro</a>
-                </li>
-
-                <li class="nav-item">
-                    <a sec:authorize="hasRole('ADMIN')" class="nav-link  text-black" href="/editorial/registrar">Cargar Editorial</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-black" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
-                <div class="dropdown-menu">
-                        
-                <div th:if="${session.usuariosession != null}" class="centereds">
-                    <a th:if="${session.usuariosession.imagen != null}" class="d-flex align-items-center">
-                    <img class="logo"  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" height="50px">
-                    </a>
-                </div>
-                         
-                    <a th:if="${session.usuariosession == null}" class="dropdown-item" href="/login">Login</a>
-                    <a th:if="${session.usuariosession == null}" class="dropdown-item" href="/registrar">Registrar</a>
-                    <a th:if="${session.usuariosession != null}" class="dropdown-item" href="/perfil">EDITAR PERFIL</a>
-                    <a th:if="${session.usuariosession != null}" class="dropdown-item" href="/logout">CERRAR SESIÓN</a>
-                </div>
-                </li>
-                
-                <li class="nav-item">
-                    <a style="color: blueviolet!important" sec:authorize="hasRole('ADMIN')" class="nav-link  text-black" href="/admin/usuarios">Modificar ROL</a>
-                </li>
-                
+                <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-black" th:href="@{/}">INICIO</a>
+                <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-rojo" th:href="@{/servicios}">SERVICIOS</a>
+                <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/servicios/proveedor}" class="navbar-brand text-rojo" sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN')">REGISTRAR SERVICIO</a>
+                <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/dashboard}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">DASHBOARD</a>
+                <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/usuarios}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">LISTA USUARIOS</a>
             </ul>
 
-            <form class="d-flex">
-                <input class="form-control me-sm-2" type="search" placeholder="Buscar Libro">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-            
+            <!-- btn login/registro -->
+            <div th:if="${session.usuariosession == null}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <a style="color: #DFE2F2!important;position: relative;" th:href="@{/login}" class="btn btn-outline-success btn-success-bg-subtle me-2">Iniciar Sesión</a>
+            </div>
+            <div th:if="${session.usuariosession == null}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <a style="color: #DFE2F2!important;position: relative;"th:href="@{/registrar-usuario}" class="btn btn-outline-success btn-success-bg-subtle me-2">Registrarme</a>
+            </div>
+
+
+            <!-- nombre perfil + foto perfil -->
+            <div class="cabito" style="display: contents;">
+                <h4 style="margin-left: auto; margin-top: 20px; color:#DDE0E7;left: 2px;position: relative;" th:if="${session.usuariosession != null}">
+                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.nombre}"></span>
+                </h4>
+
+                <div onclick="desplegar2()" id="btnPerfil" th:if="${session.usuariosession != null}" class="dropdown text-end">
+
+                    <a id="perfil_A" th:if="${session.usuariosession.imagen != null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle imagen-header collapse" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="Img logo" class="rounded-circle">
+                    </a>
+                    
+                    <a id="perfil_A" th:if="${session.usuariosession.imagen == null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle imagen-header collapse" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/images/perfil.png}" alt="Img logo" class="rounded-circle">
+                    </a>
+
+                    <ul id="A_perfil" style="color:#151D21!important;--bs-dropdown-bg: #151D21!important;-bs-dropdown-link-active-bg:red!important;" class="dropdown-menu text-small">
+                        <li><a style="color:#DFE2F2!important;" class="dropdown-item" href="/perfil">Editar Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a style="color:#DFE2F2!important;" class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                    </ul>
+
+                </div>
+                
+            </div>
+
         </div>
     </div>
 </nav>

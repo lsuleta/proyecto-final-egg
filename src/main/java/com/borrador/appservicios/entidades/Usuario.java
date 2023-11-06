@@ -1,3 +1,4 @@
+
 package com.borrador.appservicios.entidades;
 
 import com.borrador.appservicios.enumeradores.Genero;
@@ -58,3 +59,4 @@ public class Usuario {
 
 
 }
+

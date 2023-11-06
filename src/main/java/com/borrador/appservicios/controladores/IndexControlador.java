@@ -43,9 +43,13 @@ public class IndexControlador {
     }
 
     @GetMapping("/registrar-usuario")
-    public String registrarUsuario() {
-
-        return "usuario_registro.html";
+    public String registrarUsuario(HttpSession session) {
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        if (logueado != null) {
+            return "redirect:/";
+        } else {
+            return "usuario_registro.html";
+        }
     }
 
     @PostMapping("/registro")
@@ -67,20 +71,25 @@ public class IndexControlador {
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
-        session.invalidate(); // Invalida la sesión actual primero
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
 
-        if (error != null && verificarContraseña(usuario, password)) {
-            modelo.put("error", "Usuario o contraseña inválidas!");
+            
+        if (error != null) {
+           session.invalidate();
+            modelo.put("error", "Lo sentimos, el usuario o la contraseña no coinciden.");
+
+            System.out.println("");
             return "login.html"; // Retornar inmediatamente en caso de error
+
+        }
+        if (logueado != null) {
+
+            System.out.println("");
+            return "redirect:/";
+        } else {
+            return "login.html";
         }
 
-        // Si la contraseña es válida, la sesión será reemplazada con una nueva sesión cuando se cree una nueva.
-        return "login.html";
-    }
-
-    private boolean verificarContraseña(Usuario usuario, String contraseña) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(contraseña, usuario.getPassword());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
@@ -119,7 +128,7 @@ public class IndexControlador {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils")
     public String perfil(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuario);
         return "modificar_cliente.html";
     }
@@ -149,6 +158,7 @@ public class IndexControlador {
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
             modelo.put("email", email);
+            modelo.put("password", password);
 
             return "modificar_cliente.html";
         }

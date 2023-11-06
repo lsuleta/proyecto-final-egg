@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -188,7 +189,8 @@ public class UsuarioServicio implements UserDetailsService {
     @Transactional
     public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
-        if (resp.isPresent()) {
+
+        if ((resp.isPresent() && usuario.getId().equals(id)) || (usuario.getRol().toString().equals("ADMIN"))) {
             usuario = resp.get();
             boolean b = usuario.getActivo();
             usuario.setActivo(!b);
@@ -196,11 +198,22 @@ public class UsuarioServicio implements UserDetailsService {
             System.out.println("");
             System.out.println(usuario.getActivo());
             System.out.println("Alta servicio");
+
+            System.out.println("");
+            System.out.println("");
+            System.out.println("email: " + usuario.getEmail());
+
+            System.out.println("");
             System.out.println("");
 
             return usuario;
+
+        } else {
+            System.out.println("");
+            System.out.println("No tienes Permisos");
         }
-        return null;
+
+        return usuario;
     }
 
 // Listar Usuarios --
@@ -211,22 +224,5 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
-    @Transactional
-    public void cambiarRol(String id) {
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-
-        if (respuesta.isPresent()) {
-
-            usuario = respuesta.get();
-
-            if (usuario.getRol().equals(Rol.USER)) {
-                usuario.setRol(Rol.ADMIN);
-            } else if (usuario.getRol().equals(Rol.ADMIN)) {
-                usuario.setRol(Rol.USER);
-            }
-
-        }
-
-    }
 }
