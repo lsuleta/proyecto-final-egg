@@ -46,7 +46,7 @@ public class AdminControlador {
 
         modelo.put("usuario", usuarioServicio.getOne(id));
 
-        return "usuario_modificar.html";
+        return "adm_usr_modificar.html";
     }
 
     @GetMapping("/modificarRol/{id}")
