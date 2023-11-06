@@ -75,7 +75,7 @@ public class IndexControlador {
 
             
         if (error != null) {
-            session.invalidate();
+           session.invalidate();
             modelo.put("error", "Lo sentimos, el usuario o la contraseña no coinciden.");
 
             System.out.println("");

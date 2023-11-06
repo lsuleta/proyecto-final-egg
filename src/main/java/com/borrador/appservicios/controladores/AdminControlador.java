@@ -105,6 +105,10 @@ public class AdminControlador {
         return "redirect:/admin/usuarios";
     }
     
-    
+     @GetMapping("/confirmarEliminarUsuario/{id}")
+    public String eliminarUsuarioVista(@PathVariable String id, ModelMap modelo) {
+        modelo.addAttribute("usuario", usuarioServicio.getOne(id));
+        return "eliminar_confirmacion.html";
+    }
     
 }
