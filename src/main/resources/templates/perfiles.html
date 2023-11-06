@@ -6,15 +6,15 @@
 </head>
 
 <style th:replace="/fragments/style :: style"></style>
-<body style="background-color: lightgrey">
-    <header th:replace="/fragments/header :: header" ></header>
+<body style="background-color: #F2F2F2">
+<nav th:replace="/fragments/navbar :: nav"></nav>
 
     <br><br>
 
 
     <div class="container">
         <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-evenly bg-secondary"><h4 class="fw-bold">Perfil</h4></div>
+            <div style="background-color: #151D21!important" class="card-header d-flex align-items-center justify-content-evenly bg-danger"><h4 style=" color: #DFE2F2!important" class="fw-bold">Perfil</h4></div>
             <div class="row g-0">
                 <div class="col-md-4 d-flex">
 
@@ -31,36 +31,35 @@
                 <div class="col-md-8">
                     <div class="card-body">
 
-                        <table class="table">
-                            <tbody >
-                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                        <table style="border-color: inherit!important;border-style: double!important;" class="table">
+                            <tbody>
 
-                                    <td text= ""></td>
-                                </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Nombre: '+ ${session.usuariosession.nombre}" scope="row"></th>
-                                    <td text= ""></td>
+                                    
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Apellido: '+ ${session.usuariosession.apellido}" scope="row"></th>
-                                    <td text= ""></td>
+                                    
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Email: '+ ${session.usuariosession.email}" scope="row"></th>
-                                    <td text= ""></td>
+                                    
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Rol: '+ ${session.usuariosession.rol}" scope="row"></th>
-                                    <td text= ""></td>
+                                    
                                 </tr>
                                 
                                 <!-- MODIFICAR ALTA -->
-                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border">
                                     <th scope="row">Activo : </th>
 
                                     <td  >
-                                        <button th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                                        <ul class="dropdown-menu">
+                                        
+                                        <button onclick="desplegar3()" id="btnAlta" style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                        
+                                        <ul id="btnd" class="dropdown-menu">
                                             <li><a th:href="@{/perfils/modificar-alta/__${session.usuariosession.id}__}" class="dropdown-item">Cambiar Alta/Baja</a></li>
                                         </ul>
 
@@ -69,13 +68,13 @@
 
                             </tbody>
                         </table>
-
+                        
                         <p class="card-text"><small class="text-body-secondary"></small></p>
-                        <a href="/perfils" class="btn btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
+                        <a href="/perfils" class="btn mt-5 btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
   
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style="--bs-btn-bg: #d04a57!important;">
+                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                             Eliminar Foto de Perfil
                         </button>
 
@@ -103,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div  class="card-footer bg-secondary ">
+            <div style="background-color: #151D21!important"  class="card-footer bg-danger ">
                 <p class="fw-semibold " text= "'User Id : '+${usuario.id}" ></p>
             </div>
         </div>

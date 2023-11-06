@@ -1,5 +1,6 @@
 package com.borrador.appservicios.servicios;
 
+import com.borrador.appservicios.Exception.MiException;
 import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Proveedor;
 
@@ -50,7 +51,7 @@ public class ProveedorServicio implements UserDetailsService{
             String email,
             String password,
             String password2,
-            MultipartFile archivo) throws Excepciones {
+            MultipartFile archivo) throws Excepciones, MiException {
             
             validar(nombre, apellido, email, password, password2);
             
@@ -87,23 +88,20 @@ public class ProveedorServicio implements UserDetailsService{
 
     }
     
-    public void validar(
-            String nombre, 
-            String apellido, 
-            String email,
-            String password, 
-            String password2) throws Excepciones {
+    public void validar(String nombre, String apellido, String email, String password, String password2) throws MiException, Excepciones {
+        
         if (nombre.isEmpty() || nombre == null) {
             throw new Excepciones("El nombre no puede ser nulo o estar vacio");
         }
+        
         if (apellido.isEmpty() || apellido == null) {
             throw new Excepciones("El apellido no puede ser nulo o estar vacio");
         }
 
-        //Tambien verificar que no haya 2 usuarios con el mismo email---!!!!
         if (email.isEmpty() || email == null) {
             throw new Excepciones("El email no puede ser nulo o estar vacio");
         }
+        
         if (password.isEmpty() || password == null) {
             throw new Excepciones("El password no puede ser nulo o estar vacio");
         }

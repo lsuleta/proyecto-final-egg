@@ -1,5 +1,6 @@
 package com.borrador.appservicios.controladores;
 
+import com.borrador.appservicios.Exception.MiException;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.servicios.ProveedorServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ProveedorControlador {
 
     @PostMapping("/registro2")
     public String registrarProveedor(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
-            @RequestParam String password, @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
+            @RequestParam String password, @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) throws MiException {
         try {
             proveedorServicio.crearProveedor(nombre, apellido, email, password, password2, archivo);
             modelo.put("exito", "proveedor registrado correctamente");
