@@ -12,10 +12,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- *
- * @author Kyouma
- */
 @Entity
 @Getter
 @Setter
@@ -23,20 +19,19 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 public class Proveedor extends Usuario {
     
-    @Id
-    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+//    @Id
+//    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
+//    @GenericGenerator(name = "uuid", strategy = "uuid2")
+//    private String id;
     
-    private String servicioTipo;
-    private String servicioDescripcion;
-    private Integer calificacion;
+    private String nombre;
+    private String apellido;
+    private String categoria;
+//    private String telefono;
     
-    @OneToMany
-    private List<Usuario> clientes;
-    
-    @OneToOne 
-    private Imagen imagen;
-    
-
+    @OneToOne
+    private Prestacion prestacion;
+//    @OneToMany
+//    private List<Turno> turnos;
+   
 }

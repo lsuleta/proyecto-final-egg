@@ -12,10 +12,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- *
- * @author kyouma
- */
 @Entity
 @Getter
 @Setter
