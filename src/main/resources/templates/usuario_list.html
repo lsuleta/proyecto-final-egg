@@ -48,9 +48,10 @@
                     </td>
                     
                     <td>
-                        <button  style="color:#668797" th:text="${usuario.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                        <ul class="dropdown-menu">
-                        <li><a  th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
+                        <button onclick="desplegar3()" id="btnAlta"  style="color:#668797" th:text="${usuario.activo}" class="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                        
+                        <ul id="btnd" class="dropdown-menu ">
+                        <li><a th:href="@{/admin/modificarAlta/__${usuario.id}__}" class="dropdown-item ">Cambiar Alta/Baja</a></li>
                         </ul>
                     </td>
                     
