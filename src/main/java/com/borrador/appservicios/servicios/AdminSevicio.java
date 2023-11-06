@@ -1,7 +1,9 @@
 package com.borrador.appservicios.servicios;
 
+import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
+import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ImagenRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,8 +20,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -151,4 +159,55 @@ public class AdminSevicio implements UserDetailsService {
      
     }
 
+    
+
+    @Transactional
+    public Usuario actualizar(MultipartFile archivo, String id, String nombre,
+            String apellido, String email)throws Exception {
+        
+        //validar(nombre, apellido, email, password, password2);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            // Verificar que el usuario respuesta coincida con el id
+            if (respuesta.get().getId().equals(id)) {
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                usuario.setEmail(email);
+
+
+                cargarImagen(archivo);
+
+                usuarioRepositorio.save(usuario);
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("Perfil Actualizado: " + usuario.getEmail());
+                System.out.println("-------------------------------------------------------------");
+                return usuario;
+            } else {
+                System.out.println("estas en el else ");
+                throw new Exception("La contraseña proporcionada no coincide con la contraseña en la base de datos");
+            }
+        }
+
+        return null;
+    }
+    //carga imagen nula si no sube un archivo
+
+    public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
+        if (!archivo.isEmpty()) {
+            Imagen imagen = imagenServicio.guardar(archivo);
+            usuario.setImagen(imagen);
+            return true;
+        } else //usuario.setImagen(null);
+        {
+            return false;
+        }
+
+    }
+
+    
+    
+    
 }
