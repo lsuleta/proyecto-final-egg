@@ -24,7 +24,7 @@ public class Prestacion {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private Categoria categoria;
-    private String servicioDescripcion;
+    private String Descripcion;
     
     @OneToOne
     private Calificacion calificacion;

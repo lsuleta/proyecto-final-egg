@@ -1,5 +1,6 @@
  package com.borrador.appservicios.entidades;
 
+import com.borrador.appservicios.enumeradores.Categoria;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ public class Proveedor extends Usuario {
     
     private String nombre;
     private String apellido;
-    private String categoria;
+//    private Categoria categoria;
 //    private String telefono;
     
     @OneToOne
