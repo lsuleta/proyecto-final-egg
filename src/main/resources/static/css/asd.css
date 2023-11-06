@@ -25,7 +25,7 @@
     height: 600px;
     padding: 25px;
     background-color: #ecf0f3;
-    box-shadow: 0px 9px 17px 7px #d1d9e6, -1px -3px 13px 6px #f9f9f9;
+    box-shadow: 0px 0px 7px 5px #d1d9e6, 0px 0px 4px 5px #f9f9f9;
     border-radius: 12px;
     overflow: hidden;
   }
@@ -63,14 +63,6 @@
     transition: 1.25s;
   }
   
-  .warnings{
-  
-  text-align: center;
-  margin: auto;
-  color: red;
-  padding-top: 20px;
-  font-size: 15px;
-  }
   
   
   .form {
@@ -109,12 +101,42 @@
     box-shadow: inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9;
   }
   .form__input:focus {
-    box-shadow: inset 4px 4px 4px #d1d9e6, inset -4px -4px 4px #f9f9f9;
+    box-shadow: inset 1px 8px 4px #d1d9e6;
   }
   
-  .form__input:invalid{
-      
+  .form__input-error{
+       font-family: "Verdana", sans-serif;
+      margin-bottom: 0;
+      font-size: 13px;
+      display: none;
+      color: #bf1b1b;
   }
+  .form__input-error2{
+       font-family: "Verdana", sans-serif;
+      margin-bottom: 0;
+      font-size: 13px;
+      display: none;
+      color: #bf1b1b;
+  }
+  
+
+  .icon_error{
+      font-size: 17px;
+      z-index: 100;
+      margin-left: -30px;
+      position: absolute;
+      margin-top: 15px;
+      opacity: 0;
+  }
+  .icon_error2{
+      font-size: 17px;
+      z-index: 100;
+      margin-left: -30px;
+      position: absolute;
+      margin-top: 15px;
+      opacity: 0;
+  }
+  
   .form__span {
     margin-top: 30px;
     margin-bottom: 12px;
@@ -125,6 +147,10 @@
     margin-top: 25px;
     border-bottom: 1px solid #a0a5a8;
     line-height: 2;
+  }
+  
+  .form__group-input{
+      position: relative;
   }
   
   .title {
@@ -141,11 +167,19 @@
     line-height: 1.6;
   }
   
+  .button:hover{
+    box-shadow: 3px 4px 14px 0px #6f7e95, 0px 0px 16px 0px #f9f9f9;  
+    transform: scale(0.97);
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  
   .button {
+    padding: 15px;
     width: 180px;
     height: 50px;
     border-radius: 25px;
-    margin-top: 50px;
+    margin-top: 22px;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 1.15px;
@@ -156,6 +190,7 @@
     outline: none;
     /*color:chartreuse;*/
   }
+  
 
   
   /**/
@@ -271,6 +306,22 @@
         color: #663DE4;
         font-size: 16px;
     }
+    
+     /** VALIDACIONES FORM**/
+   
+   .form__group-incorrecto .icon_error{
+       opacity: 1;
+   }
+   form__group2-incorrecto .icon_error2{
+       opacity: 1;
+   }
+   
+   .form__input-error-activo{
+       display: block;
+   }
+   
+  
+   
   
   @keyframes is-gx {
     0%, 10%, 100% {
@@ -280,6 +331,6 @@
       width: 500px;
     }
     
-   
+  
     
   }
