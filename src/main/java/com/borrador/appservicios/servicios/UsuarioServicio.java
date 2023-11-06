@@ -186,12 +186,10 @@ public class UsuarioServicio implements UserDetailsService {
         return null;
     }
 
-    
-    
     @Transactional
     public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
-        
+
         if ((resp.isPresent() && usuario.getId().equals(id)) || (usuario.getRol().toString().equals("ADMIN"))) {
             usuario = resp.get();
             boolean b = usuario.getActivo();
@@ -200,25 +198,23 @@ public class UsuarioServicio implements UserDetailsService {
             System.out.println("");
             System.out.println(usuario.getActivo());
             System.out.println("Alta servicio");
-            
+
             System.out.println("");
             System.out.println("");
-            System.out.println("email: "+usuario.getEmail());
-            
+            System.out.println("email: " + usuario.getEmail());
+
             System.out.println("");
             System.out.println("");
 
             return usuario;
-            
-        }else{
+
+        } else {
             System.out.println("");
             System.out.println("No tienes Permisos");
         }
-       
+
         return usuario;
     }
-    
-    
 
 // Listar Usuarios --
     @Transactional(readOnly = true)
@@ -228,22 +224,5 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
-    @Transactional
-    public void cambiarRol(String id) {
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-
-        if (respuesta.isPresent()) {
-
-            usuario = respuesta.get();
-
-            if (usuario.getRol().equals(Rol.USER)) {
-                usuario.setRol(Rol.ADMIN);
-            } else if (usuario.getRol().equals(Rol.ADMIN)) {
-                usuario.setRol(Rol.USER);
-            }
-
-        }
-
-    }
 }

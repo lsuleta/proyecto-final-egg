@@ -4,16 +4,17 @@ import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.servicios.AdminSevicio;
 import com.borrador.appservicios.servicios.UsuarioServicio;
 import java.util.List;
-import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -51,7 +52,7 @@ public class AdminControlador {
 
     @GetMapping("/modificarRol/{id}")
     public String cambiarRol(@PathVariable String id) {
-        usuarioServicio.cambiarRol(id);
+        adminSevicio.cambiarRol(id);
         return "redirect:/admin/usuarios";
     }
 
@@ -91,5 +92,19 @@ public class AdminControlador {
         adminSevicio.eliminar(id);
         return "redirect:/admin/usuarios";
     }
+    
+    
+    @PostMapping("/modificarUsuario/{id}")
+    public String modificarUsuarioBD(@PathVariable String id,
+            MultipartFile archivo,
+            @RequestParam String nombre,
+            @RequestParam String apellido,
+            @RequestParam String email,
+            ModelMap modelo, HttpSession session) throws Exception   {
+        adminSevicio.actualizar(archivo, id, nombre, apellido, email);
+        return "redirect:/admin/usuarios";
+    }
+    
+    
     
 }

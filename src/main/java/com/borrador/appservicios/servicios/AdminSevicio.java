@@ -1,7 +1,9 @@
 package com.borrador.appservicios.servicios;
 
+import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
+import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ImagenRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -36,7 +39,7 @@ public class AdminSevicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-  public Usuario getOne(String id) {
+    public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
 
@@ -58,7 +61,8 @@ public class AdminSevicio implements UserDetailsService {
         }
 
     }
-     @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList();
         usuarios = usuarioRepositorio.findAll();
@@ -91,6 +95,28 @@ public class AdminSevicio implements UserDetailsService {
 
         return usuario;
     }
+    
+        @Transactional
+    public void cambiarRol(String id) {
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            usuario = respuesta.get();
+
+            if (usuario.getRol().equals(Rol.USER)) {
+                usuario.setRol(Rol.ADMIN);
+            } else if (usuario.getRol().equals(Rol.ADMIN)) {
+                usuario.setRol(Rol.USER);
+            }
+
+        }
+
+    }
+    
+    
+    
     //---------- Cambio Roles ----------
 
     @Transactional
@@ -132,16 +158,73 @@ public class AdminSevicio implements UserDetailsService {
     // ------ Eliminar Cuenta de la BD ------------//
     @Transactional
     public void eliminar(String idUsuario) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-        System.out.println("Usuario : "+respuesta.get().getNombre().toString());
-        if (respuesta.isPresent()) {
-            System.out.println("Usuario : "+respuesta.get().getNombre().toString());
-            usuarioRepositorio.deleteById(idUsuario);
+        try {
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+            System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+            System.out.println("Usuario id : " + respuesta.get().getId().toString());
+            if (respuesta.isPresent()) {
+                System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+                usuarioRepositorio.deleteById(respuesta.get().getId());
 
-            System.out.println("");
-            System.out.println("Usuario eliminado");
-            System.out.println("");
+                System.out.println("");
+                System.out.println("Usuario eliminado");
+                System.out.println("");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL ELIMIAR USUARIO");
         }
+     
     }
 
+    
+
+    @Transactional
+    public Usuario actualizar(MultipartFile archivo, String id, String nombre,
+            String apellido, String email)throws Exception {
+        
+        //validar(nombre, apellido, email, password, password2);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            // Verificar que el usuario respuesta coincida con el id
+            if (respuesta.get().getId().equals(id)) {
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                usuario.setEmail(email);
+
+
+                cargarImagen(archivo);
+
+                usuarioRepositorio.save(usuario);
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("Perfil Actualizado: " + usuario.getEmail());
+                System.out.println("-------------------------------------------------------------");
+                return usuario;
+            } else {
+                System.out.println("estas en el else ");
+                throw new Exception("La contraseña proporcionada no coincide con la contraseña en la base de datos");
+            }
+        }
+
+        return null;
+    }
+    //carga imagen nula si no sube un archivo
+
+    public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
+        if (!archivo.isEmpty()) {
+            Imagen imagen = imagenServicio.guardar(archivo);
+            usuario.setImagen(imagen);
+            return true;
+        } else //usuario.setImagen(null);
+        {
+            return false;
+        }
+
+    }
+
+    
+    
+    
 }
