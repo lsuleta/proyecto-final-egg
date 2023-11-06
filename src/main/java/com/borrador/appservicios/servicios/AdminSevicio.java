@@ -36,7 +36,7 @@ public class AdminSevicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-  public Usuario getOne(String id) {
+    public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
 
@@ -58,7 +58,8 @@ public class AdminSevicio implements UserDetailsService {
         }
 
     }
-     @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList();
         usuarios = usuarioRepositorio.findAll();
@@ -132,16 +133,22 @@ public class AdminSevicio implements UserDetailsService {
     // ------ Eliminar Cuenta de la BD ------------//
     @Transactional
     public void eliminar(String idUsuario) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-        System.out.println("Usuario : "+respuesta.get().getNombre().toString());
-        if (respuesta.isPresent()) {
-            System.out.println("Usuario : "+respuesta.get().getNombre().toString());
-            usuarioRepositorio.deleteById(idUsuario);
+        try {
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+            System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+            System.out.println("Usuario id : " + respuesta.get().getId().toString());
+            if (respuesta.isPresent()) {
+                System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+                usuarioRepositorio.deleteById(respuesta.get().getId());
 
-            System.out.println("");
-            System.out.println("Usuario eliminado");
-            System.out.println("");
+                System.out.println("");
+                System.out.println("Usuario eliminado");
+                System.out.println("");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL ELIMIAR USUARIO");
         }
+     
     }
 
 }
