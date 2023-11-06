@@ -1,5 +1,6 @@
 package com.borrador.appservicios.entidades;
 
+import com.borrador.appservicios.enumeradores.Genero;
 import com.borrador.appservicios.enumeradores.Rol;
 
 import javax.persistence.Entity;
@@ -21,10 +22,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- *
- * @author facun
- */
+
 @Entity
 @Getter
 @Setter
@@ -36,22 +34,22 @@ public class Usuario {
     @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
-    private String nombre;
-    private String apellido;
     
     @Column(name = "email",unique=true ,nullable = false)
     private String email;
     private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaDeAlta;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @Temporal(javax.persistence.TemporalType.DATE)
+//    private Date fechaDeAlta;
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
+//    private Genero genero;
 
     private Boolean activo;
+    private Integer intentos;
+    private Date lastLogin;
 
    // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)
