@@ -186,12 +186,10 @@ public class UsuarioServicio implements UserDetailsService {
         return null;
     }
 
-    
-    
     @Transactional
     public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
-        
+
         if ((resp.isPresent() && usuario.getId().equals(id)) || (usuario.getRol().toString().equals("ADMIN"))) {
             usuario = resp.get();
             boolean b = usuario.getActivo();
@@ -200,25 +198,23 @@ public class UsuarioServicio implements UserDetailsService {
             System.out.println("");
             System.out.println(usuario.getActivo());
             System.out.println("Alta servicio");
-            
+
             System.out.println("");
             System.out.println("");
-            System.out.println("email: "+usuario.getEmail());
-            
+            System.out.println("email: " + usuario.getEmail());
+
             System.out.println("");
             System.out.println("");
 
             return usuario;
-            
-        }else{
+
+        } else {
             System.out.println("");
             System.out.println("No tienes Permisos");
         }
-       
+
         return usuario;
     }
-    
-    
 
 // Listar Usuarios --
     @Transactional(readOnly = true)
@@ -246,4 +242,56 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
+    //---------- Cambio Roles ----------
+
+    @Transactional
+    public void cambiarRolUser(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.USER);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolProveedor(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.PROVEEDOR);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolAdmin(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.ADMIN);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolMod(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.MODERADOR);
+        }
+    }
+
+    // ------ Eliminar Cuenta de la BD ------------//
+    @Transactional
+    public void eliminar(String idUsuario) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+        if (respuesta.isPresent()) {
+            System.out.println("Usuario : "+respuesta.get().getNombre().toString());
+            usuarioRepositorio.deleteById(idUsuario);
+            
+            System.out.println("");
+            System.out.println("Usuario eliminado");
+            System.out.println("");
+        }
+    }
+
 }

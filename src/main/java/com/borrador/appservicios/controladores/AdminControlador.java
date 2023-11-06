@@ -1,6 +1,7 @@
 package com.borrador.appservicios.controladores;
 
 import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class AdminControlador {
     public String listar(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
+        modelo.addAttribute("roles", Rol.values());
         return "usuario_list.html";
     }
 
@@ -41,19 +43,56 @@ public class AdminControlador {
 
         modelo.put("usuario", usuarioServicio.getOne(id));
 
-        return "usuario_modificar.html";
+        return "modificar_cliente.html";
     }
 
+//    @GetMapping("/modificarAlta/{id}")
+//    public String cambiarAlta(@PathVariable String id, HttpSession session) {
+//        Usuario usuarioactualizado = usuarioServicio.cambiarAlta(id);
+//        session.setAttribute("usuariosession", usuarioactualizado);
+//        return "redirect:/admin/usuarios";
+//    }
+    @GetMapping("/modificarAlta/{id}")
+    public String cambiarAlta(@PathVariable String id) {
+        usuarioServicio.cambiarAlta(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    // --------- Cambio Rol ---------
     @GetMapping("/modificarRol/{id}")
     public String cambiarRol(@PathVariable String id) {
         usuarioServicio.cambiarRol(id);
         return "redirect:/admin/usuarios";
     }
 
-    @GetMapping("/modificarAlta/{id}")
-    public String cambiarAlta(@PathVariable String id,HttpSession session) {
-            Usuario usuarioactualizado = usuarioServicio.cambiarAlta(id);
-        session.setAttribute("usuariosession", usuarioactualizado);
+    @GetMapping("/modificarRolUser/{id}")
+    public String cambiarRolUser(@PathVariable String id) {
+        usuarioServicio.cambiarRolUser(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolProveedor/{id}")
+    public String cambiarRolProv(@PathVariable String id) {
+        usuarioServicio.cambiarRolProveedor(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolModerador/{id}")
+    public String cambiarRolMod(@PathVariable String id) {
+        usuarioServicio.cambiarRolMod(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolAdministrador/{id}")
+    public String cambiarRolAdmin(@PathVariable String id) {
+        usuarioServicio.cambiarRolAdmin(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    // ---------- Eliminar Usuario de la BD -----------//
+    @GetMapping("/eliminarUsuario/{id}")
+    public String eliminarUsuarioBD(@PathVariable String id) {
+        usuarioServicio.eliminar(id);
         return "redirect:/admin/usuarios";
     }
 

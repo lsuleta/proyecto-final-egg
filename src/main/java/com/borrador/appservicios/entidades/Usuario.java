@@ -43,6 +43,8 @@ public class Usuario {
     @Column(name = "email",unique=true ,nullable = false)
     private String email;
     private String password;
+    
+    private Integer loginContador;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)

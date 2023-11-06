@@ -73,6 +73,7 @@ public class IndexControlador {
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
 
+            
         if (error != null) {
             session.invalidate();
             modelo.put("error", "Lo sentimos, el usuario o la contraseña no coinciden.");
