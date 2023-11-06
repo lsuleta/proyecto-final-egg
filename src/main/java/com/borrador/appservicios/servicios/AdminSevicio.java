@@ -1,6 +1,7 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.repositorios.ImagenRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
@@ -89,6 +90,57 @@ public class AdminSevicio implements UserDetailsService {
         }
 
         return usuario;
+    }
+    //---------- Cambio Roles ----------
+
+    @Transactional
+    public void cambiarRolUser(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.USER);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolProveedor(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.PROVEEDOR);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolAdmin(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.ADMIN);
+        }
+    }
+
+    @Transactional
+    public void cambiarRolMod(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.MODERADOR);
+        }
+    }
+
+    // ------ Eliminar Cuenta de la BD ------------//
+    @Transactional
+    public void eliminar(String idUsuario) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+        if (respuesta.isPresent()) {
+            System.out.println("Usuario : "+respuesta.get().getNombre().toString());
+            usuarioRepositorio.deleteById(idUsuario);
+
+            System.out.println("");
+            System.out.println("Usuario eliminado");
+            System.out.println("");
+        }
     }
 
 }

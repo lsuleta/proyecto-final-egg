@@ -44,6 +44,8 @@ public class Usuario {
     private String email;
     private String password;
 
+    private Integer loginContador;
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaDeAlta;

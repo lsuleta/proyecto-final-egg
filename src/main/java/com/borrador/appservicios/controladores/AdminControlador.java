@@ -61,6 +61,35 @@ public class AdminControlador {
         return "redirect:/admin/usuarios";
     }
 
-    
+    @GetMapping("/modificarRolUser/{id}")
+    public String cambiarRolUser(@PathVariable String id) {
+        adminSevicio.cambiarRolUser(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolProveedor/{id}")
+    public String cambiarRolProv(@PathVariable String id) {
+        adminSevicio.cambiarRolProveedor(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolModerador/{id}")
+    public String cambiarRolMod(@PathVariable String id) {
+        adminSevicio.cambiarRolMod(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/modificarRolAdministrador/{id}")
+    public String cambiarRolAdmin(@PathVariable String id) {
+        adminSevicio.cambiarRolAdmin(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    // ---------- Eliminar Usuario de la BD -----------//
+    @GetMapping("/eliminarUsuario/{id}")
+    public String eliminarUsuarioBD(@PathVariable String id) {
+        adminSevicio.eliminar(id);
+        return "redirect:/admin/usuarios";
+    }
     
 }
