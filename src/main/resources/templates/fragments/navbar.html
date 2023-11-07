@@ -28,7 +28,7 @@
             <!-- nombre perfil + foto perfil -->
             <div class="cabito" style="display: contents;">
                 <h4 style="margin-left: auto; margin-top: 20px; color:#DDE0E7;left: 2px;position: relative;" th:if="${session.usuariosession != null}">
-                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.nombre}"></span>
+                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.email}"></span>
                 </h4>
 
                 <div onclick="desplegar2()" id="btnPerfil" th:if="${session.usuariosession != null}" class="dropdown text-end">
@@ -42,7 +42,7 @@
                     </a>
 
                     <ul id="A_perfil" style="color:#151D21!important;--bs-dropdown-bg: #151D21!important;-bs-dropdown-link-active-bg:red!important;" class="dropdown-menu text-small">
-                        <li><a style="color:#DFE2F2!important;" class="dropdown-item" href="/perfil">Editar Perfil</a></li>
+                        <li><a style="color:#DFE2F2!important;" class="dropdown-item" th:href="@{/perfil/__${session.usuariosession.id}__}">Editar Perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a style="color:#DFE2F2!important;" class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
                     </ul>

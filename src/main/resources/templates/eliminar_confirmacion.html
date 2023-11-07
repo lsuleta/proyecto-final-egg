@@ -1,10 +1,38 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+=======
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>ELIMINAR USUARIOS</title>
         <link rel="stylesheet" href="/css/index.css">
     <div th:replace="/fragments/head :: head"></div>
 </head>
+<<<<<<< HEAD
+<body>
+
+    <div class="row" >
+        <div class="col"></div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header bg-danger">
+                    ELIMINAR USUARIO
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Eliminar usuario </h5>
+
+                    <p>Esta accion eliminara definitivamente la cuenta de la base de datos. Te recomendamos dar de baja la cuenta.</p>
+                    <a  th:href="@{/admin/Alta/__${usuario.id}__}" th:text="'Activo: '+${usuario.activo}" class="btn btn-outline-secondary " >Cambiar Alta/Baja</a>
+                    <h5>Estas seguro que deseas eliminar esta cuenta ?</h5>
+                    <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>
+
+                    
+                    
+=======
 <style th:replace="/fragments/style :: style"></style>
 <nav th:replace="/fragments/navbar :: nav"></nav>
 <body style=" background: #F2F2F2">
@@ -60,6 +88,7 @@
 
                     <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button style="background-color: #bf1b1b!important; color:white;" type="button" class="btn mt-3 btn-outline-danger">ELIMINAR CUENTA</button></a>
 
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2
                 </div>
             </div>
         </div>
@@ -68,4 +97,8 @@
 
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2

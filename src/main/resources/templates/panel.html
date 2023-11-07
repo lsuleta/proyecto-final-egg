@@ -13,7 +13,7 @@
 
 <div class="centered" style = "display: flex ;justify-content: center;align-items: center;">
   <h2 sec:authorize="hasRole('ADMIN')" th:if="${session.usuariosession != null}">
-    Hola »<span style="color: #7c4819!important; font-family: fangsong;" class="username-color" th:text=" ${session.usuariosession.nombre}"></span>« eres <span style="color: #7c4819!important; font-family: fangsong; font-weight: 700;" th:text=" ${session.usuariosession.Rol}"></span>
+    Hola »<span style="color: #7c4819!important; font-family: fangsong;" class="username-color" th:text=" ${session.usuariosession.email}"></span>« eres <span style="color: #7c4819!important; font-family: fangsong; font-weight: 700;" th:text=" ${session.usuariosession.Rol}"></span>
   </h2>
 </div>
 

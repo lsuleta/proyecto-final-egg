@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 
 package com.borrador.appservicios.entidades;
 
 import com.borrador.appservicios.enumeradores.Genero;
+=======
+package com.borrador.appservicios.entidades;
+
+>>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
 import com.borrador.appservicios.enumeradores.Rol;
 
 import javax.persistence.Entity;
@@ -23,7 +28,14 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
+<<<<<<< HEAD
 
+=======
+/**
+ *
+ * @author facun
+ */
+>>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
 @Entity
 @Getter
 @Setter
@@ -39,6 +51,7 @@ public class Usuario {
     @Column(name = "email",unique=true ,nullable = false)
     private String email;
     private String password;
+<<<<<<< HEAD
 
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
 //    @Temporal(javax.persistence.TemporalType.DATE)
@@ -51,6 +64,20 @@ public class Usuario {
     private Boolean activo;
     private Integer intentos;
     private Date lastLogin;
+=======
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date ultimaConexion;
+
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
+    private Boolean activo;
+    
+    private Integer intentos;
+    
+>>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
 
    // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)
@@ -59,4 +86,7 @@ public class Usuario {
 
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
