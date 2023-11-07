@@ -67,6 +67,12 @@ public class AdminControlador {
         adminSevicio.cambiarRolUser(id);
         return "redirect:/admin/usuarios";
     }
+    
+    @GetMapping("/modificarRolCliente/{id}")
+    public String cambiarRolCliente(@PathVariable String id) {
+        adminSevicio.cambiarRolCiente(id);
+        return "redirect:/admin/usuarios";
+    }
 
     @GetMapping("/modificarRolProveedor/{id}")
     public String cambiarRolProv(@PathVariable String id) {
@@ -92,28 +98,22 @@ public class AdminControlador {
         adminSevicio.eliminar(id);
         return "redirect:/admin/usuarios";
     }
-    
-    
-    
+
     @PostMapping("/modificarUsuario/{id}")
     public String modificarUsuarioBD(@PathVariable String id,
             MultipartFile archivo,
             @RequestParam String nombre,
             @RequestParam String apellido,
             @RequestParam String email,
-            ModelMap modelo, HttpSession session) throws Exception   {
+            ModelMap modelo, HttpSession session) throws Exception {
         adminSevicio.actualizar(archivo, id, nombre, apellido, email);
         return "redirect:/admin/usuarios";
     }
-    
-<<<<<<< HEAD
+
     @GetMapping("/confirmarEliminarUsuario/{id}")
-=======
-     @GetMapping("/confirmarEliminarUsuario/{id}")
->>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2
     public String eliminarUsuarioVista(@PathVariable String id, ModelMap modelo) {
         modelo.addAttribute("usuario", usuarioServicio.getOne(id));
         return "eliminar_confirmacion.html";
     }
-    
+
 }

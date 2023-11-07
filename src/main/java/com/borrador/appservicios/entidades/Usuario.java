@@ -36,24 +36,22 @@ public class Usuario {
     @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
-    private String nombre;
-    private String apellido;
     
     @Column(name = "email",unique=true ,nullable = false)
     private String email;
     private String password;
-
-    private Integer loginContador;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaDeAlta;
+    private Date ultimaConexion;
 
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
     private Boolean activo;
+    
+    private Integer intentos;
+    
 
    // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)

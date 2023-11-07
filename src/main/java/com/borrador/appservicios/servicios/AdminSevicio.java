@@ -132,6 +132,15 @@ public class AdminSevicio implements UserDetailsService {
             usuario.setRol(Rol.USER);
         }
     }
+    
+    @Transactional
+    public void cambiarRolCiente(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.CLIENTE);
+        }
+    }
 
     @Transactional
     public void cambiarRolProveedor(String id) {
@@ -165,10 +174,10 @@ public class AdminSevicio implements UserDetailsService {
     public void eliminar(String idUsuario) {
         try {
             Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-            System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+            System.out.println("Usuario : " + respuesta.get().getEmail().toString());
             System.out.println("Usuario id : " + respuesta.get().getId().toString());
             if (respuesta.isPresent()) {
-                System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+                System.out.println("Usuario : " + respuesta.get().getEmail().toString());
                 usuarioRepositorio.deleteById(respuesta.get().getId());
 
                 System.out.println("");
@@ -195,8 +204,8 @@ public class AdminSevicio implements UserDetailsService {
             usuario = respuesta.get();
             // Verificar que el usuario respuesta coincida con el id
             if (respuesta.get().getId().equals(id)) {
-                usuario.setNombre(nombre);
-                usuario.setApellido(apellido);
+//                usuario.setNombre(nombre);
+//                usuario.setApellido(apellido);
                 usuario.setEmail(email);
 
 
