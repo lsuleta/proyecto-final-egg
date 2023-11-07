@@ -3,6 +3,8 @@ package com.borrador.appservicios.servicios;
 import com.borrador.appservicios.Exception.MiException;
 import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Proveedor;
+import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.enumeradores.Categoria;
 
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
@@ -45,33 +47,29 @@ public class ProveedorServicio implements UserDetailsService{
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void crearProveedor(
-            String nombre, 
-            String apellido, 
-            String email,
-            String password,
-            String password2,
-            MultipartFile archivo) throws Excepciones, MiException {
+    public void crearProveedor(String nombre, String apellido, String telefono,
+            String email, String password, String password2, Categoria categoria, MultipartFile archivo) throws Excepciones, MiException {
             
-            validar(nombre, apellido, email, password, password2);
+            validar(nombre, apellido, telefono, email, password, password2);
             
             proveedor = new Proveedor();
 
             proveedor.setNombre(nombre);
             proveedor.setApellido(apellido);
+            proveedor.setTelefono(telefono);
             proveedor.setEmail(email);
             proveedor.setPassword(new BCryptPasswordEncoder().encode(password));
-            proveedor.setFechaDeAlta(new Date());
+            proveedor.setUltimaConexion(new Date());
             
             cargarImagen(archivo);
             
             proveedor.setRol(Rol.PROVEEDOR);
             proveedor.setActivo(true);
 
-            proveedor.setServicioTipo(null);
-            proveedor.setServicioDescripcion(null);
-            proveedor.setClientes(new ArrayList());
-            proveedor.setCalificacion(0);
+            proveedor.setCategoriaServicio(categoria);
+       //     proveedor.setServicioDescripcion(null);
+        //    proveedor.setClientes(new ArrayList());
+        //    proveedor.setCalificacion(0);
 
             proveedorRepositorio.save(proveedor);       
     }
@@ -88,7 +86,7 @@ public class ProveedorServicio implements UserDetailsService{
 
     }
     
-    public void validar(String nombre, String apellido, String email, String password, String password2) throws MiException, Excepciones {
+    public void validar(String nombre, String apellido, String telefono, String email, String password, String password2) throws MiException, Excepciones {
         
         if (nombre.isEmpty() || nombre == null) {
             throw new Excepciones("El nombre no puede ser nulo o estar vacio");
@@ -96,6 +94,10 @@ public class ProveedorServicio implements UserDetailsService{
         
         if (apellido.isEmpty() || apellido == null) {
             throw new Excepciones("El apellido no puede ser nulo o estar vacio");
+        }
+        
+        if (telefono.isEmpty() || telefono == null) {
+            throw new Excepciones("El Telefono no puede ser nulo o estar vacio");
         }
 
         if (email.isEmpty() || email == null) {
@@ -132,4 +134,51 @@ public class ProveedorServicio implements UserDetailsService{
             return null;
         }
     }   
+    
+    
+    
+    
+     //----------- Listar Proveedores -------------//
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarProveedores() {
+        return usuarioRepositorio.listarProveedor();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarSalud() {
+        //return usuarioRepositorio.buscarPorCategoriaServicio("SALUD");
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.SALUD);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarElectricidad() {
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.ELECTRICIDAD);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarPlomeria() {
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.PLOMERIA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarLimpieza() {
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.LIMPIEZA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarJardineria() {
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.JARDINERIA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarVarios() {
+        return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.VARIOS);
+    }
+    
+    
+    
+    
+    
+    
 }

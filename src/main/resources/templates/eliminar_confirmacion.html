@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<<<<<<< HEAD
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+=======
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>ELIMINAR USUARIOS</title>
+        <link rel="stylesheet" href="/css/index.css">
+    <div th:replace="/fragments/head :: head"></div>
+</head>
+<<<<<<< HEAD
+<body>
+
+    <div class="row" >
+        <div class="col"></div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header bg-danger">
+                    ELIMINAR USUARIO
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Eliminar usuario </h5>
+
+                    <p>Esta accion eliminara definitivamente la cuenta de la base de datos. Te recomendamos dar de baja la cuenta.</p>
+                    <a  th:href="@{/admin/Alta/__${usuario.id}__}" th:text="'Activo: '+${usuario.activo}" class="btn btn-outline-secondary " >Cambiar Alta/Baja</a>
+                    <h5>Estas seguro que deseas eliminar esta cuenta ?</h5>
+                    <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>
+
+                    
+                    
+=======
+<style th:replace="/fragments/style :: style"></style>
+<nav th:replace="/fragments/navbar :: nav"></nav>
+<body style=" background: #F2F2F2">
+    <style>
+        body{
+            overflow: hidden;
+        }
+    </style>
+
+    <div style="margin-top: 10px!important;" class="row" >
+        <div class="col"></div>
+        <div class="col-5">
+            <div class="card">
+                <div style="color:white;" class="card-header bg-danger">
+                    USUARIO A ELIMINAR
+                </div>
+                <div class="card-body">
+                    <table style="border-color: inherit!important;border-style: double!important;" class="table">
+                        <tbody>
+
+                            <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <th th:text="'Nombre: '+ ${usuario.nombre}" scope="row"></th>
+
+                            </tr>
+
+                            <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <th th:text="'Apellido: '+ ${usuario.apellido}" scope="row"></th>
+
+                            </tr>
+
+                            <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <th th:text="'Email: '+ ${usuario.email}" scope="row"></th>
+
+                            </tr>
+
+                            <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <th th:text="'Rol: '+ ${usuario.rol}" scope="row"></th>
+                            </tr>
+
+                        <td >
+                            <a><img style="width: 30%;margin: auto;border-radius: 20%;margin-left: 32%;" 
+                            th:if="${usuario.imagen != null}" class="logo" th:src="@{/imagen/perfil/__${usuario.id}__}" ></a>  
+                            <a><img style="width: 30%;margin: auto;border-radius: 20%;margin-left: 32%;" th:if="${usuario.imagen == null}" class="logo" th:src="@{/images/perfil.png}" ></a> 
+                        </td>
+                        <h5 style="color:darkred;font-weight: 650!important">¿Estás seguro de que deseas eliminar esta cuenta?</h5>
+
+                        </tbody>
+                    </table>
+
+
+
+                    <a th:href="@{/admin/usuarios}"><button style="background-color: #6c757d!important; color:white;" type="button" class="btn mt-2 btn-outline">CANCELAR</button></a>
+
+                    <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button style="background-color: #bf1b1b!important; color:white;" type="button" class="btn mt-3 btn-outline-danger">ELIMINAR CUENTA</button></a>
+
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+
+</body>
+<<<<<<< HEAD
+</html>
+=======
+</html>
+>>>>>>> d9471202cecf0a89b1623fdb9bafa41baff3f5c2

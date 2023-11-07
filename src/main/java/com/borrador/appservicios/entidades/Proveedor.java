@@ -1,5 +1,6 @@
  package com.borrador.appservicios.entidades;
 
+import com.borrador.appservicios.enumeradores.Categoria;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,20 +24,14 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 public class Proveedor extends Usuario {
     
-    @Id
-    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-    
-    private String servicioTipo;
-    private String servicioDescripcion;
-    private Integer calificacion;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private Categoria categoriaServicio;
     
     @OneToMany
-    private List<Usuario> clientes;
-    
-    @OneToOne 
-    private Imagen imagen;
+    private List<Comentario> comentarios;
+
     
 
 }
