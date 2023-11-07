@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +20,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -127,6 +132,15 @@ public class AdminSevicio implements UserDetailsService {
             usuario.setRol(Rol.USER);
         }
     }
+    
+    @Transactional
+    public void cambiarRolCiente(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            usuario = respuesta.get();
+            usuario.setRol(Rol.CLIENTE);
+        }
+    }
 
     @Transactional
     public void cambiarRolProveedor(String id) {
@@ -160,10 +174,10 @@ public class AdminSevicio implements UserDetailsService {
     public void eliminar(String idUsuario) {
         try {
             Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-            System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+            System.out.println("Usuario : " + respuesta.get().getEmail().toString());
             System.out.println("Usuario id : " + respuesta.get().getId().toString());
             if (respuesta.isPresent()) {
-                System.out.println("Usuario : " + respuesta.get().getNombre().toString());
+                System.out.println("Usuario : " + respuesta.get().getEmail().toString());
                 usuarioRepositorio.deleteById(respuesta.get().getId());
 
                 System.out.println("");
@@ -190,8 +204,8 @@ public class AdminSevicio implements UserDetailsService {
             usuario = respuesta.get();
             // Verificar que el usuario respuesta coincida con el id
             if (respuesta.get().getId().equals(id)) {
-                usuario.setNombre(nombre);
-                usuario.setApellido(apellido);
+//                usuario.setNombre(nombre);
+//                usuario.setApellido(apellido);
                 usuario.setEmail(email);
 
 

@@ -19,7 +19,7 @@
                 <div class="col-md-4 d-flex">
 
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" class=" d-flex perfil">
-                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
+                        <img th:src="@{/imagen/perfil/__${usuario.id}__}">
                     </div>
 
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" class=" d-flex perfil">
@@ -35,11 +35,11 @@
                             <tbody>
 
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
-                                    <th th:text="'Nombre: '+ ${session.usuariosession.nombre}" scope="row"></th>
+                                    <th th:text="'Nombre: '+ ${session.usuariosession.email}" scope="row"></th>
                                     
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
-                                    <th th:text="'Apellido: '+ ${session.usuariosession.apellido}" scope="row"></th>
+                                    <th th:text="'Apellido: '+ ${session.usuariosession.email}" scope="row"></th>
                                     
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
@@ -70,7 +70,7 @@
                         </table>
                         
                         <p class="card-text"><small class="text-body-secondary"></small></p>
-                        <a href="/perfils" class="btn mt-5 btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
+                        <a th:href="@{/perfils/__${session.usuariosession.id}__}" class="btn mt-5 btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
   
 
                         <!-- Button trigger modal -->

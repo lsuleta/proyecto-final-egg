@@ -130,4 +130,35 @@
 .modal-backdrop {
 --bs-backdrop-opacity: 0.7;
 }
+/*----------------------PROVEEDORES -- SERVICIOS -- COMENTARIOS -----------------------------//
+/*Imagen Comentario*/
 
+.imagen-comentario {
+    width: 20%; /* Establece el ancho máximo del contenedor */
+    /*height: 100%; /* Establece la altura máxima del contenedor */
+    overflow: hidden; /* Recorta cualquier contenido que se desborde del contenedor */
+}
+.imagen-comentario img {
+    clip: rect(0, 100px, 100px, 0); /* Define el recorte en forma de rectángulo (arriba, derecha, abajo, izquierda) */
+    width: 80%; /* Escala la imagen al 100% del contenedor */
+    height: 100%; /* Escala la altura automáticamente */
+    margin-top: 0px;
+    margin-left: 5px;
+}
+
+.comentarios-container {
+    max-height: 500px; 
+    overflow-y: scroll; 
+ 
+}
+
+.comentarios-container::-webkit-scrollbar{
+   display: none;
+}
+
+.proveedor{
+     transition: all 0.3s ease 0s;
+}
+.proveedor:hover{
+    transform: scale(1.05);
+}
