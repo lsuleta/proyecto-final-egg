@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 package com.borrador.appservicios.entidades;
 
@@ -23,6 +24,8 @@ public class Cliente extends Usuario{
     
 }
 =======
+=======
+>>>>>>> 8a74cd5bd50f82952c07633e3955e4e293750b74
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -54,4 +57,7 @@ public class Cliente extends Usuario{
     
     
 }
+<<<<<<< HEAD
 >>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
+=======
+>>>>>>> 8a74cd5bd50f82952c07633e3955e4e293750b74
