@@ -20,23 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 public class Proveedor extends Usuario {
     
-<<<<<<< HEAD
-//    @Id
-//    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
-//    private String id;
-    
-    private String nombre;
-    private String apellido;
-    private String categoria;
-//    private String telefono;
-    
-    @OneToOne
-    private Prestacion prestacion;
-//    @OneToMany
-//    private List<Turno> turnos;
-   
-=======
+
     private String nombre;
     private String apellido;
     private String telefono;
@@ -47,5 +31,5 @@ public class Proveedor extends Usuario {
 
     
 
->>>>>>> c829a549dcb420e8c95e8b4882a7a0c2a396a16a
+
 }
