@@ -2,6 +2,7 @@ package com.borrador.appservicios.controladores;
 
 import com.borrador.appservicios.entidades.Proveedor;
 import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.enumeradores.Rol;
 
 import com.borrador.appservicios.excepciones.Excepciones;
@@ -43,32 +44,54 @@ public class IndexControlador {
     }
 
     @GetMapping("/registrar-usuario")
-    public String registrarUsuario(HttpSession session) {
+    public String registrarUsuario(HttpSession session, ModelMap modelo) {
+        modelo.addAttribute("categorias", Categoria.values());
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
         if (logueado != null) {
             return "redirect:/";
         } else {
-            return "usuario_registro.html";
+           // return "usuario_registro.html";
+            return "usuario_registro_pruebas.html";
         }
     }
 
+//    @PostMapping("/registro")
+//    public String registrarUsuario(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
+//            @RequestParam String password, @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
+//
+//        try {
+//            usuarioServicio.persistirUsuario(nombre, apellido, email, password, password2, archivo);
+//            modelo.put("exito", "usuario registrado correctamente");
+//            return "redirect:/";
+//
+//        } catch (Excepciones ex) {
+//            modelo.put("error", ex.getMessage());
+//            modelo.put("nombre", nombre);
+//            modelo.put("email", email);
+//            return "redirect:/";
+//        }
+//    }
+
+    
     @PostMapping("/registro")
-    public String registrarUsuario(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
-            @RequestParam String password, @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
+    public String registrarUsuario(@RequestParam String email, @RequestParam String password,
+            @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
 
         try {
-            usuarioServicio.persistirUsuario(nombre, apellido, email, password, password2, archivo);
+            usuarioServicio.persistirUsuario( email, password, password2, archivo);
             modelo.put("exito", "usuario registrado correctamente");
             return "redirect:/";
 
         } catch (Excepciones ex) {
             modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
+          //  modelo.put("nombre", nombre);
             modelo.put("email", email);
             return "redirect:/";
         }
     }
 
+    
+    
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
@@ -106,9 +129,10 @@ public class IndexControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/perfil")
-    public String perfilUsuario() {
-
+    @GetMapping("/perfil/{id}")
+    public String perfilUsuario(@PathVariable String id, HttpSession session, ModelMap modelo) {
+         usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.addAttribute("usuario", usuario);
         return "perfiles.html";
     }
 
@@ -118,15 +142,15 @@ public class IndexControlador {
         return "proveedor_registro.html";
     }
 
-    @GetMapping("/servicios")
-    public String servi() {
-
-        return "servicios.html";
-    }
+//    @GetMapping("/servicios")
+//    public String servi() {
+//
+//        return "servicios.html";
+//    }
 
     //ver perfil
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/perfils")
+    @GetMapping("/perfils/{id}")
     public String perfil(ModelMap modelo, HttpSession session) {
         usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuario);
@@ -136,11 +160,11 @@ public class IndexControlador {
     ///funcion actualizar datos de perfil
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/perfils/{id}")
-    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
+    public String actualizar(MultipartFile archivo, @PathVariable String id,@RequestParam String email,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
 
         try {
-            Usuario usuarioactualizado = usuarioServicio.actualizar(archivo, id, nombre, apellido, email, password, password2);
+            Usuario usuarioactualizado = usuarioServicio.actualizar(archivo, id, email, password, password2);
 
             modelo.put("exito", "Usuario actualizado correctamente!");
 
@@ -151,12 +175,12 @@ public class IndexControlador {
                 return "redirect:/admin/dashboard";
             } else {
                 session.setAttribute("usuariosession", usuarioactualizado);
-                return "redirect:/perfil";
+                return "redirect:/perfil/"+id;
             }
         } catch (Exception ex) {
 
             modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
+            //modelo.put("nombre", nombre);
             modelo.put("email", email);
             modelo.put("password", password);
 
@@ -176,7 +200,7 @@ public class IndexControlador {
             if (usuarioActual != null && usuarioActual.getId().equals(id)) {
                 Usuario usuarioActualizado = usuarioServicio.eliminarImagenDeUsuario(id);
                 session.setAttribute("usuariosession", usuarioActualizado);
-                return "redirect:/perfil";
+                return "redirect:/perfil/"+id;
 
             } else {
                 System.out.println("estamos en else");
@@ -205,7 +229,7 @@ public class IndexControlador {
         System.out.println("");
         System.out.println(usuarioactualizado.getActivo());
         System.out.println("controlador");
-        return "redirect:/perfil";
+        return "redirect:/perfil/"+id;
     }
 
 }

@@ -44,18 +44,17 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-    public Usuario crearUsuario(String nombre, String apellido, String email,
-            String password, String password2, MultipartFile archivo) throws Excepciones {
+    public Usuario crearUsuario(String email, String password, String password2, MultipartFile archivo) throws Excepciones {
 
-        validar(nombre, apellido, email, password, password2);
+        validar(email, password, password2);
 
         usuario = new Usuario();
 
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
+        //       usuario.setNombre(nombre);
+        //       usuario.setApellido(apellido);
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-        usuario.setFechaDeAlta(new Date());
+        usuario.setUltimaConexion(new Date());
 
         cargarImagen(archivo);// setea la imagen desde el metodo
 
@@ -79,10 +78,10 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void persistirUsuario(String nombre, String apellido, String email,
-            String password, String password2, MultipartFile archivo) throws Excepciones {
+    public void persistirUsuario(String email, String password,
+            String password2, MultipartFile archivo) throws Excepciones {
 
-        usuario = crearUsuario(nombre, apellido, email, password, password2, archivo);
+        usuario = crearUsuario(email, password, password2, archivo);
         usuarioRepositorio.save(usuario);
         System.out.println("Usuario creado" + usuario.getEmail());
     }
@@ -110,14 +109,13 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    public void validar(String nombre, String apellido, String email,
-            String password, String password2) throws Excepciones {
-        if (nombre.isEmpty() || nombre == null) {
-            throw new Excepciones("El nombre no puede ser nulo o estar vacio");
-        }
-        if (apellido.isEmpty() || apellido == null) {
-            throw new Excepciones("El apellido no puede ser nulo o estar vacio");
-        }
+    public void validar(String email, String password, String password2) throws Excepciones {
+//        if (nombre.isEmpty() || nombre == null) {
+//            throw new Excepciones("El nombre no puede ser nulo o estar vacio");
+//        }
+//        if (apellido.isEmpty() || apellido == null) {
+//            throw new Excepciones("El apellido no puede ser nulo o estar vacio");
+//        }
 
         //Tambien verificar que no haya 2 usuarios con el mismo email---!!!!
         if (email.isEmpty() || email == null) {
@@ -133,8 +131,9 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario actualizar(MultipartFile archivo, String id, String nombre, String apellido, String email, @RequestParam(required = true) String password, String password2) throws Exception {
-        validar(nombre, apellido, email, password, password2);
+    public Usuario actualizar(MultipartFile archivo, String id, String email,
+            @RequestParam(required = true) String password, String password2) throws Exception {
+        validar(email, password, password2);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -142,15 +141,16 @@ public class UsuarioServicio implements UserDetailsService {
             usuario = respuesta.get();
             // Verificar la contraseña antes de realizar las actualizaciones
             if (verificarContraseña(usuario, password)) {
-                usuario.setNombre(nombre);
-                usuario.setApellido(apellido);
-                usuario.setEmail(email);
+
+                if (usuario.getEmail().equals(email)) {
+                    usuarioRepositorio.actualizarEmail(email, usuario.getId());
+                }
 
                 usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
                 cargarImagen(archivo);
 
-                usuarioRepositorio.save(usuario);
+                //usuarioRepositorio.save(usuario);
                 System.out.println("-------------------------------------------------------------");
                 System.out.println("Perfil Actualizado: " + usuario.getEmail());
                 System.out.println("-------------------------------------------------------------");
@@ -223,6 +223,5 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.findAll();
         return usuarios;
     }
-
 
 }

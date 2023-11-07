@@ -21,8 +21,8 @@
             <thead class="text-center" >
                 <tr >
                     <th scope="col">Id del Usuario</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
+        <!--        <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>      -->
                     <th scope="col">Email</th>
 
 
@@ -38,8 +38,10 @@
             <tbody th:each="usuario : ${usuarios}" class="text-center"> 
                 <tr>
                     <th scope="row" th:text="${usuario.id}"></th>
-                    <td th:text="${usuario.nombre}"></td>
-                    <td th:text="${usuario.apellido}"></td>
+                 
+            <!--    <td th:text="${usuario.nombre}"></td>
+                    <td th:text="${usuario.apellido}"></td>  -->
+                    
                     <td th:text="${usuario.email}"></td>
 
 
@@ -48,6 +50,7 @@
                         <ul class="dropdown-menu">
 
                             <li><a th:href= "@{/admin/modificarRolUser/__${usuario.id}__}" class="dropdown-item"> USER</a> </li>
+                            <li><a th:href= "@{/admin/modificarRolCliente/__${usuario.id}__}" class="dropdown-item"> CLIENTE</a> </li>
                             <li><a th:href= "@{/admin/modificarRolProveedor/__${usuario.id}__}" class="dropdown-item"> PROVEEDOR</a> </li>
                             <li><a th:href= "@{/admin/modificarRolModerador/__${usuario.id}__}" class="dropdown-item"> MODERADOR</a> </li>
                             <li><a th:href= "@{/admin/modificarRolAdministrador/__${usuario.id}__}" class="dropdown-item"> ADMIN</a> </li>
