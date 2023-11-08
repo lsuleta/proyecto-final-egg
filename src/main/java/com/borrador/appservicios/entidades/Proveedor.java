@@ -7,12 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
+import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ *
+ * @author Kyouma
+ */
 @Entity
 @Getter
 @Setter
@@ -20,32 +25,18 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 public class Proveedor extends Usuario {
     
-<<<<<<< HEAD
-//    @Id
-//    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
-//    private String id;
-    
-    private String nombre;
-    private String apellido;
-    private String categoria;
-//    private String telefono;
-    
-    @OneToOne
-    private Prestacion prestacion;
-//    @OneToMany
-//    private List<Turno> turnos;
-   
-=======
     private String nombre;
     private String apellido;
     private String telefono;
-    private Categoria categoriaServicio;
+    private Categoria categoriaServicio;  // categoria general para iterar dentro del menu de proveedores 
     
     @OneToMany
     private List<Comentario> comentarios;
 
-    
+    @OneToMany
+    private List<Servicio> sevicios;// lista de servicios especificos dependiendo si el proveedor ofrece mas de  servicio
 
->>>>>>> 8a74cd5bd50f82952c07633e3955e4e293750b74
+    @ManyToMany
+    private List<Contrato> contratos;
+
 }

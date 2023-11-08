@@ -60,6 +60,13 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario.setRol(Rol.USER);
         usuario.setActivo(true);
+        
+        //atributos se activaran cuando se actualice a CLIENTE
+        usuario.setNombre(null);
+        usuario.setApellido(null);
+        usuario.setTelefono(null);
+        usuario.setDireccion(null);
+        usuario.setServiciosContratados(null);
 
         return usuario;
     }

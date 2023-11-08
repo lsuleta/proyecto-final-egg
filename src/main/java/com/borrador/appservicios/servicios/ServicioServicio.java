@@ -5,47 +5,62 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Contrato;
+import com.borrador.appservicios.entidades.Proveedor;
 import com.borrador.appservicios.entidades.Servicio;
 import com.borrador.appservicios.enumeradores.Categoria;
+import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ContratoRepositorio;
+import com.borrador.appservicios.repositorios.ProveedorRepositorio;
 import com.borrador.appservicios.repositorios.ServicioRepositorio;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author facun
  */
-
 @Service
 public class ServicioServicio {
-    
+
     @Autowired
     ContratoRepositorio contratoRepositorio;
-    
+
     @Autowired
     ServicioRepositorio servicioRepositorio;
     
-    public void crearServicio(String idContrato, String descripcionServicio,
-            Categoria categoria){
+    @Autowired
+    ProveedorRepositorio proveedorRepositorio;
 
-        Optional<Contrato> resp =  contratoRepositorio.findById(idContrato);
-        
-        if(resp.isPresent()){
-            
-            Contrato contrato = resp.get();
+    
+    @Transactional
+    public void crearServicio(String idProveedor, String descripcionServicio,
+            Integer precioServicio) throws Excepciones {
+
+        Optional<Proveedor> resp = proveedorRepositorio.findById(idProveedor);
+        if (resp.isPresent()) {
+
+            Proveedor proveedor = resp.get();
             Servicio servicio = new Servicio();
-            servicio.setContrato(contrato);
-            servicio.setCategoria(categoria);
+
+            servicio.setProveedor(proveedor);
             servicio.setDescripcionServicio(descripcionServicio);
-            servicio.setCalificacion(null);
-            
+            //  servicio.setCategoriaServicio(categoriaServicio);
+            servicio.setPrecioServicio(precioServicio);
+
+            //   servicio.setContrato(null);
+            //   servicio.setCalificacion(null);
+            System.out.println("CARGANDO SERVICIO A PROVEEDOR" + proveedor.getNombre());
+            proveedor.getSevicios().add(servicio);
+            System.out.println("CARGANDO SERVICIO EN BASE DE DATOS..  " + servicio.getDescripcionServicio());
+
             servicioRepositorio.save(servicio);
-            
         }
-        
     }
-    
-    
+
+
+
 }

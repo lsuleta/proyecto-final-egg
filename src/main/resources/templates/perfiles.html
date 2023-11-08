@@ -7,7 +7,7 @@
 
 <style th:replace="/fragments/style :: style"></style>
 <body style="background-color: #F2F2F2">
-<nav th:replace="/fragments/navbar :: nav"></nav>
+    <nav th:replace="/fragments/navbar :: nav"></nav>
 
     <br><br>
 
@@ -36,29 +36,41 @@
 
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Nombre: '+ ${session.usuariosession.email}" scope="row"></th>
-                                    
+
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Apellido: '+ ${session.usuariosession.email}" scope="row"></th>
-                                    
+
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Email: '+ ${session.usuariosession.email}" scope="row"></th>
-                                    
+
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Rol: '+ ${session.usuariosession.rol}" scope="row"></th>
-                                    
+
                                 </tr>
-                                
+
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th th:text="'Lista de Servicios: '" scope="row"></th>
+
+                                    <td><!-- Boton crear servicios proveedor -->
+                                        <a th:href="@{/registro-servicio/__${session.usuariosession.id}__}" class="btn  btn-secondary"  >
+                                            Agregar Servicio
+                                        </a>
+                                    </td>
+
+                                   
+                                </tr>
+
                                 <!-- MODIFICAR ALTA -->
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border">
                                     <th scope="row">Activo : </th>
 
                                     <td  >
-                                        
+
                                         <button onclick="desplegar3()" id="btnAlta" style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                                        
+
                                         <ul id="btnd" class="dropdown-menu">
                                             <li><a th:href="@{/perfils/modificar-alta/__${session.usuariosession.id}__}" class="dropdown-item">Cambiar Alta/Baja</a></li>
                                         </ul>
@@ -68,18 +80,18 @@
 
                             </tbody>
                         </table>
-                        
+
                         <p class="card-text"><small class="text-body-secondary"></small></p>
                         <a th:href="@{/perfils/__${session.usuariosession.id}__}" class="btn mt-5 btn-warning" style="--bs-btn-bg: #fad464!important;">Modificar Datos</a>     
-  
 
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+
+                        <!-- Button modal eliminar cuenta -->
+                        <button type="button" class="btn mt-4 btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarCuentaDefinitiva" >
                             Eliminar Foto de Perfil
                         </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- Modal  ELIMINAR-->
+                        <div class="modal fade" id="eliminarCuentaDefinitiva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header bg-warning">
@@ -97,6 +109,14 @@
                             </div>
                         </div>
 
+<!--
+                        <div th:each="servicio : ${usuario.serviciosContratados}"   class=" text-center">
+                            <p th:text=" 'SERVICIO ID: '+${servicio.id} " ></p>Estos son todos tus servicios
+                        </div>
+-->
+                        <div th:each="servicio : ${usuario.serviciosContratados}"   class=" text-center">
+                            <p th:text=" 'SERVICIO ID: '+${servicio.id} " ></p>Estos son todos tus servicios
+                        </div>
 
 
                     </div>

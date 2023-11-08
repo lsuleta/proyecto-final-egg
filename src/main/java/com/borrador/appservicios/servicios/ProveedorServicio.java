@@ -67,6 +67,10 @@ public class ProveedorServicio implements UserDetailsService{
             proveedor.setActivo(true);
 
             proveedor.setCategoriaServicio(categoria);
+            proveedor.setSevicios(new ArrayList());
+            
+            proveedor.setContratos(new ArrayList());
+            
        //     proveedor.setServicioDescripcion(null);
         //    proveedor.setClientes(new ArrayList());
         //    proveedor.setCalificacion(0);
@@ -135,9 +139,6 @@ public class ProveedorServicio implements UserDetailsService{
         }
     }   
     
-    
-    
-    
      //----------- Listar Proveedores -------------//
     
     @Transactional(readOnly = true)
@@ -175,8 +176,6 @@ public class ProveedorServicio implements UserDetailsService{
     public List<Usuario> listarVarios() {
         return usuarioRepositorio.findProveedoresByCategoriaIn(Rol.PROVEEDOR, Categoria.VARIOS);
     }
-    
-    
     
     
     

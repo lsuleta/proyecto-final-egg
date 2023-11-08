@@ -40,7 +40,7 @@ public class Contrato {
     private Date fechaFin;
     
     @OneToOne
-    private Cliente cliente;
+    private Usuario cliente;
     
     @OneToOne
     private Proveedor proveedor;
