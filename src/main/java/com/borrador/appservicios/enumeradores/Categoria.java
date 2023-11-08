@@ -1,15 +1,4 @@
-<<<<<<< HEAD
 
-package com.borrador.appservicios.enumeradores;
-
-public enum Categoria {
-    SALUD,
-    PLOMERIA,
-    ELECTRICIDAD,
-    JARDINERIA,
-    LIMPIEZA,
-    VARIOS;
-=======
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
@@ -39,5 +28,4 @@ public enum Categoria {
         return nombre;
     }
     
->>>>>>> 8a74cd5bd50f82952c07633e3955e4e293750b74
 }
