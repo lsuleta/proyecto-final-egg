@@ -7,7 +7,7 @@
 <body style=" background: lightgray">
 
     <!--<header th:replace="/fragments/header :: header" ></header> -->
-       <nav th:replace="/fragments/navbar :: nav" ></nav>
+    <nav th:replace="/fragments/navbar :: nav" ></nav>
 
 
 
@@ -40,29 +40,7 @@
                         <div class="row ">
                             <img  class="img-fluid " th:src="@{/imagen/perfil/__${proveedor.id}__}" alt="Img Servicio">
 
-                            <!-- Button trigger modal -->
-                            <a th:text="'Contactate con '+${proveedor.nombre}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                CONTACTO
-                            </a>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" th:aria-labelledby="${proveedor.id}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" th:id="${proveedor.id}">Formulario de Cita</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:replace ="/fragments/contacto_form :: form"></form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
 
@@ -88,15 +66,55 @@
                             <hr>
                         </div>
 
-                        <p  name="cuerpo" >Descripcion y datos de servicio</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi imperdiet dolor eget sem cursus, ut fermentum mi consectetur. Morbi enim libero, elementum eget turpis in, pharetra aliquam mi. Etiam ullamcorper nisl porta fringilla venenatis. Aenean a arcu at nisl efficitur feugiat at at ex. Sed sed lorem fermentum, ullamcorper enim sit amet, efficitur nunc. Nunc eget pellentesque lorem, in blandit ex. Cras vitae magna lacus. Maecenas ex erat, pretium consequat ultricies vel, blandit commodo tortor. Duis volutpat aliquam urna id feugiat. Praesent velit ante, mollis quis tempor id, ornare ut purus. Ut dui justo, rhoncus a libero porttitor, fermentum sagittis neque. Nulla risus augue, convallis at metus at, consequat consequat neque.</p>
+
+                        <!-- ITERA LA LISTA SERVICIOS DEL PROVEEDOR -->
+                        <div lass="card m-3" th:each="servicio : ${proveedor.sevicios}"  >
+                            <hr>
+                            <p   >Descripcion y datos de servicio</p>
+
+                            <p  th:text="'Dato Proveedor : '+${servicio.proveedor.email}" ></p>
+
+                            <p th:text="'Descripcion Servicio : '+${servicio.descripcionServicio}" ></p>
+                            
+                            <p th:text="'Servicio ID : '+${servicio.id}" ></p>
+
+                            <p  th:text="'Precio Servicio : $'+${servicio.precioServicio}" ></p>
+
+                            <!-- Button trigger modal -->
+                            <a th:text="'REGISTRATE COMO CLIENTE '+${session.usuariosession.email}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                CONTACTO
+                            </a>
+                            
+                            <a th:href="@{/cita/__${servicio.id}__}" target="target">ARREGLAR UNA CITA</a>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" th:aria-labelledby="${proveedor.id}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" th:id="${proveedor.id}">Formulario de Cita</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:replace ="/fragments/contacto_form :: form"></form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                        </div>
 
                         <hr>
                     </div>
                     <!-- SECCION COMENTARIOS -->
 
                     <div class="row ">
-                        
+
                         <h5>COMENTARIOS</h5>
                         <hr>
                     </div>  
@@ -129,7 +147,7 @@
                             <div class="card m-3" th:each="comentario : ${proveedor.comentarios}" > <!-- ITERAR COMENTARIOS -->
                                 <div class="row g-0  ">
                                     <div class="col-md-4 imagen-comentario ">
-                                             <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" class="img-fluid rounded-start" alt="usuario-imagen"> 
+                                        <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" class="img-fluid rounded-start" alt="usuario-imagen"> 
                                     </div>
                                     <div class="col-md-8 ">
                                         <div class="card-body ">

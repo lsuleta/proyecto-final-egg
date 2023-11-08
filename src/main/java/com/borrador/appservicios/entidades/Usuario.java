@@ -1,6 +1,4 @@
-
 package com.borrador.appservicios.entidades;
-
 
 import com.borrador.appservicios.enumeradores.Rol;
 
@@ -11,9 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,29 +23,26 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 /**
  *
  * @author facun
  */
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class Usuario {
-    
+
     @Id
     @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    
-    @Column(name = "email",unique=true ,nullable = false)
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
     private String password;
 
-    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date ultimaConexion;
@@ -54,15 +51,22 @@ public class Usuario {
     private Rol rol;
 
     private Boolean activo;
-    
+
     private Integer intentos;
-    
 
-
-   // @OneToOne(cascade = CascadeType.PERSIST)
+    // @OneToOne(cascade = CascadeType.PERSIST)
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "imagen_id", nullable = true)
     private Imagen imagen;
 
+    
+    // atributos de Cliente ----
+    private String nombre;
+    private String apellido;
+    private String direccion;
+    private String telefono;
+    
+    @ManyToMany
+    private List<Contrato> serviciosContratados;
 
 }

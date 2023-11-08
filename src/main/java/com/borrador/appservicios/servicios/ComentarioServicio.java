@@ -37,47 +37,33 @@ public class ComentarioServicio {
 
     @Autowired
     private ProveedorRepositorio proveedorRepositorio;
-//
-//    @Autowired
-//    private noticiaRepositorio noticiaRepositorio;
 
+    
     public Comentario crearComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
-        System.out.println("INICIO SERVICIO ------------- CREAR COMENTARIO ------------");
+       
         validar(comentarioTexto, idUsuario, idProveedor);
-        System.out.println("2------COMENTARIO VALIDADO");
         Comentario comentario = new Comentario();
 
-        System.out.println("2------BUSCANDO USUARIO QUE ESTA COMENTANDO");
         Usuario usuario = usuarioServicio.getOne(idUsuario);
-        System.out.println("2------USUARIO ENCONTRADO : " + usuario.getEmail().toString());
 
         comentario.setComentario(comentarioTexto);
         comentario.setUsuario(usuario);
         comentario.setFecha(new Date());
-        //System.out.println("2------ NOTICIA CONFIGURADA : " + noticia.toString());
 
-        System.out.println("2------ BUSCANDO PROVEEDOR PARA INSERTAR COMENTARIO");
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(idProveedor);
         if (respuesta.isPresent()) {
-            System.out.println("2------ PROVEEDOR ENCONTRADA");
             Proveedor proveedor = respuesta.get();
-            System.out.println("2------ EL PROVEEDOR ES "+proveedor.getNombre().toString());
-            System.out.println("2------ BUSCANDO LISTA DE COMENTARIOS DENTRO DE LA PROVEEDOR");
             proveedor.getComentarios().add(comentario);
-            System.out.println("2------ LISTA DE COMENTARIOS DENTRO DE LA NOTICIA -- ACTUALIZADA --");
         }
 
-        System.out.println("FIN SERVICIO ------------- CREAR COMENTARIO ------------");
         return comentario;
     }
 
     @Transactional
     public void persistirComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
-        System.out.println("INICIO SERVICIO ------------- PERSISTIR COMENTARIO ------------");
         validar(comentarioTexto, idUsuario, idProveedor);
         Comentario comentario = crearComentario(comentarioTexto, idUsuario, idProveedor);
         comentarioRepositorio.save(comentario);
-        System.out.println("FIN SERVICIO ------------- PERSISTIR COMENTARIO ------------");
     }
 
     private void validar(String comentario, String idUsuario, String idProveedor) throws Excepciones {

@@ -7,39 +7,44 @@ package com.borrador.appservicios.servicios;
 import com.borrador.appservicios.entidades.Cliente;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
+import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ClienteRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author facun
  */
-
 @Service
 public class ClienteServicio {
-    
+
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
-    
-    @Autowired
-    ClienteRepositorio clienteRepositorio;
-    
-    public void crearCliente(String email ,String nombre, String apellido,
-            String direccion, String telefono){
+
+    @Transactional
+    public void crearCliente(String email, String nombre, String apellido,
+            String direccion, String telefono) throws Excepciones {
         
-        Cliente cliente = (Cliente) usuarioRepositorio.buscarPorEmail(email);
-        cliente.setNombre(nombre);
-        cliente.setApellido(apellido);
-        cliente.setDireccion(direccion);
-        cliente.setTelefono(telefono);
-        cliente.setRol(Rol.CLIENTE);
-        
-        clienteRepositorio.save(cliente);
-        
+        try {
+
+            Usuario cliente = usuarioRepositorio.buscarPorEmail(email);
+            
+            cliente.setRol(Rol.CLIENTE);
+            
+            cliente.setNombre(nombre);
+            cliente.setApellido(apellido);
+            cliente.setDireccion(direccion);
+            cliente.setTelefono(telefono);
+
+            System.out.println("PERSISTIENDO CLIENTE NUEVO...");
+            usuarioRepositorio.save(cliente);
+        } catch (Exception e) {
+            throw new Excepciones("Error - crear cliente servicio ");
+        }
+
     }
-    
-    
-    
+
 }
