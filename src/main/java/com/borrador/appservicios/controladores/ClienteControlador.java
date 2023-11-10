@@ -54,12 +54,13 @@ public class ClienteControlador {
     }
 
     @PostMapping("/cita/{id}")
-    public String contratoCita(@RequestParam String idCliente, @RequestParam String idProveedor,@RequestParam Integer precio,
+    public String contratoCita(@RequestParam String idCliente, @RequestParam String idProveedor,
+             @RequestParam String idServicio, @RequestParam Integer precio,
             ModelMap modelo) throws Excepciones {
 
         try {
             System.out.println("CLIENTE CONTROLADOR CREANDO CONTRATO");
-            contratoServicio.crearContrato(idProveedor, idCliente, precio);
+            contratoServicio.crearContrato(idProveedor, idCliente, idServicio, precio);
             System.out.println("CLIENTE CONTROLADOR CONTRATO CREADO --- OK");
             return "index.html";
         } catch (Exception e) {

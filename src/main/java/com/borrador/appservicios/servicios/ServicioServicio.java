@@ -5,13 +5,13 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Contrato;
-import com.borrador.appservicios.entidades.Proveedor;
 import com.borrador.appservicios.entidades.Servicio;
+import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ContratoRepositorio;
-import com.borrador.appservicios.repositorios.ProveedorRepositorio;
 import com.borrador.appservicios.repositorios.ServicioRepositorio;
+import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,17 +33,17 @@ public class ServicioServicio {
     ServicioRepositorio servicioRepositorio;
     
     @Autowired
-    ProveedorRepositorio proveedorRepositorio;
+    UsuarioRepositorio usuarioRepositorio;
 
     
     @Transactional
     public void crearServicio(String idProveedor, String descripcionServicio,
             Integer precioServicio) throws Excepciones {
 
-        Optional<Proveedor> resp = proveedorRepositorio.findById(idProveedor);
+        Optional<Usuario> resp = usuarioRepositorio.findById(idProveedor);
         if (resp.isPresent()) {
 
-            Proveedor proveedor = resp.get();
+            Usuario proveedor = resp.get();
             Servicio servicio = new Servicio();
 
             servicio.setProveedor(proveedor);

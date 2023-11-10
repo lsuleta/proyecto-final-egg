@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Servicio {
             
@@ -31,7 +33,7 @@ public class Servicio {
     private String id;
     
     @ManyToOne
-    private Proveedor proveedor;
+    private Usuario proveedor;
     
     private String descripcionServicio;
    

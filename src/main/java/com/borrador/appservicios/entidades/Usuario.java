@@ -1,5 +1,6 @@
 package com.borrador.appservicios.entidades;
 
+import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.enumeradores.Rol;
 
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,14 +62,23 @@ public class Usuario {
     @JoinColumn(name = "imagen_id", nullable = true)
     private Imagen imagen;
 
-    
-    // atributos de Cliente ----
+    // atributos comunes de Cliente y Proveedor----
     private String nombre;
     private String apellido;
     private String direccion;
     private String telefono;
     
-    @ManyToMany
-    private List<Contrato> serviciosContratados;
+    @OneToMany
+    private List<Contrato> contratos;
+    
+    
+    // atributos propios de Proveedor
+    private Categoria categoriaServicio;  // categoria general para iterar dentro del menu de proveedores 
+    
+    @OneToMany
+    private List<Comentario> comentarios;
+
+    @OneToMany
+    private List<Servicio> sevicios;
 
 }

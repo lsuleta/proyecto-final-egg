@@ -4,11 +4,9 @@
  */
 package com.borrador.appservicios.servicios;
 
-import com.borrador.appservicios.entidades.Cliente;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
-import com.borrador.appservicios.repositorios.ClienteRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -5,11 +5,9 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Comentario;
-import com.borrador.appservicios.entidades.Proveedor;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ComentarioRepositorio;
-import com.borrador.appservicios.repositorios.ProveedorRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +33,8 @@ public class ComentarioServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    @Autowired
-    private ProveedorRepositorio proveedorRepositorio;
+//    @Autowired
+//    private ProveedorRepositorio proveedorRepositorio;
 
     
     public Comentario crearComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
@@ -50,9 +48,9 @@ public class ComentarioServicio {
         comentario.setUsuario(usuario);
         comentario.setFecha(new Date());
 
-        Optional<Proveedor> respuesta = proveedorRepositorio.findById(idProveedor);
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(idProveedor);
         if (respuesta.isPresent()) {
-            Proveedor proveedor = respuesta.get();
+            Usuario proveedor = respuesta.get();
             proveedor.getComentarios().add(comentario);
         }
 

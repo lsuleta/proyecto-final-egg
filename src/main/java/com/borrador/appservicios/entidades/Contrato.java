@@ -8,9 +8,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,6 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Contrato {
     
@@ -39,16 +42,21 @@ public class Contrato {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaFin;
     
-    @OneToOne
+    @ManyToOne
     private Usuario cliente;
     
+    @ManyToOne
+    private Usuario proveedor;
+    
     @OneToOne
-    private Proveedor proveedor;
+    private Servicio servicio;
     
     private Integer precio;
     
     private Boolean contratoIniciado;
     private Boolean contratoFinalizado;
     private Boolean contratoCancelado;
+    
+    
      
 }

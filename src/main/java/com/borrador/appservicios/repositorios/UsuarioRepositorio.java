@@ -31,13 +31,13 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR'")
     public List<Usuario> listarProveedor();
 
-    @Query("SELECT u FROM Proveedor u WHERE u.categoriaServicio = :categoriaServicio")
+    @Query("SELECT u FROM Usuario u WHERE u.categoriaServicio = :categoriaServicio")
     public List<Usuario> buscarPorCategoriaServicio(@Param("categoriaServicio") String categoriaServicio);
 
    
     
-    @Query("SELECT u FROM Proveedor u WHERE u.rol = :rol AND u.categoriaServicio IN :categorias")
-    List<Usuario> findProveedoresByCategoriaIn(
+    @Query("SELECT u FROM Usuario u WHERE u.rol = :rol AND u.categoriaServicio IN :categorias")
+    List<Usuario> listarProveedoresPorCategoria(
             @Param("rol") Rol rol,
             @Param("categorias") Categoria categorias
     );
