@@ -115,7 +115,7 @@ public class IndexControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
 
@@ -128,11 +128,12 @@ public class IndexControlador {
         return "redirect:/";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfil/{id}")
     public String perfilUsuario(@PathVariable String id, HttpSession session, ModelMap modelo) {
          usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.addAttribute("usuario", usuario);
+       
         return "perfiles.html";
     }
 
@@ -149,16 +150,17 @@ public class IndexControlador {
 //    }
 
     //ver perfil
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/{id}")
     public String perfil(ModelMap modelo, HttpSession session) {
         usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuario);
+       
         return "modificar_cliente.html";
     }
 
     ///funcion actualizar datos de perfil
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/perfils/{id}")
     public String actualizar(MultipartFile archivo, @PathVariable String id,@RequestParam String email,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
@@ -190,7 +192,7 @@ public class IndexControlador {
     }
 
 //eliminar foto funcion btn
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/emilinar-foto/{id}")
     public String eliminarFoto(@PathVariable String id, HttpSession session, MultipartFile archivo, RedirectAttributes redirectAttributes) {
         try {
@@ -216,7 +218,7 @@ public class IndexControlador {
     }
 
     //alta-baja usuario
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/modificar-alta/{id}")
     public String cambiarAltaUser(@PathVariable String id, HttpSession session) {
 

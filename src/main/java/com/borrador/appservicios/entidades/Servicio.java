@@ -8,6 +8,7 @@ import com.borrador.appservicios.enumeradores.Categoria;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,21 +24,20 @@ import org.hibernate.annotations.GenericGenerator;
 @Setter
 @ToString
 public class Servicio {
-    
-        
+            
     @Id
     @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
-    @OneToOne
-    private Contrato contrato;
+    @ManyToOne
+    private Proveedor proveedor;
     
     private String descripcionServicio;
+   
+    private Integer precioServicio;
     
-    private Categoria categoria;
     
-    private Integer calificacion;
     
     
 }

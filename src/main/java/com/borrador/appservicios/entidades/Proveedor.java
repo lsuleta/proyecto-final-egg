@@ -7,12 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
+import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ *
+ * @author Kyouma
+ */
 @Entity
 @Getter
 @Setter
@@ -24,12 +29,16 @@ public class Proveedor extends Usuario {
     private String nombre;
     private String apellido;
     private String telefono;
-    private Categoria categoriaServicio;
+    private Categoria categoriaServicio;  // categoria general para iterar dentro del menu de proveedores 
     
     @OneToMany
     private List<Comentario> comentarios;
 
-    
+    @OneToMany
+    private List<Servicio> sevicios;// lista de servicios especificos dependiendo si el proveedor ofrece mas de  servicio
+
+    @ManyToMany
+    private List<Contrato> contratos;
 
 
 }

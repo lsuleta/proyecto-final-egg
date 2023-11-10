@@ -6,25 +6,21 @@
 package com.borrador.appservicios.entidades;
 
 import javax.persistence.Entity;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 /**
  *
  * @author facun
  */
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class Cliente extends Usuario{
-
     
     private String nombre;
     private String apellido;
@@ -34,3 +30,4 @@ public class Cliente extends Usuario{
     
     
 }
+
