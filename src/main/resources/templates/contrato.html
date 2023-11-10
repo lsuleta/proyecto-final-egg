@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+    <div th:replace="/fragments/head :: head"></div>
+    <title>CONTRATO</title>
+</head>
+<body>
+
+    <!--<header th:replace="/fragments/header :: header" ></header> -->
+    <nav th:replace="/fragments/navbar :: nav" ></nav>
+
+    <div>TODO write content CONTRATOOOOOO</div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-5">
+            <h3> CONTRATOOOOOO</h3>
+
+
+            <h3 th:text="'ATENCION!!! '+${session.usuariosession.nombre} "></h3>
+
+            <p >DATOS CLIENTE</p>
+            <p th:text="'Nombre Cliente :  '+${session.usuariosession.nombre} " >Nombre de Cliente</p>
+            <p th:text="'Cliente id :  '+${session.usuariosession.id} " >Nombre de Cliente</p>
+            <p th:text="'Cliente telefono :  '+${session.usuariosession.telefono} " >Nombre de Cliente</p>
+            <p th:text="'Cliente direccion :  '+${session.usuariosession.direccion} " >Nombre de Cliente</p>
+            
+            <hr>
+            
+            <p >DATOS SERVICIO</p>
+            <p th:text="'Servicio id :  '+${servicio.id} ">precio del servicio </p>
+            <p th:text="'Precio Servicio :  '+${servicio.precioServicio} ">precio del servicio </p>
+            <hr>
+            <p >DATOS PROVEEDOR</p>
+            <p th:text="'Proveedor Nombre :  '+${servicio.proveedor.nombre} ">precio del servicio </p>
+            <p th:text="'Proveedor id :  '+${servicio.proveedor.id} ">precio del servicio </p>
+
+            <form class="row g-3" th:action="@{/cita/{id}}" method="POST" enctype="multipart/form-data">
+
+                
+                <input type="text" th:value="${session.usuariosession.id}" name="idCliente"> <!-- Envia idCliente -->
+                
+                <input type="text" th:value="${servicio.proveedor.id}" name="idProveedor"> <!-- Envia idProveedor -->
+              
+                <input type="text" th:value="${servicio.id}" name="idServicio"> <!-- Envia idServicio -->
+                
+                <input type="text" th:value="${servicio.precioServicio}" name="precio"> <!-- Envia precio del servicio -->
+                
+
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Contratar</button>
+                </div>
+            </form>
+
+        </div>
+        <div class="col"></div>
+    </div>
+
+
+    <div class="container">
+        <footer th:replace="/fragments/footer :: footer" > </footer>
+    </div>
+</body>
+</html>
