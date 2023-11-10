@@ -9,7 +9,7 @@ import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ContratoRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,9 +44,10 @@ public class ContratoServicio {
                 System.out.println("ID PROVEEDOR - " + respProveedor.get().getId());
 
                 Contrato contrato = new Contrato();
-                
+
+
                 System.out.println("EL ID DEL CONTRATO GENERADO ES: " + contrato.getId());
-                
+
                 Usuario cliente = respCliente.get();
                 Usuario proveedor = respProveedor.get();
 
@@ -74,6 +75,7 @@ public class ContratoServicio {
             throw new Excepciones("Servicio crear contrato falla");
         }
 
+
     }
 
     public void validar(String idProveedor, String idCliente, String idServicio) throws Excepciones {
@@ -88,36 +90,18 @@ public class ContratoServicio {
         }
 
     }
-    
+
     //  ---------- listas de contratos Usuarios y Proveedores ---------- //
-    
-    
+
     @Transactional(readOnly = true)
-    public List<Contrato> listarContratosUsuario( String idCliente ) {
-        
-        List<Contrato> usuarioContratos = new ArrayList();
-        usuarioContratos = contratoRepositorio.listarContratosCliente(idCliente);
-        
-        return usuarioContratos;
+     public List<Contrato> findContratosByCliente(Usuario cliente) {
+        return contratoRepositorio.findByCliente(cliente);
     }
-    
+     
     @Transactional(readOnly = true)
-    public List<Contrato> listarContratosProveedor( String idProveedor ) {
-        
-        List<Contrato> proveedorContratos = new ArrayList();
-        proveedorContratos = contratoRepositorio.listarContratosCliente(idProveedor);
-        
-        return proveedorContratos;
+    public List<Contrato> findContratosByProveedor(Usuario proveedor) {
+        return contratoRepositorio.findByProveedor(proveedor);
     }
-    
-    @Transactional(readOnly = true)
-    public List<Contrato> listarContratos( Usuario usuario ) {
-        
-        List<Contrato> listaContratos = new ArrayList();
-        listaContratos = contratoRepositorio.listarContratos(usuario);
-        
-        return listaContratos;
-    }
-    
-    
+
+
 }

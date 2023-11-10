@@ -8,7 +8,7 @@ import com.borrador.appservicios.enumeradores.Rol;
 
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import com.borrador.appservicios.servicios.ClienteServicio;
+
 import com.borrador.appservicios.servicios.ComentarioServicio;
 import com.borrador.appservicios.servicios.ContratoServicio;
 import com.borrador.appservicios.servicios.ServicioServicio;
@@ -20,13 +20,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,22 +64,7 @@ public class IndexControlador {
         }
     }
 
-//    @PostMapping("/registro")
-//    public String registrarUsuario(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
-//            @RequestParam String password, @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
-//
-//        try {
-//            usuarioServicio.persistirUsuario(nombre, apellido, email, password, password2, archivo);
-//            modelo.put("exito", "usuario registrado correctamente");
-//            return "redirect:/";
-//
-//        } catch (Excepciones ex) {
-//            modelo.put("error", ex.getMessage());
-//            modelo.put("nombre", nombre);
-//            modelo.put("email", email);
-//            return "redirect:/";
-//        }
-//    }
+
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String email, @RequestParam String password,
             @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
@@ -135,32 +117,29 @@ public class IndexControlador {
         return "redirect:/";
     }
 
+
+
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfil/{id}")
     public String perfilUsuario(@PathVariable String id, HttpSession session, ModelMap modelo) {
-        usuario = (Usuario) session.getAttribute("usuariosession");
+        Usuario usuario = usuarioServicio.getOne(id);
         modelo.addAttribute("usuario", usuario);
 
         if (usuario.getRol() == Rol.CLIENTE) {
-
-            System.out.println("IF DE CLIENTE ---------------------------------------");
-            List<Contrato> proveedorContratos = contratoServicio.listarContratosProveedor(usuario.getId());
-            modelo.addAttribute("listaContratosProveedor", proveedorContratos);
-        }else if(usuario.getRol() == Rol.PROVEEDOR){
-            System.out.println("IF DE PROVEEDOR ---------------------------------------");
-            
-            List<Contrato> proveedorContratos = contratoServicio.listarContratosProveedor(usuario.getId());
-            modelo.addAttribute("listaContratosProveedor", proveedorContratos);
+            // TRAE CONTRATOS CLIENTE
+            List<Contrato> contratosCliente = contratoServicio.findContratosByCliente(usuario);
+            modelo.addAttribute("contratos", contratosCliente);
+        } else if (usuario.getRol() == Rol.PROVEEDOR) {
+            // TRAE CONTRATOS PROVEEDOR
+            List<Contrato> contratosProveedor = contratoServicio.findContratosByProveedor(usuario);
+            modelo.addAttribute("contratos", contratosProveedor);
         }
 
-//        List<Contrato> usuarioContratos = contratoServicio.listarContratos(usuario);
-//        modelo.put("listaContratosUsuario", usuarioContratos);
-//        
-//        List<Contrato> proveedorContratos = contratoServicio.listarContratosProveedor(usuario.getId());
-//        modelo.addAttribute("listaContratosProveedor", proveedorContratos);
-//       
+
         return "perfiles.html";
     }
+    
+    
 
     @GetMapping("/proveedor-registro/{id}")
     public String proveedorFormulario() {
@@ -168,11 +147,7 @@ public class IndexControlador {
         return "proveedor_registro.html";
     }
 
-//    @GetMapping("/servicios")
-//    public String servi() {
-//
-//        return "servicios.html";
-//    }
+
     //ver perfil
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/perfils/{id}")
@@ -341,26 +316,7 @@ public class IndexControlador {
         return "servicio_pruebas.html";
     }
 
-//        //---------- Formulario ------------//
-//    @PostMapping("/servicios/proveedor-contrato/{id}")
-//    public String enviarFormulario(
-//            @RequestParam String id,
-//            @PathVariable String idProveedor,
-//            @RequestParam String nombre,
-//            @RequestParam String apellido,
-//            @RequestParam String telefono,
-//            @RequestParam String direccion,
-//            ModelMap modelo){
-//
-//        try {
-//           clienteServicio.crearCliente(id, nombre, apellido, direccion, telefono);
-//            System.out.println("Cliente creado en formulario");
-//        } catch (Excepciones ex) {
-//            System.out.println("Error en crear cliente en formulario");
-//        }
-//
-//        return "servicio_pruebas.html";
-//    }
+
     @GetMapping("registro-servicio/{id}")
     public String registroServicio(ModelMap modelo) {
 
@@ -381,6 +337,26 @@ public class IndexControlador {
             System.out.println("CATCH ERROR EN POST SERVICIO CREAR SERVICIO");
             return "index.html";
         }
+
+
+    }
+
+    @GetMapping("/servicios-contratados/{id}")
+    public String serviciosContratados(@PathVariable String id, HttpSession session, ModelMap modelo) {
+        usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.addAttribute("usuario", usuario);
+
+         if (usuario.getRol() == Rol.CLIENTE) {
+            // TRAE CONTRATOS CLIENTE
+            List<Contrato> contratosCliente = contratoServicio.findContratosByCliente(usuario);
+            modelo.addAttribute("contratos", contratosCliente);
+        } else if (usuario.getRol() == Rol.PROVEEDOR) {
+            // TRAE CONTRATOS PROVEEDOR
+            List<Contrato> contratosProveedor = contratoServicio.findContratosByProveedor(usuario);
+            modelo.addAttribute("contratos", contratosProveedor);
+        }
+
+        return "servicios_contratados_lista.html";
 
     }
 
