@@ -51,6 +51,7 @@
 
                                 </tr>
 
+<<<<<<< HEAD
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Lista de Servicios: '" scope="row"></th>
 
@@ -65,6 +66,10 @@
 
                                 <!-- MODIFICAR ALTA -->
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border">
+=======
+                                 <!-- MODIFICAR ALTA -->
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
                                     <th scope="row">Activo : </th>
 
                                     <td  >
@@ -77,6 +82,42 @@
 
                                     </td>
                                 </tr>      
+<<<<<<< HEAD
+=======
+                                
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+
+                                    <th th:text="'Agregar Servicios: '" scope="row"></th>
+
+                                    <!-- Boton crear servicios proveedor -->
+                                    <td >
+                                        <a th:href="@{/registro-servicio/__${session.usuariosession.id}__}" class="btn  btn-secondary"  >
+                                            Agregar Servicio
+                                        </a>
+                                    </td>
+                                    
+
+                                </tr>
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th th:text="'Lista de Contratos: '" scope="row"></th>
+                                    <!-- Boton crear servicios proveedor -->
+                                    <td >
+                                        <a th:href="@{/servicios-contratados/__${session.usuariosession.id}__}" class="btn  btn-secondary"  >
+                                            Ver servicios contratados
+                                        </a>
+                                    </td>
+                                    <td >
+                                        <a href="#" class="btn  btn-secondary"  >
+                                            Ver servicios solicitados
+                                        </a>
+                                    </td>
+
+
+
+                                </tr>
+
+                               
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
                             </tbody>
                         </table>
@@ -109,6 +150,7 @@
                             </div>
                         </div>
 
+<<<<<<< HEAD
 <!--
                         <div th:each="servicio : ${usuario.serviciosContratados}"   class=" text-center">
                             <p th:text=" 'SERVICIO ID: '+${servicio.id} " ></p>Estos son todos tus servicios
@@ -117,21 +159,87 @@
                         <div th:each="servicio : ${usuario.serviciosContratados}"   class=" text-center">
                             <p th:text=" 'SERVICIO ID: '+${servicio.id} " ></p>Estos son todos tus servicios
                         </div>
+=======
+
+
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
 
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div style="background-color: #151D21!important"  class="card-footer bg-danger ">
                 <p class="fw-semibold " text= "'User Id : '+${usuario.id}" ></p>
             </div>
+=======
+
+
+
+            <!-- LISTA DE CONTRATOS O SERVICIOS CONTRATADOS -->
+              <div>
+                <h3>USUARIO!!!  Estos son todos tus contratos </h3>
+                <div th:each="contrato : ${contratos}"   class="row">
+                    <hr>
+                    <div class="col-4">Datos de Servicio 
+                        <hr>
+
+                        <p th:text=" 'SERVICIO ID: '+${contrato.id} " ></p>
+                        <p th:text=" 'SERVICIO Precio: $'+${contrato.precio} " ></p>
+                        <p th:text=" 'SERVICIO ESTADO-INICIADO: '+${contrato.contratoIniciado} " ></p>
+                        <p th:text=" 'SERVICIO ESTADO-FINALIZADO: '+${contrato.contratoFinalizado} " ></p>
+                        <p th:text=" 'SERVICIO ESTADO-CANCELADO: '+${contrato.contratoCancelado} " ></p>
+
+                    </div>
+                    <div class="col-4">Datos Proveedor 
+                        <hr>
+
+                        <p th:text=" 'PROVEEDOR ID: '+${contrato.proveedor.id} " ></p>
+                        <p th:text=" 'PROVEEDOR NOMBRE: '+${contrato.proveedor.nombre} " ></p>
+                        <p th:text=" 'PROVEEDOR APELLIDO: '+${contrato.proveedor.apellido} " ></p>
+                        <p th:text=" 'PROVEEDOR EMAIL: '+${contrato.proveedor.email} " ></p>
+                        <p th:text=" 'PROVEEDOR TELEFONO: '+${contrato.proveedor.telefono} " ></p>
+                        <p th:text=" 'SERVICIO-TIPO: '+${contrato.proveedor.categoriaServicio} " ></p>
+
+                    </div>
+                    <div class="col-4">Datos Usuario
+                        <hr>
+                        <p th:text=" 'USUARIO ID: '+${contrato.cliente.id} " ></p>
+                        <p th:text=" 'USUARIO NOMBRE: '+${contrato.cliente.nombre} " ></p>
+                        <p th:text=" 'USUARIO APELLIDO: '+${contrato.cliente.apellido} " ></p>
+                        <p th:text=" 'USUARIO TELEFONO: '+${contrato.cliente.telefono} " ></p>
+
+
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+           
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
         </div>
     </div>
 
 
+<<<<<<< HEAD
     <div class="container">
         <footer th:replace="/fragments/footer :: footer" > </footer>
     </div>
+=======
+
+    <div style="background-color: #151D21!important"  class="card-footer bg-danger ">
+        <p class="fw-semibold " text= "'User Id : '+${usuario.id}" ></p>
+    </div>
+</div>
+</div>
+
+
+<div class="container">
+    <footer th:replace="/fragments/footer :: footer" > </footer>
+</div>
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
 </body>
 </html>

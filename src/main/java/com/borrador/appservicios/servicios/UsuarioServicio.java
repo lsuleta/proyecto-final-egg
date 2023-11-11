@@ -1,7 +1,9 @@
 package com.borrador.appservicios.servicios;
 
+import com.borrador.appservicios.Exception.MiException;
 import com.borrador.appservicios.entidades.Imagen;
 import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.enumeradores.Rol;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ImagenRepositorio;
@@ -50,8 +52,11 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario = new Usuario();
 
+<<<<<<< HEAD
         //       usuario.setNombre(nombre);
         //       usuario.setApellido(apellido);
+=======
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setUltimaConexion(new Date());
@@ -66,10 +71,23 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setApellido(null);
         usuario.setTelefono(null);
         usuario.setDireccion(null);
+<<<<<<< HEAD
         usuario.setServiciosContratados(null);
+=======
+        usuario.setContratos(null);
+        
+        //atributos se activaran cuando se actualice a PROVEEDOR
+        usuario.setCategoriaServicio(null);
+        usuario.setComentarios(null);
+        usuario.setSevicios(null);
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
         return usuario;
     }
+    
+    
+    
+    
 //carga imagen nula si no sube un archivo
 
     public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
@@ -137,6 +155,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    
     @Transactional
     public Usuario actualizar(MultipartFile archivo, String id, String email,
             @RequestParam(required = true) String password, String password2) throws Exception {
@@ -231,4 +250,127 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
+<<<<<<< HEAD
+=======
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //PROVEEDOR  //---- EX PROVEEDOR SERVICIO
+    
+     @Transactional
+    public void crearProveedor(String nombre, String apellido, String telefono,
+            String email, String password, String password2, Categoria categoria, MultipartFile archivo) throws Excepciones, MiException {
+            
+            validar2(nombre, apellido, telefono, email, password, password2);
+            
+            usuario = new Usuario();
+
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setTelefono(telefono);
+            usuario.setEmail(email);
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            usuario.setUltimaConexion(new Date());
+            
+            cargarImagen(archivo);
+            
+            usuario.setRol(Rol.PROVEEDOR);
+            usuario.setActivo(true);
+
+            usuario.setCategoriaServicio(categoria);
+            usuario.setSevicios(new ArrayList());
+            
+            usuario.setContratos(null);
+            
+     
+            usuarioRepositorio.save(usuario);       
+    }
+
+    
+    
+    
+    
+    //---- EX PROVEEDOR SERVICIO
+     public void validar2(String nombre, String apellido, String telefono, String email, String password, String password2) throws MiException, Excepciones {
+        
+        if (nombre.isEmpty() || nombre == null) {
+            throw new Excepciones("El nombre no puede ser nulo o estar vacio");
+        }
+        
+        if (apellido.isEmpty() || apellido == null) {
+            throw new Excepciones("El apellido no puede ser nulo o estar vacio");
+        }
+        
+        if (telefono.isEmpty() || telefono == null) {
+            throw new Excepciones("El Telefono no puede ser nulo o estar vacio");
+        }
+
+        if (email.isEmpty() || email == null) {
+            throw new Excepciones("El email no puede ser nulo o estar vacio");
+        }
+        
+        if (password.isEmpty() || password == null) {
+            throw new Excepciones("El password no puede ser nulo o estar vacio");
+        }
+        if (password2.isEmpty() || password2 == null) {
+            throw new Excepciones("El password2 no puede ser nulo o estar vacio");
+        }
+
+    }
+    
+    
+          //----------- Listar Proveedores -------------//
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarProveedores() {
+        return usuarioRepositorio.listarProveedor();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarSalud() {
+        //return usuarioRepositorio.buscarPorCategoriaServicio("SALUD");
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.SALUD);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarElectricidad() {
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.ELECTRICIDAD);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarPlomeria() {
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.PLOMERIA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarLimpieza() {
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.LIMPIEZA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarJardineria() {
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.JARDINERIA);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> listarVarios() {
+        return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.VARIOS);
+    }
+    
+    
+    
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 }

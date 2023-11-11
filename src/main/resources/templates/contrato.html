@@ -14,7 +14,11 @@
     <div class="row">
         <div class="col"></div>
         <div class="col-5">
+<<<<<<< HEAD
             <h3>TODO write content CONTRATOOOOOO</h3>
+=======
+            <h3> CONTRATOOOOOO</h3>
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
 
             <h3 th:text="'ATENCION!!! '+${session.usuariosession.nombre} "></h3>
@@ -38,10 +42,21 @@
             <form class="row g-3" th:action="@{/cita/{id}}" method="POST" enctype="multipart/form-data">
 
                 
+<<<<<<< HEAD
                 <input hidden th:value="${session.usuariosession.id}" name="idCliente">
                 
                 <input hidden th:value="${servicio.proveedor.id}" name="idProveedor">
                 <input hidden th:value="${servicio.precioServicio}" name="precio">
+=======
+                <input type="text" th:value="${session.usuariosession.id}" name="idCliente"> <!-- Envia idCliente -->
+                
+                <input type="text" th:value="${servicio.proveedor.id}" name="idProveedor"> <!-- Envia idProveedor -->
+              
+                <input type="text" th:value="${servicio.id}" name="idServicio"> <!-- Envia idServicio -->
+                
+                <input type="text" th:value="${servicio.precioServicio}" name="precio"> <!-- Envia precio del servicio -->
+                
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
 
                 <div class="col-12">

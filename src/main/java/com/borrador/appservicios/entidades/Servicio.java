@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Getter;
+<<<<<<< HEAD
+=======
+import lombok.NoArgsConstructor;
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +26,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD
+=======
+@NoArgsConstructor
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 @ToString
 public class Servicio {
             
@@ -31,7 +39,11 @@ public class Servicio {
     private String id;
     
     @ManyToOne
+<<<<<<< HEAD
     private Proveedor proveedor;
+=======
+    private Usuario proveedor;
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
     
     private String descripcionServicio;
    

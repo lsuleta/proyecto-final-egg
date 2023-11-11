@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Getter
 @Setter
+
 @ToString
 public class Imagen {
 

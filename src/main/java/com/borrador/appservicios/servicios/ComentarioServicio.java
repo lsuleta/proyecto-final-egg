@@ -5,11 +5,17 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Comentario;
+<<<<<<< HEAD
 import com.borrador.appservicios.entidades.Proveedor;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ComentarioRepositorio;
 import com.borrador.appservicios.repositorios.ProveedorRepositorio;
+=======
+import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.excepciones.Excepciones;
+import com.borrador.appservicios.repositorios.ComentarioRepositorio;
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +41,13 @@ public class ComentarioServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
+<<<<<<< HEAD
     @Autowired
     private ProveedorRepositorio proveedorRepositorio;
+=======
+//    @Autowired
+//    private ProveedorRepositorio proveedorRepositorio;
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
 
     
     public Comentario crearComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
@@ -50,9 +61,15 @@ public class ComentarioServicio {
         comentario.setUsuario(usuario);
         comentario.setFecha(new Date());
 
+<<<<<<< HEAD
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(idProveedor);
         if (respuesta.isPresent()) {
             Proveedor proveedor = respuesta.get();
+=======
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(idProveedor);
+        if (respuesta.isPresent()) {
+            Usuario proveedor = respuesta.get();
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
             proveedor.getComentarios().add(comentario);
         }
 

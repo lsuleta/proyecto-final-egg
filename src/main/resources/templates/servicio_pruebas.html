@@ -68,6 +68,10 @@
 
 
                         <!-- ITERA LA LISTA SERVICIOS DEL PROVEEDOR -->
+<<<<<<< HEAD
+=======
+                        <h3>Servicios Ofrecidos por este Proveedor</h3>
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
                         <div lass="card m-3" th:each="servicio : ${proveedor.sevicios}"  >
                             <hr>
                             <p   >Descripcion y datos de servicio</p>
@@ -82,10 +86,17 @@
 
                             <!-- Button trigger modal -->
                             <a th:text="'REGISTRATE COMO CLIENTE '+${session.usuariosession.email}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<<<<<<< HEAD
                                 CONTACTO
                             </a>
                             
                             <a th:href="@{/cita/__${servicio.id}__}" target="target">ARREGLAR UNA CITA</a>
+=======
+                                Registro Cliente
+                            </a>
+                            
+                            <a th:text="'Contrata el servico de :  '+${proveedor.nombre}" th:href="@{/cita/__${servicio.id}__}" target="target" class="btn btn-secondary">ARREGLAR UNA CITA</a>
+>>>>>>> c739c42b1cf8daeadef67f459ed2cd5ca750b457
                             
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" th:aria-labelledby="${proveedor.id}" aria-hidden="true">
