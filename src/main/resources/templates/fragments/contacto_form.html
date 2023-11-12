@@ -5,23 +5,23 @@
     </div>
     <div class="col-md-6">
         <label for="telefono" class="form-label">Cliente Telefono</label>
-        <input name="telefono" type="text" class="form-control" id="telefono" placeholder="Ej: 1234562233 " required>
+        <input name="telefono" th:value="${session.usuariosession.telefono}" type="text" class="form-control" id="telefono" placeholder="Ej: 1234562233 " required>
     </div>
     <div class="col-md-6">
         <label for="nombre" class="form-label">Cliente Nombre</label>
-        <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Ej: Juan " required>
+        <input name="nombre" th:value="${session.usuariosession.nombre}" type="text" class="form-control" id="nombre" placeholder="Ej: Juan " required>
     </div>
     <div class="col-md-6">
         <label for="apellido" class="form-label">Cliente Apellido</label>
-        <input name="apellido" type="text" class="form-control" id="apellido" placeholder="Ej: Perez " required>
+        <input name="apellido" th:value="${session.usuariosession.apellido}" type="text" class="form-control" id="apellido" placeholder="Ej: Perez " required>
     </div>
     <div class="col-12">
         <label for="direccion" class="form-label">Cliente Direccion</label>
-        <input name="direccion" type="text" class="form-control" id="direccion" placeholder="Ej: Calle 123 Piso 1-E " required>
+        <input name="direccion" th:value="${session.usuariosession.direccion}" type="text" class="form-control" id="direccion" placeholder="Ej: Calle 123 Piso 1-E " required>
     </div>
 
 
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" class="btn btn-primary">Contratar</button>
     </div>
 </form>

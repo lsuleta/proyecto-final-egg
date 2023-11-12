@@ -102,6 +102,27 @@
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
+                    
+                    <!-- Telefono validacion  VER ESTA VALIDACION DESDE JS -->
+                    <div class="form__group" id="gropu__apellido">
+                        <p class="form__input-error2">Telefono Invalido</p>
+                        <div class="form__group-input">
+                            <input type="text" id="telefono" name="telefono" placeholder="TELEFONO" th:value="${telefono}" class="form__input" />
+                            <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Categoria Seleccion -->
+                    <div class="form-group my-3">
+                        <select  class="form__input" name="categoria" >
+
+                            <option>Seleccionar Categoria</option>
+
+                            <option th:each="categoria : ${categorias}"
+                                    th:value="${categoria}"
+                                    th:text="${categoria.nombre}"/>
+                        </select>
+                    </div>
 
                     <!-- mail validacion -->
                     <div class="form__group" id="gropu__mail">

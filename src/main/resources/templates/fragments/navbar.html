@@ -11,7 +11,7 @@
             <ul class="navbar-nav me-auto">
                 <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-black" th:href="@{/}">INICIO</a>
                 <a style="color: #DFE2F2!important;font-size: x-large;" class="navbar-brand text-rojo" th:href="@{/servicios}">SERVICIOS</a>
-                <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/servicios/proveedor}" class="navbar-brand text-rojo" sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN')">REGISTRAR SERVICIO</a>
+                <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/registro-servicio/__${session.usuariosession.id}__}" class="navbar-brand text-rojo" sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN')">REGISTRAR SERVICIO</a>
                 <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/dashboard}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">DASHBOARD</a>
                 <a style="color: #DFE2F2!important;font-size: x-large;" th:href="@{/admin/usuarios}" class="navbar-brand text-rojo" sec:authorize="hasRole('ADMIN')">LISTA USUARIOS</a>
             </ul>
@@ -28,7 +28,7 @@
             <!-- nombre perfil + foto perfil -->
             <div class="cabito" style="display: contents;">
                 <h4 style="margin-left: auto; margin-top: 20px; color:#DDE0E7;left: 2px;position: relative;" th:if="${session.usuariosession != null}">
-                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.email}"></span>
+                    Hola <span style="color:#668797" class="username-color" th:text="${session.usuariosession.nombre}"></span>
                 </h4>
 
                 <div onclick="desplegar2()" id="btnPerfil" th:if="${session.usuariosession != null}" class="dropdown text-end">

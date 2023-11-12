@@ -42,68 +42,50 @@
 
 
 
+
+
+
+                            <!-- Datos del Proveedor -->
+
+
+                            <table class="table table-secondary  mt-2" >
+                                <tbody>
+
+                                    <tr class="border-top-3 border-end-0 border-start-0 border-3 border-secondary">
+                                        <th  th:text="'Nombre: '+${proveedor.nombre}" scope="row"></th>
+                                        <th th:text="'Telefono: '+${proveedor.telefono}" scope="row"></th>
+
+                                    </tr>
+                                    <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                        <th th:text="'Email: '+${proveedor.email}" scope="row"></th>
+                                        <th th:text="'Matricula: '+${proveedor.id}" scope="row"></th>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
                         </div>
-
-
-                        <div class="row ">
-                            <hr>
-                            <div class="col ">
-                                <p  th:text="'Nombre: '+${proveedor.nombre}" >Nombre y Aplellido:</p>
-                            </div>
-                            <div class="col">
-                                <p  th:text="'Telefono: '+${proveedor.telefono}" >Telefono:</p>
-                            </div>
-                            <hr>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col">
-                                <p  th:text="'Email: '+${proveedor.email}" >Email:</p>
-                            </div>
-                            <div class="col">
-                                <p  name="cuerpo" >Matricula:</p>
-                            </div>
-                            <hr>
-                        </div>
-
 
                         <!-- ITERA LA LISTA SERVICIOS DEL PROVEEDOR -->
                         <h3>Servicios Ofrecidos por este Proveedor</h3>
-                        <div lass="card m-3" th:each="servicio : ${proveedor.sevicios}"  >
+                        <div lass="card m-3" th:each="servicio : ${proveedor.servicios}"  >
                             <hr>
-                            <p   >Descripcion y datos de servicio</p>
 
-                            <p  th:text="'Dato Proveedor : '+${servicio.proveedor.email}" ></p>
 
-                            <p th:text="'Descripcion Servicio : '+${servicio.descripcionServicio}" ></p>
-                            
-                            <p th:text="'Servicio ID : '+${servicio.id}" ></p>
+                            <div class="card w-90 mb-3">
+                                <div class="card-body">
+                                    <h5 th:text="${servicio.descripcionServicio}"  class="card-title">Card title</h5>
+                                    <p th:text="'Descripcion Servicio : '+${servicio.descripcionServicio}" class="card-text" ></p>
+                                    <p  th:text="'Dato Proveedor : '+${servicio.proveedor.email}" class="card-text" ></p>
+                                    <p th:text="'Servicio ID : '+${servicio.id}" class="card-text" ></p>
+                                    <p  th:text="'Precio Servicio : $'+${servicio.precioServicio}" class="card-text" ></p>
 
-                            <p  th:text="'Precio Servicio : $'+${servicio.precioServicio}" ></p>
+                                    <div th:if="${session.usuariosession.id != servicio.proveedor.id}" >
 
-                            <!-- Button trigger modal -->
-                            <a th:text="'REGISTRATE COMO CLIENTE '+${session.usuariosession.email}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Registro Cliente
-                            </a>
-                            
-                            <a th:text="'Contrata el servico de :  '+${proveedor.nombre}" th:href="@{/cita/__${servicio.id}__}" target="target" class="btn btn-secondary">ARREGLAR UNA CITA</a>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" th:aria-labelledby="${proveedor.id}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" th:id="${proveedor.id}">Formulario de Cita</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:replace ="/fragments/contacto_form :: form"></form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
+                                        <a th:text="'Contrata el servico de :  '+${proveedor.nombre}" th:href="@{/cita/__${servicio.id}__}" class="btn btn-secondary">ARREGLAR UNA CITA</a>
                                     </div>
+
+
                                 </div>
                             </div>
 
@@ -112,6 +94,8 @@
 
                         <hr>
                     </div>
+
+
                     <!-- SECCION COMENTARIOS -->
 
                     <div class="row ">

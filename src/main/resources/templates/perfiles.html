@@ -19,7 +19,7 @@
                 <div class="col-md-4 d-flex">
 
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" class=" d-flex perfil">
-                        <img th:src="@{/imagen/perfil/__${usuario.id}__}">
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
                     </div>
 
                     <div th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" class=" d-flex perfil">
@@ -35,11 +35,15 @@
                             <tbody>
 
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
-                                    <th th:text="'Nombre: '+ ${session.usuariosession.email}" scope="row"></th>
+                                    <th th:text="'Nombre: '+ ${session.usuariosession.nombre}" scope="row"></th>
 
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
-                                    <th th:text="'Apellido: '+ ${session.usuariosession.email}" scope="row"></th>
+                                    <th th:text="'Apellido: '+ ${session.usuariosession.apellido}" scope="row"></th>
+
+                                </tr>
+                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                    <th th:text="'Telefono: '+ ${session.usuariosession.telefono}" scope="row"></th>
 
                                 </tr>
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
@@ -66,14 +70,14 @@
                                     </td>
                                 </tr>      
                                 
-                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <tr sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN' , 'MODERADOR')" class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
 
                                     <th th:text="'Agregar Servicios: '" scope="row"></th>
 
                                     <!-- Boton crear servicios proveedor -->
                                     <td >
                                         <a th:href="@{/registro-servicio/__${session.usuariosession.id}__}" class="btn  btn-secondary"  >
-                                            Agregar Servicio
+                                            Registrar un Servicio
                                         </a>
                                     </td>
                                     
@@ -87,7 +91,7 @@
                                             Ver servicios contratados
                                         </a>
                                     </td>
-                                    <td >
+                                    <td  sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN' , 'MODERADOR')" >
                                         <a href="#" class="btn  btn-secondary"  >
                                             Ver servicios solicitados
                                         </a>
@@ -138,49 +142,6 @@
                 </div>
             </div>
 
-
-
-            <!-- LISTA DE CONTRATOS O SERVICIOS CONTRATADOS -->
-              <div>
-                <h3>USUARIO!!!  Estos son todos tus contratos </h3>
-                <div th:each="contrato : ${contratos}"   class="row">
-                    <hr>
-                    <div class="col-4">Datos de Servicio 
-                        <hr>
-
-                        <p th:text=" 'SERVICIO ID: '+${contrato.id} " ></p>
-                        <p th:text=" 'SERVICIO Precio: $'+${contrato.precio} " ></p>
-                        <p th:text=" 'SERVICIO ESTADO-INICIADO: '+${contrato.contratoIniciado} " ></p>
-                        <p th:text=" 'SERVICIO ESTADO-FINALIZADO: '+${contrato.contratoFinalizado} " ></p>
-                        <p th:text=" 'SERVICIO ESTADO-CANCELADO: '+${contrato.contratoCancelado} " ></p>
-
-                    </div>
-                    <div class="col-4">Datos Proveedor 
-                        <hr>
-
-                        <p th:text=" 'PROVEEDOR ID: '+${contrato.proveedor.id} " ></p>
-                        <p th:text=" 'PROVEEDOR NOMBRE: '+${contrato.proveedor.nombre} " ></p>
-                        <p th:text=" 'PROVEEDOR APELLIDO: '+${contrato.proveedor.apellido} " ></p>
-                        <p th:text=" 'PROVEEDOR EMAIL: '+${contrato.proveedor.email} " ></p>
-                        <p th:text=" 'PROVEEDOR TELEFONO: '+${contrato.proveedor.telefono} " ></p>
-                        <p th:text=" 'SERVICIO-TIPO: '+${contrato.proveedor.categoriaServicio} " ></p>
-
-                    </div>
-                    <div class="col-4">Datos Usuario
-                        <hr>
-                        <p th:text=" 'USUARIO ID: '+${contrato.cliente.id} " ></p>
-                        <p th:text=" 'USUARIO NOMBRE: '+${contrato.cliente.nombre} " ></p>
-                        <p th:text=" 'USUARIO APELLIDO: '+${contrato.cliente.apellido} " ></p>
-                        <p th:text=" 'USUARIO TELEFONO: '+${contrato.cliente.telefono} " ></p>
-
-
-                    </div>
-                    
-                </div>
-            </div>
-            
-            
-            
            
         </div>
     </div>

@@ -100,45 +100,49 @@ public class AdminSevicio implements UserDetailsService {
 
         return usuario;
     }
-    
-        @Transactional
-    public void cambiarRol(String id) {
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+//    @Transactional
+//    public void cambiarRol(String id) {
+//
+//        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+//
+//        if (respuesta.isPresent()) {
+//
+//            usuario = respuesta.get();
+//
+//            if (usuario.getRol().equals(Rol.USER)) {
+//                usuario.setRol(Rol.ADMIN);
+//            } else if (usuario.getRol().equals(Rol.ADMIN)) {
+//                usuario.setRol(Rol.USER);
+//            }
+//
+//        }
+//
+//    }
 
-        if (respuesta.isPresent()) {
-
-            usuario = respuesta.get();
-
-            if (usuario.getRol().equals(Rol.USER)) {
-                usuario.setRol(Rol.ADMIN);
-            } else if (usuario.getRol().equals(Rol.ADMIN)) {
-                usuario.setRol(Rol.USER);
-            }
-
-        }
-
-    }
-    
-    
-    
     //---------- Cambio Roles ----------
-
     @Transactional
     public void cambiarRolUser(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             usuario.setRol(Rol.USER);
+            System.out.println("--");
+            System.out.println("Rol Modificado " + usuario.getEmail() + " a -" + usuario.getRol());
+            System.out.println("--");
         }
     }
-    
+
     @Transactional
     public void cambiarRolCiente(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             usuario.setRol(Rol.CLIENTE);
+            System.out.println("--");
+            System.out.println("Rol Modificado " + usuario.getEmail() + " a -" + usuario.getRol());
+            System.out.println("--");
+
         }
     }
 
@@ -148,6 +152,10 @@ public class AdminSevicio implements UserDetailsService {
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             usuario.setRol(Rol.PROVEEDOR);
+            System.out.println("--");
+            System.out.println("Rol Modificado " + usuario.getEmail() + " a -" + usuario.getRol());
+            System.out.println("--");
+
         }
     }
 
@@ -157,6 +165,9 @@ public class AdminSevicio implements UserDetailsService {
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             usuario.setRol(Rol.ADMIN);
+            System.out.println("--");
+            System.out.println("Rol Modificado " + usuario.getEmail() + " a -" + usuario.getRol());
+            System.out.println("--");
         }
     }
 
@@ -166,6 +177,10 @@ public class AdminSevicio implements UserDetailsService {
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             usuario.setRol(Rol.MODERADOR);
+            System.out.println("--");
+            System.out.println("Rol Modificado " + usuario.getEmail() + " a -" + usuario.getRol());
+            System.out.println("--");
+
         }
     }
 
@@ -187,27 +202,23 @@ public class AdminSevicio implements UserDetailsService {
         } catch (Exception e) {
             System.out.println("ERROR AL ELIMIAR USUARIO");
         }
-     
-    }
 
-    
+    }
 
     @Transactional
     public Usuario actualizar(MultipartFile archivo, String id, String nombre,
-            String apellido, String email)throws Exception {
-        
-        //validar(nombre, apellido, email, password, password2);
+            String apellido, String email) throws Exception {
 
+        //validar(nombre, apellido, email, password, password2);
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
             // Verificar que el usuario respuesta coincida con el id
             if (respuesta.get().getId().equals(id)) {
-//                usuario.setNombre(nombre);
-//                usuario.setApellido(apellido);
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
                 usuario.setEmail(email);
-
 
                 cargarImagen(archivo);
 
@@ -238,7 +249,4 @@ public class AdminSevicio implements UserDetailsService {
 
     }
 
-    
-    
-    
 }

@@ -7,7 +7,6 @@ import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.enumeradores.Rol;
 
 import com.borrador.appservicios.excepciones.Excepciones;
-import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import com.borrador.appservicios.servicios.ComentarioServicio;
 import com.borrador.appservicios.servicios.ContratoServicio;
 import com.borrador.appservicios.servicios.ServicioServicio;
@@ -45,11 +44,13 @@ public class IndexControlador {
     @Autowired
     private ContratoServicio contratoServicio;
 
+    // --- INDEX --- //
     @GetMapping("/")
     public String Index() {
         return "index.html";
     }
 
+    // --- Registrar Usuario --- //
     @GetMapping("/registrar-usuario")
     public String registrarUsuario(HttpSession session, ModelMap modelo) {
         modelo.addAttribute("categorias", Categoria.values());
@@ -57,29 +58,29 @@ public class IndexControlador {
         if (logueado != null) {
             return "redirect:/";
         } else {
-            // return "usuario_registro.html";
-            return "usuario_registro_pruebas.html";
+            return "usuario_registro.html";
         }
     }
 
-
     @PostMapping("/registro")
-    public String registrarUsuario(@RequestParam String email, @RequestParam String password,
-            @RequestParam String password2, ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
+    public String registrarUsuario(@RequestParam String email, @RequestParam String password, @RequestParam String password2,
+            @RequestParam String nombre, @RequestParam String apellido,
+            ModelMap modelo, @RequestParam(required = false) MultipartFile archivo) {
 
         try {
-            usuarioServicio.persistirUsuario(email, password, password2, archivo);
+            usuarioServicio.persistirUsuario(email, password, password2, nombre, apellido, archivo);
             modelo.put("exito", "usuario registrado correctamente");
             return "redirect:/";
 
         } catch (Excepciones ex) {
             modelo.put("error", ex.getMessage());
-            //  modelo.put("nombre", nombre);
+            modelo.put("nombre", nombre);
             modelo.put("email", email);
             return "redirect:/";
         }
     }
 
+    // --- Login --- //
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, String password, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
@@ -102,7 +103,7 @@ public class IndexControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
 
@@ -115,36 +116,25 @@ public class IndexControlador {
         return "redirect:/";
     }
 
-
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    // --- Perfil Usuario --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/perfil/{id}")
     public String perfilUsuario(@PathVariable String id, HttpSession session, ModelMap modelo) {
-        Usuario usuario = usuarioServicio.getOne(id);
-        modelo.addAttribute("usuario", usuario);
 
-        if (usuario.getRol() == Rol.CLIENTE) {
-            // TRAE CONTRATOS CLIENTE
-            List<Contrato> contratosCliente = contratoServicio.findContratosByCliente(usuario);
-            modelo.addAttribute("contratos", contratosCliente);
-        } else if (usuario.getRol() == Rol.PROVEEDOR) {
-            // TRAE CONTRATOS PROVEEDOR
-            List<Contrato> contratosProveedor = contratoServicio.findContratosByProveedor(usuario);
-            modelo.addAttribute("contratos", contratosProveedor);
+        session.setAttribute("usuariosession", usuarioServicio.getOne(id));
+        usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null && usuario.getId().equals(id)) {
+            System.out.println("-    ENTANDO A PERFIL DE USUARIO    ----------- ROL -----" + usuario.getRol());
+            return "perfiles.html";
+        } else {
+            System.out.println("-    USUARIO NULO   ----------------");
+            return "redirect:/";
         }
-
-        return "perfiles.html";
-    }
-    
-    
-
-    @GetMapping("/proveedor-registro/{id}")
-    public String proveedorFormulario() {
-
-        return "proveedor_registro.html";
     }
 
-    //ver perfil
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    // --- Modificar Usuario --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/perfils/{id}")
     public String perfil(ModelMap modelo, HttpSession session) {
         usuario = (Usuario) session.getAttribute("usuariosession");
@@ -153,14 +143,15 @@ public class IndexControlador {
         return "modificar_cliente.html";
     }
 
-    ///funcion actualizar datos de perfil
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    // --- Actualizar Datos Usuario POST FORM ACTUALIZAR USUARIO --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/perfils/{id}")
-    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String email,
+    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String email, @RequestParam String nombre,
+            @RequestParam String apellido, @RequestParam String telefono,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
 
         try {
-            Usuario usuarioactualizado = usuarioServicio.actualizar(archivo, id, email, password, password2);
+            Usuario usuarioactualizado = usuarioServicio.actualizar(id, email, nombre, apellido, telefono, archivo, password, password2);
 
             modelo.put("exito", "Usuario actualizado correctamente!");
 
@@ -176,7 +167,7 @@ public class IndexControlador {
         } catch (Exception ex) {
 
             modelo.put("error", ex.getMessage());
-            //modelo.put("nombre", nombre);
+            modelo.put("nombre", nombre);
             modelo.put("email", email);
             modelo.put("password", password);
 
@@ -185,8 +176,8 @@ public class IndexControlador {
 
     }
 
-//eliminar foto funcion btn
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    // --- Eliminar Imagen --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/perfils/emilinar-foto/{id}")
     public String eliminarFoto(@PathVariable String id, HttpSession session, MultipartFile archivo, RedirectAttributes redirectAttributes) {
         try {
@@ -211,8 +202,8 @@ public class IndexControlador {
         }
     }
 
-    //alta-baja usuario
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE' , 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    // --- Alta Usuario --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/perfils/modificar-alta/{id}")
     public String cambiarAltaUser(@PathVariable String id, HttpSession session) {
 
@@ -228,21 +219,19 @@ public class IndexControlador {
         return "redirect:/perfil/" + id;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////
+    /*
+       -------------------------------------------------------
+       -------------------------------------------------------
+                             PROVEEDOR
+       -------------------------------------------------------
+       -------------------------------------------------------
+     */
     @Autowired
     private ComentarioServicio comentarioServicio;
 
     @Autowired
     private ServicioServicio servicioServicio;
 
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
-
-    @GetMapping("/registrar-proveedor")
-    public String registrarProveedor() {
-
-        return "usuario_registro.html";
-    }
 
     @PostMapping("/registro2")
     public String registrarProveedor(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String telefono,
@@ -261,7 +250,7 @@ public class IndexControlador {
         }
     }
 
-    //-------------- Servicios --------------//
+    // --- Servicios Vista --- //
     @GetMapping("/servicios")
     public String servicios(ModelMap modelo) {
         List<Usuario> proveedores = usuarioServicio.listarProveedores();
@@ -282,6 +271,8 @@ public class IndexControlador {
         return "servicios_pruebas.html";
     }
 
+    // --- Proveedor Perfil Vista --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/servicios/proveedor/{id}")
     public String servicios(ModelMap modelo, @PathVariable String id) {
 
@@ -291,6 +282,7 @@ public class IndexControlador {
     }
 
     //---------- Comentarios ------------//
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/servicios/proveedor/{id}")
     public String comentar(@RequestParam String comentario,
             @RequestParam String id,// id de usuario
@@ -311,7 +303,8 @@ public class IndexControlador {
         return "servicio_pruebas.html";
     }
 
-
+    // --- Proveedor Registrar un Servicio --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("registro-servicio/{id}")
     public String registroServicio(ModelMap modelo) {
 
@@ -320,6 +313,7 @@ public class IndexControlador {
         return "registrar_servicio_form.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/registrar-servicio/{id}")
     public String crearServicio(@PathVariable String id, @RequestParam String descripcionServicio,
             @RequestParam Integer precioServicio) {
@@ -335,18 +329,20 @@ public class IndexControlador {
 
     }
 
+    // --- Servicios Contratados Vista --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/servicios-contratados/{id}")
     public String serviciosContratados(@PathVariable String id, HttpSession session, ModelMap modelo) {
         usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.addAttribute("usuario", usuario);
 
-         if (usuario.getRol() == Rol.CLIENTE) {
+        if (usuario.getRol() == Rol.CLIENTE) {
             // TRAE CONTRATOS CLIENTE
-            List<Contrato> contratosCliente = contratoServicio.findContratosByCliente(usuario);
+            List<Contrato> contratosCliente = contratoServicio.listarContratosPorCliente(usuario);
             modelo.addAttribute("contratos", contratosCliente);
         } else if (usuario.getRol() == Rol.PROVEEDOR) {
             // TRAE CONTRATOS PROVEEDOR
-            List<Contrato> contratosProveedor = contratoServicio.findContratosByProveedor(usuario);
+            List<Contrato> contratosProveedor = contratoServicio.listarContratosPorProveedor(usuario);
             modelo.addAttribute("contratos", contratosProveedor);
         }
 

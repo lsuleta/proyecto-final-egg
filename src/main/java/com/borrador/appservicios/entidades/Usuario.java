@@ -67,11 +67,7 @@ public class Usuario {
     private String apellido;
     private String direccion;
     private String telefono;
-    
-    @OneToMany
-    private List<Contrato> contratos;
-    
-    
+        
     // atributos propios de Proveedor
     private Categoria categoriaServicio;  // categoria general para iterar dentro del menu de proveedores 
     
@@ -79,6 +75,6 @@ public class Usuario {
     private List<Comentario> comentarios;
 
     @OneToMany
-    private List<Servicio> sevicios;
+    private List<Servicio> servicios;
 
 }
