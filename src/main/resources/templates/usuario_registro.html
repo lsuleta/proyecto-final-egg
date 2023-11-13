@@ -24,7 +24,7 @@
                         <p class="form__input-error"> ➦ Nombre invalido</p>
 
                         <div class="form__group-input">
-                            <input type="text" id="nombre" name="nombre" placeholder="NOMBRE" th:value="${nombre}" class="form__input" />
+                            <input type="text" id="nombre" name="nombre" placeholder="NOMBRE" th:value="${nombre}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
 
                         </div>
@@ -34,7 +34,7 @@
                     <div class="form__group" id="gropu__apellido">
                         <p class="form__input-error">Apellido Invalido</p>
                         <div class="form__group-input">
-                            <input type="text" id="apellido" name="apellido" placeholder="APELLIDO" th:value="${apellido}" class="form__input" />
+                            <input type="text" id="apellido" name="apellido" placeholder="APELLIDO" th:value="${apellido}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="form__group" id="gropu__mail">
                         <p class="form__input-error">Correo invalido</p>
                         <div class="form__group-input">
-                            <input type="text" id="mail" name="email" placeholder="EMAIL" th:value="${email}" class="form__input" />
+                            <input type="text" id="mail" name="email" placeholder="EMAIL" th:value="${email}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="form__group" id="gropu__password">
                         <p class="form__input-error">Contraseña poco segura</p>
                         <div class="form__group-input">
-                            <input type="password" id="contraseña" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" />
+                            <input type="password" id="contraseña" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                     <div class="form__group" id="gropu__password2">
                         <p class="form__input-error">No coinciden ambas contraseñas</p>
                         <div class="form__group-input">
-                            <input type="password" id="contraseña2" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input" />
+                            <input type="password" id="contraseña2" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                         <p class="form__input-error2"> ➦ Nombre invalido</p>
 
                         <div class="form__group-input">
-                            <input type="text" id="nombre" name="nombre" placeholder="NOMBRE" th:value="${nombre}" class="form__input" />
+                            <input type="text" id="nombre" name="nombre" placeholder="NOMBRE" th:value="${nombre}" class="form__input" required />
                             <i class="icon_error2 fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
 
                         </div>
@@ -98,7 +98,7 @@
                     <div class="form__group" id="gropu__apellido">
                         <p class="form__input-error2">Apellido Invalido</p>
                         <div class="form__group-input">
-                            <input type="text" id="apellido" name="apellido" placeholder="APELLIDO" th:value="${apellido}" class="form__input" />
+                            <input type="text" id="apellido" name="apellido" placeholder="APELLIDO" th:value="${apellido}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -107,16 +107,16 @@
                     <div class="form__group" id="gropu__apellido">
                         <p class="form__input-error2">Telefono Invalido</p>
                         <div class="form__group-input">
-                            <input type="text" id="telefono" name="telefono" placeholder="TELEFONO" th:value="${telefono}" class="form__input" />
+                            <input type="text" id="telefono" name="telefono" placeholder="TELEFONO" th:value="${telefono}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
                     
                     <!-- Categoria Seleccion -->
                     <div class="form-group my-3">
-                        <select  class="form__input" name="categoria" >
+                        <select  class="form__input" name="categoria" required >
 
-                            <option>Seleccionar Categoria</option>
+                            <option >Seleccionar Categoria</option>
 
                             <option th:each="categoria : ${categorias}"
                                     th:value="${categoria}"
@@ -128,7 +128,7 @@
                     <div class="form__group" id="gropu__mail">
                         <p class="form__input-error2">Correo invalido</p>
                         <div class="form__group-input">
-                            <input type="text" id="mail" name="email" placeholder="EMAIL" th:value="${email}" class="form__input" />
+                            <input type="text" id="mail" name="email" placeholder="EMAIL" th:value="${email}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                     <div class="form__group" id="gropu__password">
                         <p class="form__input-error2">Contraseña poco segura</p>
                         <div class="form__group-input">
-                            <input type="password" id="contraseñab" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" />
+                            <input type="password" id="contraseñab" name="password" placeholder="CONTRASEÑA" th:value="${password}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                     <div class="form__group" id="gropu__password2">
                         <p class="form__input-error2">No coinciden ambas contraseñas</p>
                         <div class="form__group-input">
-                            <input type="password" id="contraseña2b" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input" />
+                            <input type="password" id="contraseña2b" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password}" class="form__input" required />
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>

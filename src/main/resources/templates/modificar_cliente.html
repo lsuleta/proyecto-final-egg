@@ -52,6 +52,10 @@
                             <i class="icon_error fa-solid fa-circle-xmark" style="color: #0f2b5c;"></i>
                         </div>
                     </div>
+                    <div  sec:authorize="hasRole('USER')" class="form__group" id="gropu__apellido">
+                        <input hidden type="text" id="telefono" name="telefono" placeholder="TELEFONO" th:value="${usuario.telefono}" class="form__input" />
+                        
+                    </div>
 
                     <!-- mail validacion -->
                     <div class="form__group" id="gropu__mail">

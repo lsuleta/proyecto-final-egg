@@ -5,9 +5,11 @@
 package com.borrador.appservicios.servicios;
 
 import com.borrador.appservicios.entidades.Comentario;
+import com.borrador.appservicios.entidades.Contrato;
 import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.repositorios.ComentarioRepositorio;
+import com.borrador.appservicios.repositorios.ContratoRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,12 +35,13 @@ public class ComentarioServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
+    @Autowired
+    private ContratoRepositorio contratoRepositorio;
+
 //    @Autowired
 //    private ProveedorRepositorio proveedorRepositorio;
-
-    
     public Comentario crearComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
-       
+
         validar(comentarioTexto, idUsuario, idProveedor);
         Comentario comentario = new Comentario();
 
@@ -64,6 +67,44 @@ public class ComentarioServicio {
         comentarioRepositorio.save(comentario);
     }
 
+    public Comentario crearComentarioServicio(String comentarioTexto, String idUsuario, String idProveedor, String idContrato) throws Excepciones {
+
+        validar(comentarioTexto, idUsuario, idProveedor);
+        Comentario comentario = new Comentario();
+
+        //  Usuario usuario = usuarioServicio.getOne(idUsuario);
+        Optional<Usuario> respUsuario = usuarioRepositorio.findById(idUsuario);
+        Optional<Contrato> respContrato = contratoRepositorio.findById(idContrato);
+
+        if (respUsuario.isPresent()) {
+            Usuario usuario = respUsuario.get();
+            comentario.setComentario(comentarioTexto);
+            comentario.setUsuario(usuario);
+            System.out.println("DESDE COMENTARIO SERVICIO USUARIO ID " + usuario.getId());
+            System.out.println("DESDE COMENTARIO SERVICIO USUARIO ID " + usuario.getNombre());
+            comentario.setFecha(new Date());
+
+        }
+
+        Optional<Usuario> respProveedor = usuarioRepositorio.findById(idProveedor);
+
+        if (respContrato.isPresent()) {
+            Contrato contrato = respContrato.get();
+            contrato.getComentariosServicio().add(comentario);
+        }
+
+        System.out.println("El usuario " + respUsuario.get().getNombre() + ", a comentado en el contrato " + respContrato.get().getId() + " del proveedor " + respProveedor.get().getNombre());
+
+        return comentario;
+    }
+
+    @Transactional
+    public void persistirComentarioServicio(String comentarioTexto, String idUsuario, String idProveedor, String idContrato) throws Excepciones {
+        validar(comentarioTexto, idUsuario, idProveedor);
+        Comentario comentario = crearComentarioServicio(comentarioTexto, idUsuario, idProveedor, idContrato);
+        comentarioRepositorio.save(comentario);
+    }
+
     private void validar(String comentario, String idUsuario, String idProveedor) throws Excepciones {
         if (comentario.isEmpty() || comentario == null) {
             throw new Excepciones("el comentario no puede ser nulo o estar vacio");
@@ -79,10 +120,23 @@ public class ComentarioServicio {
 
     public List<Comentario> listarComentarios() {
         List<Comentario> comentarios = new ArrayList();
-       
+
         comentarios = comentarioRepositorio.findAll();
 
         return comentarios;
     }
+
+    @Transactional
+    public Comentario modificarComentario(String idComentario, String comentario) {
+        Optional<Comentario> resp = comentarioRepositorio.findById(idComentario);
+        if (resp.isPresent()) {
+            Comentario coment = resp.get();
+            coment.setComentario(comentario);
+            return coment;
+        }
+        return null;
+    }
+
+    
 
 }

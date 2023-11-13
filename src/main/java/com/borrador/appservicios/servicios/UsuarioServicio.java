@@ -158,6 +158,9 @@ public class UsuarioServicio implements UserDetailsService {
 
         validar(email, password, password2, nombre, apellido);
 
+        
+        System.out.println("TELEFONO---- "+telefono);
+        
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
@@ -172,7 +175,10 @@ public class UsuarioServicio implements UserDetailsService {
                 usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
                 cargarImagen(archivo);
-
+                if(telefono.isEmpty()){
+                    usuario.setTelefono(null);
+                }
+                
                 if (usuario.getRol() != Rol.USER) {
                     usuario.setTelefono(telefono);
                 } else {

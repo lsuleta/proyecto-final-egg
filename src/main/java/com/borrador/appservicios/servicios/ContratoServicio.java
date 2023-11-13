@@ -28,7 +28,7 @@ public class ContratoServicio {
 
     @Autowired
     ServicioRepositorio servicioRepositorio;
-    
+
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
@@ -36,8 +36,8 @@ public class ContratoServicio {
     ContratoRepositorio contratoRepositorio;
 
     // --- Creacion de contrato servicio --- //
-    
-    public void crearContrato( String idProveedor, String idCliente, String idServicio, Integer precio,
+    @Transactional
+    public void crearContrato(String idProveedor, String idCliente, String idServicio, Integer precio,
             String nombre, String apellido, String telefono, String direccion) throws Excepciones {
 
         validar(idProveedor, idCliente, idServicio, nombre, apellido, telefono, direccion);
@@ -49,8 +49,6 @@ public class ContratoServicio {
 
             if (respCliente.isPresent() && respProveedor.isPresent() && respServicio.isPresent()) {
 
-                
-                
                 System.out.println("IDS ENCONTRADOS");
                 System.out.println("ID CLIENTE - " + respCliente.get().getId());
                 System.out.println("ID PROVEEDOR - " + respProveedor.get().getId());
@@ -65,7 +63,7 @@ public class ContratoServicio {
                 if (cliente.getRol() == Rol.USER) {
                     System.out.println("-------- MODIFICANDO ROL DE USER A CLIENTE");
                     cliente.setRol(Rol.CLIENTE);
-                    System.out.println("-------- USUARIO NUEVO ROL "+cliente.getRol());
+                    System.out.println("-------- USUARIO NUEVO ROL " + cliente.getRol());
                 }
                 cliente.setNombre(nombre);
                 cliente.setApellido(apellido);
@@ -83,7 +81,7 @@ public class ContratoServicio {
                 contrato.setCliente(cliente);
                 contrato.setProveedor(proveedor);
                 contrato.setServicio(servicio);
-                
+
                 System.out.println("SERVICIO PERSISTIENDO CONTRATO");
                 contratoRepositorio.save(contrato);
 
@@ -95,8 +93,29 @@ public class ContratoServicio {
 
     }
 
+    @Transactional
+    public void contratoCancelar(String idContrato) {
+
+        Optional<Contrato> resp = contratoRepositorio.findById(idContrato);
+        System.out.println("Servicio cancelar Contrato id "+idContrato);
+        if (resp.isPresent()) {
+            Contrato contrato = resp.get();
+            if (contrato.getContratoCancelado() == false) {
+                contrato.setContratoCancelado(Boolean.TRUE);
+                System.out.println(" --- ");
+                System.out.println("Contrato ya esta cancelado");
+                System.out.println(" --- ");
+            }else{
+                System.out.println(" --- ");
+                System.out.println("El contrato ya esta cancelado");
+                System.out.println(" --- ");
+            }
+        }
+
+    }
+
     public void validar(String idProveedor, String idCliente, String idServicio,
-             String nombre, String apellido, String telefono, String direccion) throws Excepciones {
+            String nombre, String apellido, String telefono, String direccion) throws Excepciones {
         if (idProveedor.isEmpty() || idProveedor == null) {
             throw new Excepciones("ID Proveedor nulo o vacio");
         }
@@ -122,7 +141,6 @@ public class ContratoServicio {
     }
 
     //  ---------- listas de contratos Usuarios y Proveedores ---------- //
-    
     @Transactional(readOnly = true)
     public List<Contrato> listarContratosPorCliente(Usuario cliente) {
         return contratoRepositorio.findByCliente(cliente);

@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -29,8 +30,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Comentario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // Generar Id numerico AuntoIncremental
-    private Long id;
+    @GeneratedValue(generator = "uuid")// Generar id alfanumerico unico
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     private String comentario;
 

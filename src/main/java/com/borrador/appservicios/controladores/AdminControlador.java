@@ -30,6 +30,12 @@ public class AdminControlador {
     @Autowired
     private AdminSevicio adminSevicio;
 
+    private final String endpointUsuarios = "redirect:/admin/usuarios";
+
+    public AdminControlador(AdminSevicio adminSevicio) {
+        this.adminSevicio = adminSevicio;
+    }
+
     @GetMapping("/dashboard")
     public String panelAdministrativo() {
         return "panel.html";
@@ -55,54 +61,53 @@ public class AdminControlador {
 //        adminSevicio.cambiarRol(id);
 //        return "redirect:/admin/usuarios";
 //    }
-
     // --- ADMIN CAMBIAR ALTA --- //
     @GetMapping("/Alta/{id}")
     public String cambiarAlta(@PathVariable String id) {
         adminSevicio.Alta(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // --- ADMIN CAMBIAR ROL USER --- //
     @GetMapping("/modificarRolUser/{id}")
     public String cambiarRolUser(@PathVariable String id) {
         adminSevicio.cambiarRolUser(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
-    
+
     // --- ADMIN CAMBIAR ROL CLIENTE --- //
     @GetMapping("/modificarRolCliente/{id}")
     public String cambiarRolCliente(@PathVariable String id) {
         adminSevicio.cambiarRolCiente(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // --- ADMIN CAMBIAR ROL PROVEEDOR --- //
     @GetMapping("/modificarRolProveedor/{id}")
     public String cambiarRolProv(@PathVariable String id) {
         adminSevicio.cambiarRolProveedor(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // --- ADMIN CAMBIAR ROL MOD --- //
     @GetMapping("/modificarRolModerador/{id}")
     public String cambiarRolMod(@PathVariable String id) {
         adminSevicio.cambiarRolMod(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // --- ADMIN CAMBIAR ROL ADMINISTRADOR --- //
     @GetMapping("/modificarRolAdministrador/{id}")
     public String cambiarRolAdmin(@PathVariable String id) {
         adminSevicio.cambiarRolAdmin(id);
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // ---------- Eliminar Usuario de la BD -----------//
     @GetMapping("/eliminarUsuario/{id}")
     public String eliminarUsuarioBD(@PathVariable String id) {
         adminSevicio.eliminar(id);
-        return "redirect:/admin/usuarios";
+       return endpointUsuarios;
     }
 
     // --- ADMIN MODIFICAR USUARIO --- //
@@ -114,8 +119,8 @@ public class AdminControlador {
             @RequestParam String email,
             ModelMap modelo, HttpSession session) throws Exception {
 
-        System.out.println("nombre "+nombre+" apellido "+ apellido+ " email "+email);
-        
+        System.out.println("nombre " + nombre + " apellido " + apellido + " email " + email);
+
         Usuario usuarioactualizado = adminSevicio.actualizar(archivo, id, nombre, apellido, email);
 
         modelo.put("exito", "Usuario actualizado correctamente!");
@@ -125,11 +130,11 @@ public class AdminControlador {
         if (logueado.getId().equals(usuarioactualizado.getId())) {
 
             session.setAttribute("usuariosession", usuarioactualizado);
-        }else{
+        } else {
             session.setAttribute("usuariosession", logueado);
         }
 
-        return "redirect:/admin/usuarios";
+        return endpointUsuarios;
     }
 
     // --- ADMIN ELIMINAR USUARIO - CONFIRMACION --- //

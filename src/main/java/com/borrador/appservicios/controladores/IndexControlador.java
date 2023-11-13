@@ -232,7 +232,6 @@ public class IndexControlador {
     @Autowired
     private ServicioServicio servicioServicio;
 
-
     @PostMapping("/registro2")
     public String registrarProveedor(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String telefono,
             @RequestParam Categoria categoria, @RequestParam String email, @RequestParam String password,
@@ -261,6 +260,7 @@ public class IndexControlador {
         List<Usuario> jardineria = usuarioServicio.listarJardineria();
         List<Usuario> varios = usuarioServicio.listarVarios();
 
+        modelo.addAttribute("categorias", Categoria.values());
         modelo.addAttribute("plomeria", plomeria);
         modelo.addAttribute("electricidad", electricidad);
         modelo.addAttribute("salud", salud);
@@ -301,6 +301,46 @@ public class IndexControlador {
         }
 
         return "servicio_pruebas.html";
+    }
+
+    // --- Comentarios Servicios --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
+    @PostMapping("/servicios/comentario/{id}")
+    public String comentarServicio(@RequestParam String comentario,
+            @RequestParam String id,// id de usuario
+            @RequestParam String idProveedor,
+            @RequestParam String idContrato,
+            ModelMap modelo) {
+
+        try {
+
+            comentarioServicio.persistirComentarioServicio(comentario, id, idProveedor, idContrato);
+
+            modelo.put("exito", "COMENTARIO REALIZADO CORRECTAMENTE");
+            return "redirect:/servicios/proveedor/" + idProveedor;
+        } catch (Excepciones ex) {
+            System.out.println("1----------- EXCEPCION DE CARGA DE COMENTARIO");
+            Logger.getLogger(IndexControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "servicio_pruebas.html";
+    }
+
+    // --- Eliminar Comentarios --- //
+    @PostMapping("/modificar-comentario-usuario/{id}")
+    public String modificarComentario(@PathVariable String id, @RequestParam String comentario) {
+
+        try {
+            comentarioServicio.modificarComentario(id, comentario);
+            System.out.println("---");
+            System.out.println("--- Comentario modificado ---");
+            System.out.println("---");
+            return "servicios_contratados_lista.html";
+
+        } catch (Exception e) {
+            return "servicios_contratados_lista.html";
+        }
+
     }
 
     // --- Proveedor Registrar un Servicio --- //

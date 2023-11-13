@@ -59,7 +59,7 @@
                                 <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th scope="row">Activo : </th>
 
-                                    <td  >
+                                    <td>
 
                                         <button onclick="desplegar3()" id="btnAlta" style="background-color: #151D21!important; color:#668797" th:text="${session.usuariosession.activo}" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
 
@@ -83,7 +83,7 @@
                                     
 
                                 </tr>
-                                <tr class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
+                                <tr  th:unless="${session.usuariosession.rol == 'USER'}" class="border-top-0 border-end-0 border-start-0 border-3 border-secondary">
                                     <th th:text="'Lista de Contratos: '" scope="row"></th>
                                     <!-- Boton crear servicios proveedor -->
                                     <td >
@@ -91,13 +91,12 @@
                                             Ver servicios contratados
                                         </a>
                                     </td>
+                                   
                                     <td  sec:authorize="hasAnyRole('PROVEEDOR', 'ADMIN' , 'MODERADOR')" >
                                         <a href="#" class="btn  btn-secondary"  >
                                             Ver servicios solicitados
                                         </a>
                                     </td>
-
-
 
                                 </tr>
 
