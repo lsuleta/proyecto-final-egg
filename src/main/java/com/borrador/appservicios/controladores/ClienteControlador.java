@@ -4,11 +4,13 @@
  */
 package com.borrador.appservicios.controladores;
 
+import com.borrador.appservicios.entidades.Usuario;
 import com.borrador.appservicios.excepciones.Excepciones;
-import com.borrador.appservicios.repositorios.ServicioRepositorio;
-import com.borrador.appservicios.servicios.ClienteServicio;
 import com.borrador.appservicios.servicios.ContratoServicio;
+import com.borrador.appservicios.servicios.ServicioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,50 +26,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ClienteControlador {
 
     @Autowired
-    private ClienteServicio clienteServcio;
-
-    @Autowired
-    private ServicioRepositorio servicioRepositorio;
-
-    @Autowired
     private ContratoServicio contratoServicio;
 
-    @PostMapping("/registrar-cliente")
-    public String registrarCliente(@RequestParam String nombre, @RequestParam String email, @RequestParam String apellido,
-            @RequestParam String telefono, @RequestParam String direccion) throws Excepciones {
+    @Autowired
+    private ServicioServicio servicioServicio;
 
-        try {
-            System.out.println("CREANDO CLIENTE");
-            clienteServcio.crearCliente(email, nombre, apellido, direccion, telefono);
-            System.out.println("CLIENTE CREADO --- USUARIO ACTUALIZADO A CLIENTE");
-            return "servicios_pruebas.html";
-        } catch (Excepciones e) {
-            throw new Excepciones("ERROR AL CREAR CLIENTE CONTROLADOR");
-        }
-
-    }
-
+    // --- Vista de CONTRATO SERVICIO --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("/cita/{id}")
     public String citaProgramada(@PathVariable String id, ModelMap modelo) {
-        modelo.addAttribute("servicio", servicioRepositorio.getOne(id));
+        modelo.addAttribute("servicio", servicioServicio.buscarServicioPorId(id));
         return "contrato.html";
     }
 
+    // --- CONFIRMACION DE CONTRATO - FORMULARIO POST --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/cita/{id}")
-    public String contratoCita(@RequestParam String idCliente, @RequestParam String idProveedor,
-             @RequestParam String idServicio, @RequestParam Integer precio,
+    public String contratoCita(@RequestParam String idCliente, @RequestParam String idProveedor, @RequestParam String idServicio,
+            @RequestParam Integer precio, @RequestParam String nombre, @RequestParam String apellido,
+            @RequestParam String telefono, @RequestParam String direccion, HttpSession session,
             ModelMap modelo) throws Excepciones {
 
         try {
-            System.out.println("CLIENTE CONTROLADOR CREANDO CONTRATO");
-            contratoServicio.crearContrato(idProveedor, idCliente, idServicio, precio);
-            System.out.println("CLIENTE CONTROLADOR CONTRATO CREADO --- OK");
-            return "index.html";
+
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+            System.out.println(" --- ");
+            System.out.println("CONTRATO POR CONFIRMAR");
+            System.out.println(" --- ");
+            System.out.println(" --- CONTROLADOR CLIENTE... id Servicio : " + idServicio);
+
+            contratoServicio.crearContrato(idProveedor, idCliente, idServicio, precio, nombre, apellido, telefono, direccion);
+            System.out.println(" --- ");
+            System.out.println(" CONTRATO CONFIRMADO --- OK");
+            System.out.println(" --- ");
+
+            session.setAttribute("usuariosession", usuario);
+
+            return "redirect:/servicios";
         } catch (Exception e) {
             throw new Excepciones("ERROR CREAR CLIENTE CONTROLADOR");
         }
 
-        
     }
 
 }

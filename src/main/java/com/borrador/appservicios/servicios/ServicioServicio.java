@@ -4,16 +4,11 @@
  */
 package com.borrador.appservicios.servicios;
 
-import com.borrador.appservicios.entidades.Contrato;
 import com.borrador.appservicios.entidades.Servicio;
 import com.borrador.appservicios.entidades.Usuario;
-import com.borrador.appservicios.enumeradores.Categoria;
 import com.borrador.appservicios.excepciones.Excepciones;
-import com.borrador.appservicios.repositorios.ContratoRepositorio;
 import com.borrador.appservicios.repositorios.ServicioRepositorio;
 import com.borrador.appservicios.repositorios.UsuarioRepositorio;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ServicioServicio {
-
-    @Autowired
-    ContratoRepositorio contratoRepositorio;
 
     @Autowired
     ServicioRepositorio servicioRepositorio;
@@ -54,13 +46,20 @@ public class ServicioServicio {
             //   servicio.setContrato(null);
             //   servicio.setCalificacion(null);
             System.out.println("CARGANDO SERVICIO A PROVEEDOR" + proveedor.getNombre());
-            proveedor.getSevicios().add(servicio);
+            proveedor.getServicios().add(servicio);
             System.out.println("CARGANDO SERVICIO EN BASE DE DATOS..  " + servicio.getDescripcionServicio());
 
             servicioRepositorio.save(servicio);
         }
     }
 
-
+    public Servicio buscarServicioPorId(String id){
+        Optional<Servicio> resp = servicioRepositorio.findById(id);
+        Servicio servicio = new Servicio();
+        if(resp.isPresent()){
+            servicio = resp.get();
+        }
+        return servicio;
+    }
 
 }

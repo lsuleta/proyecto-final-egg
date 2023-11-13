@@ -46,9 +46,12 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-    public Usuario crearUsuario(String email, String password, String password2, MultipartFile archivo) throws Excepciones {
+    // --- Crear Usuario --- //
+    public Usuario crearUsuario(String email, String password, String password2,
+            String nombre, String apellido,
+            MultipartFile archivo) throws Excepciones {
 
-        validar(email, password, password2);
+        validar(email, password, password2, nombre, apellido);
 
         usuario = new Usuario();
 
@@ -60,27 +63,22 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario.setRol(Rol.USER);
         usuario.setActivo(true);
-        
+
         //atributos se activaran cuando se actualice a CLIENTE
-        usuario.setNombre(null);
-        usuario.setApellido(null);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
         usuario.setTelefono(null);
         usuario.setDireccion(null);
-        usuario.setContratos(null);
-        
+
         //atributos se activaran cuando se actualice a PROVEEDOR
         usuario.setCategoriaServicio(null);
         usuario.setComentarios(null);
-        usuario.setSevicios(null);
+        usuario.setServicios(null);
 
         return usuario;
     }
-    
-    
-    
-    
-//carga imagen nula si no sube un archivo
 
+//carga imagen nula si no sube un archivo
     public boolean cargarImagen(MultipartFile archivo) throws Excepciones {
         if (!archivo.isEmpty()) {
             Imagen imagen = imagenServicio.guardar(archivo);
@@ -93,19 +91,24 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    // --- Persistir Usuario --- //
     @Transactional
-    public void persistirUsuario(String email, String password,
-            String password2, MultipartFile archivo) throws Excepciones {
+    public void persistirUsuario(String email, String password, String password2,
+            String nombre, String apellido, 
+            MultipartFile archivo) throws Excepciones {
 
-        usuario = crearUsuario(email, password, password2, archivo);
+        usuario = crearUsuario(email, password, password2, nombre, apellido,  archivo);
         usuarioRepositorio.save(usuario);
-        System.out.println("Usuario creado" + usuario.getEmail());
+        System.out.println(" --- ");
+        System.out.println("Usuario creado " + usuario.getEmail());
+        System.out.println(" --- ");
     }
 
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
 
+    // --- UserDetails --- //
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -125,15 +128,17 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    public void validar(String email, String password, String password2) throws Excepciones {
-//        if (nombre.isEmpty() || nombre == null) {
-//            throw new Excepciones("El nombre no puede ser nulo o estar vacio");
-//        }
-//        if (apellido.isEmpty() || apellido == null) {
-//            throw new Excepciones("El apellido no puede ser nulo o estar vacio");
-//        }
+    // --- Validaciones Usuario --- //
+    public void validar(String email, String password, String password2, String nombre,
+            String apellido) throws Excepciones {
 
-        //Tambien verificar que no haya 2 usuarios con el mismo email---!!!!
+        if (nombre.isEmpty() || nombre == null) {
+            throw new Excepciones("El nombre no puede ser nulo o estar vacio");
+        }
+        if (apellido.isEmpty() || apellido == null) {
+            throw new Excepciones("El apellido no puede ser nulo o estar vacio");
+        }
+
         if (email.isEmpty() || email == null) {
             throw new Excepciones("El email no puede ser nulo o estar vacio");
         }
@@ -146,28 +151,31 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    
     @Transactional
-    public Usuario actualizar(MultipartFile archivo, String id, String email,
-            @RequestParam(required = true) String password, String password2) throws Exception {
-        validar(email, password, password2);
+    public Usuario actualizar(String id, String email, String nombre, String apellido, String telefono,
+            MultipartFile archivo, @RequestParam(required = true) String password, String password2) throws Exception {
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
+
+            // Verificar si el email ya está en uso por otro usuario
+            Usuario usuarioConEmail = usuarioRepositorio.buscarPorEmail(email);
+            if (usuarioConEmail != null && !usuarioConEmail.getId().equals(usuario.getId())) {
+                throw new Exception("El correo electrónico ya está en uso por otro usuario");
+            }
+
             // Verificar la contraseña antes de realizar las actualizaciones
             if (verificarContraseña(usuario, password)) {
-
-                if (usuario.getEmail().equals(email)) {
-                    usuarioRepositorio.actualizarEmail(email, usuario.getId());
-                }
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                //usuario.setEmail(email);
 
                 usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
                 cargarImagen(archivo);
 
-                //usuarioRepositorio.save(usuario);
+                usuarioRepositorio.save(usuario);
                 System.out.println("-------------------------------------------------------------");
                 System.out.println("Perfil Actualizado: " + usuario.getEmail());
                 System.out.println("-------------------------------------------------------------");
@@ -181,6 +189,7 @@ public class UsuarioServicio implements UserDetailsService {
         return null;
     }
 
+    // --- Verificar Contraseña --- //
     private boolean verificarContraseña(Usuario usuario, String contraseña) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.matches(contraseña, usuario.getPassword());
@@ -203,6 +212,7 @@ public class UsuarioServicio implements UserDetailsService {
         return null;
     }
 
+    // --- Cambiar Alta --- //
     @Transactional
     public Usuario cambiarAlta(String id) {
         Optional<Usuario> resp = usuarioRepositorio.findById(id);
@@ -215,12 +225,8 @@ public class UsuarioServicio implements UserDetailsService {
             System.out.println("");
             System.out.println(usuario.getActivo());
             System.out.println("Alta servicio");
-
-            System.out.println("");
             System.out.println("");
             System.out.println("email: " + usuario.getEmail());
-
-            System.out.println("");
             System.out.println("");
 
             return usuario;
@@ -233,7 +239,7 @@ public class UsuarioServicio implements UserDetailsService {
         return usuario;
     }
 
-// Listar Usuarios --
+    // --- Listar Usuarios --- //
     @Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList();
@@ -241,68 +247,56 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //PROVEEDOR  //---- EX PROVEEDOR SERVICIO
-    
-     @Transactional
+    /*
+        -------------------------------------------------------
+        -------------------------------------------------------
+                              PROVEEDOR
+        -------------------------------------------------------
+        -------------------------------------------------------
+     */
+    // --- Crear Proveedor --- //  
+    @Transactional
     public void crearProveedor(String nombre, String apellido, String telefono,
             String email, String password, String password2, Categoria categoria, MultipartFile archivo) throws Excepciones, MiException {
-            
-            validar2(nombre, apellido, telefono, email, password, password2);
-            
-            usuario = new Usuario();
 
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setTelefono(telefono);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setUltimaConexion(new Date());
-            
-            cargarImagen(archivo);
-            
-            usuario.setRol(Rol.PROVEEDOR);
-            usuario.setActivo(true);
+        validarProveedor(nombre, apellido, telefono, email, password, password2);
 
-            usuario.setCategoriaServicio(categoria);
-            usuario.setSevicios(new ArrayList());
-            
-            usuario.setContratos(null);
-            
-     
-            usuarioRepositorio.save(usuario);       
+        usuario = new Usuario();
+
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setTelefono(telefono);
+        usuario.setEmail(email);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+        usuario.setUltimaConexion(new Date());
+
+        cargarImagen(archivo);
+
+        usuario.setRol(Rol.PROVEEDOR);
+        usuario.setActivo(true);
+
+        usuario.setCategoriaServicio(categoria);
+        usuario.setServicios(new ArrayList());
+
+        usuarioRepositorio.save(usuario);
+
+        System.out.println(" --- ");
+        System.out.println("Proveedor creado " + usuario.getEmail());
+        System.out.println(" --- ");
+
     }
 
-    
-    
-    
-    
-    //---- EX PROVEEDOR SERVICIO
-     public void validar2(String nombre, String apellido, String telefono, String email, String password, String password2) throws MiException, Excepciones {
-        
+    // --- Validaciondes Proveedor --- //
+    public void validarProveedor(String nombre, String apellido, String telefono, String email, String password, String password2) throws MiException, Excepciones {
+
         if (nombre.isEmpty() || nombre == null) {
             throw new Excepciones("El nombre no puede ser nulo o estar vacio");
         }
-        
+
         if (apellido.isEmpty() || apellido == null) {
             throw new Excepciones("El apellido no puede ser nulo o estar vacio");
         }
-        
+
         if (telefono.isEmpty() || telefono == null) {
             throw new Excepciones("El Telefono no puede ser nulo o estar vacio");
         }
@@ -310,7 +304,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (email.isEmpty() || email == null) {
             throw new Excepciones("El email no puede ser nulo o estar vacio");
         }
-        
+
         if (password.isEmpty() || password == null) {
             throw new Excepciones("El password no puede ser nulo o estar vacio");
         }
@@ -319,46 +313,42 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-    
-    
-          //----------- Listar Proveedores -------------//
-    
+
+    // --- Listas --- //
     @Transactional(readOnly = true)
     public List<Usuario> listarProveedores() {
         return usuarioRepositorio.listarProveedor();
     }
-    
+
+    // --- Listas por Categoria --- //
     @Transactional(readOnly = true)
     public List<Usuario> listarSalud() {
-        //return usuarioRepositorio.buscarPorCategoriaServicio("SALUD");
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.SALUD);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Usuario> listarElectricidad() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.ELECTRICIDAD);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Usuario> listarPlomeria() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.PLOMERIA);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Usuario> listarLimpieza() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.LIMPIEZA);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Usuario> listarJardineria() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.JARDINERIA);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Usuario> listarVarios() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.VARIOS);
     }
-    
-    
-    
+
 }
