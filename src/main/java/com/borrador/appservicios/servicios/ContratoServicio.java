@@ -140,7 +140,7 @@ public class ContratoServicio {
 
     }
 
-    //  ---------- listas de contratos Usuarios y Proveedores ---------- //
+    //  ---------- listas de contratos Usuarios, Proveedores, Mod, Admin ---------- //
     @Transactional(readOnly = true)
     public List<Contrato> listarContratosPorCliente(Usuario cliente) {
         return contratoRepositorio.findByCliente(cliente);
@@ -151,4 +151,5 @@ public class ContratoServicio {
         return contratoRepositorio.findByProveedor(proveedor);
     }
 
+   
 }

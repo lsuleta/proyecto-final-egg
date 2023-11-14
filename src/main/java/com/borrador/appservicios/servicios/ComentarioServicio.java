@@ -38,8 +38,7 @@ public class ComentarioServicio {
     @Autowired
     private ContratoRepositorio contratoRepositorio;
 
-//    @Autowired
-//    private ProveedorRepositorio proveedorRepositorio;
+    // --- CREAR COMENTARIO --- //
     public Comentario crearComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
 
         validar(comentarioTexto, idUsuario, idProveedor);
@@ -60,6 +59,7 @@ public class ComentarioServicio {
         return comentario;
     }
 
+    // --- PERSISTIR COMENTARIO --- //
     @Transactional
     public void persistirComentario(String comentarioTexto, String idUsuario, String idProveedor) throws Excepciones {
         validar(comentarioTexto, idUsuario, idProveedor);
@@ -67,6 +67,8 @@ public class ComentarioServicio {
         comentarioRepositorio.save(comentario);
     }
 
+    
+    // --- COMENTARIOS EN CONTRATO --- //
     public Comentario crearComentarioServicio(String comentarioTexto, String idUsuario, String idProveedor, String idContrato) throws Excepciones {
 
         validar(comentarioTexto, idUsuario, idProveedor);
@@ -98,6 +100,8 @@ public class ComentarioServicio {
         return comentario;
     }
 
+    
+    // --- PERSISTIR COMENTARIOS EN CONTATO --- //
     @Transactional
     public void persistirComentarioServicio(String comentarioTexto, String idUsuario, String idProveedor, String idContrato) throws Excepciones {
         validar(comentarioTexto, idUsuario, idProveedor);
@@ -105,6 +109,8 @@ public class ComentarioServicio {
         comentarioRepositorio.save(comentario);
     }
 
+    
+    // --- VALIDACIONES --- //
     private void validar(String comentario, String idUsuario, String idProveedor) throws Excepciones {
         if (comentario.isEmpty() || comentario == null) {
             throw new Excepciones("el comentario no puede ser nulo o estar vacio");
@@ -118,6 +124,7 @@ public class ComentarioServicio {
 
     }
 
+    // --- LISTAR COMENTARIOS --- //
     public List<Comentario> listarComentarios() {
         List<Comentario> comentarios = new ArrayList();
 
@@ -126,8 +133,21 @@ public class ComentarioServicio {
         return comentarios;
     }
 
+    // --- MODIFICAR COMENTARIOS EN PROVEEDOR --- //
     @Transactional
-    public Comentario modificarComentario(String idComentario, String comentario) {
+    public Comentario modificarComentarioProveedor(String idComentario, String comentario) {
+        Optional<Comentario> resp = comentarioRepositorio.findById(idComentario);
+        if (resp.isPresent()) {
+            Comentario coment = resp.get();
+            coment.setComentario(comentario);
+            return coment;
+        }
+        return null;
+    }
+    
+    // --- MODIFICAR COMENTARIOS EN CONTATO --- //
+    @Transactional
+    public Comentario modificarComentarioContrato(String idComentario, String comentario) {
         Optional<Comentario> resp = comentarioRepositorio.findById(idComentario);
         if (resp.isPresent()) {
             Comentario coment = resp.get();
@@ -137,6 +157,31 @@ public class ComentarioServicio {
         return null;
     }
 
-    
+    // --- ELIMINAR COMENTARIO EN CONTRATO --- //
+    @Transactional
+    public void eliminarComentarioProveedor(String idComent, String idProv){
+        
+        Optional<Usuario> respUsuario = usuarioRepositorio.findById(idProv);
+        if(respUsuario.isPresent()){
+            
+            Usuario usuario = respUsuario.get();
+            List<Comentario> listComent = usuario.getComentarios();
+            
+            listComent.removeIf(comentario -> comentario.getId().equals(idComent));
+        }
+    }
+    // --- ELIMINAR COMENTARIO EN CONTRATO --- //
+    @Transactional
+    public void eliminarComentarioContrato(String idComent, String idContrato){
+        
+        Optional<Contrato> respContrato = contratoRepositorio.findById(idContrato);
+        if(respContrato.isPresent()){
+            
+            Contrato contrato = respContrato.get();
+            List<Comentario> listComent = contrato.getComentariosServicio();
+            
+            listComent.removeIf(comentario -> comentario.getId().equals(idComent));
+        }
+    }
 
 }

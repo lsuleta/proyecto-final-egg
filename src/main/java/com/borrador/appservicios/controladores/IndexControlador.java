@@ -303,7 +303,7 @@ public class IndexControlador {
         return "servicio_pruebas.html";
     }
 
-    // --- Comentarios Servicios --- //
+    // --- Comentarios en Contrato --- //
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/servicios/comentario/{id}")
     public String comentarServicio(@RequestParam String comentario,
@@ -317,7 +317,7 @@ public class IndexControlador {
             comentarioServicio.persistirComentarioServicio(comentario, id, idProveedor, idContrato);
 
             modelo.put("exito", "COMENTARIO REALIZADO CORRECTAMENTE");
-            return "redirect:/servicios/proveedor/" + idProveedor;
+            return "redirect:/servicios-contratados/" + id;
         } catch (Excepciones ex) {
             System.out.println("1----------- EXCEPCION DE CARGA DE COMENTARIO");
             Logger.getLogger(IndexControlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -326,16 +326,55 @@ public class IndexControlador {
         return "servicio_pruebas.html";
     }
 
-    // --- Eliminar Comentarios --- //
-    @PostMapping("/modificar-comentario-usuario/{id}")
-    public String modificarComentario(@PathVariable String id, @RequestParam String comentario) {
+    // --- Modificar Comentarios en Proveedor --- //
+    @PostMapping("/modificar-comentario/{id}")
+    public String modificarComentarioProveedor(@RequestParam String idProv, @RequestParam String idComent, @RequestParam String comentario) {
 
         try {
-            comentarioServicio.modificarComentario(id, comentario);
+            comentarioServicio.modificarComentarioProveedor(idComent, comentario);
             System.out.println("---");
             System.out.println("--- Comentario modificado ---");
             System.out.println("---");
-            return "servicios_contratados_lista.html";
+            return "redirect:/servicios/proveedor/"+idProv;
+
+        } catch (Exception e) {
+            return "index.html";
+        }
+
+    }
+    
+    // --- eliminar comentario en Proveedor --- //
+    @PostMapping("/eliminar-comentario-proveedor/{id}")
+    public String eliminarComentarioProveedor(@RequestParam String idProv, @RequestParam String idComent) throws Excepciones{
+        try {
+            if(!idComent.isEmpty() && !idProv.isEmpty()){
+                
+                System.out.println("idComentario - "+idComent);
+                System.out.println("idContrato - "+idProv);
+                
+                comentarioServicio.eliminarComentarioProveedor(idComent, idProv);
+                System.out.println("---");
+                System.out.println("--- Comentario eliminado ---");
+                System.out.println("---");
+                return "redirect:/servicios/proveedor/"+idProv;
+            }
+        } catch (Exception e) {
+            throw new Excepciones("ERROR AL ELIMINAR COMENTARIO --- CONTROLADOR ---");
+        }
+        
+        return "index.html";
+    }
+    
+    // --- Modificar Comentarios en contrato --- //
+    @PostMapping("/modificar-comentario-usuario/{id}")
+    public String modificarComentarioContrato(@PathVariable String id,@RequestParam String idUser, @RequestParam String comentario) {
+
+        try {
+            comentarioServicio.modificarComentarioContrato(id, comentario);
+            System.out.println("---");
+            System.out.println("--- Comentario modificado ---");
+            System.out.println("---");
+            return "redirect:/servicios-contratados/"+idUser;
 
         } catch (Exception e) {
             return "servicios_contratados_lista.html";
@@ -343,6 +382,30 @@ public class IndexControlador {
 
     }
 
+    // --- eliminar comentario en contrato --- //
+    @PostMapping("/eliminar-comentario/{id}")
+    public String eliminarComentarioContrato(@RequestParam String idUser ,@RequestParam String idContrato, @RequestParam String idComent) throws Excepciones{
+        try {
+            if(!idComent.isEmpty() && !idContrato.isEmpty()){
+                
+                System.out.println("idComentario - "+idComent);
+                System.out.println("idContrato - "+idContrato);
+                
+                comentarioServicio.eliminarComentarioContrato(idComent, idContrato);
+                System.out.println("---");
+                System.out.println("--- Comentario eliminado ---");
+                System.out.println("---");
+                return "redirect:/servicios-contratados/"+idUser;
+
+            }
+        } catch (Exception e) {
+            throw new Excepciones("ERROR AL ELIMINAR COMENTARIO --- CONTROLADOR ---");
+        }
+        
+        return "index.html";
+    }
+ 
+    
     // --- Proveedor Registrar un Servicio --- //
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("registro-servicio/{id}")
@@ -380,10 +443,21 @@ public class IndexControlador {
             // TRAE CONTRATOS CLIENTE
             List<Contrato> contratosCliente = contratoServicio.listarContratosPorCliente(usuario);
             modelo.addAttribute("contratos", contratosCliente);
-        } else if (usuario.getRol() == Rol.PROVEEDOR) {
+        } 
+        if (usuario.getRol() == Rol.PROVEEDOR) {
             // TRAE CONTRATOS PROVEEDOR
             List<Contrato> contratosProveedor = contratoServicio.listarContratosPorProveedor(usuario);
             modelo.addAttribute("contratos", contratosProveedor);
+        }
+        if (usuario.getRol() == Rol.MODERADOR) {
+            // TRAE CONTRATOS MODERADOR
+            List<Contrato> contratosModerador = contratoServicio.listarContratosPorCliente(usuario);
+            modelo.addAttribute("contratos", contratosModerador);
+        }
+        if (usuario.getRol() == Rol.ADMIN) {
+            // TRAE CONTRATOS MODERADOR
+            List<Contrato> contratosAdministrador = contratoServicio.listarContratosPorCliente(usuario);
+            modelo.addAttribute("contratos", contratosAdministrador);
         }
 
         return "servicios_contratados_lista.html";

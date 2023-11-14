@@ -120,11 +120,11 @@
                     </table>
 
 
-                    
+
                     <p class="text-white" th:text=" 'CONTRATO ID: '+${contrato.id} " ></p>
-                 <!--   <p th:text=" 'USUARIO NOMBRE: '+${contrato.cliente.nombre} " ></p>
-                    <p th:text=" 'USUARIO APELLIDO: '+${contrato.cliente.apellido} " ></p>
-                    <p th:text=" 'USUARIO TELEFONO: '+${contrato.cliente.telefono} " ></p>
+                    <!--   <p th:text=" 'USUARIO NOMBRE: '+${contrato.cliente.nombre} " ></p>
+                       <p th:text=" 'USUARIO APELLIDO: '+${contrato.cliente.apellido} " ></p>
+                       <p th:text=" 'USUARIO TELEFONO: '+${contrato.cliente.telefono} " ></p>
                     -->
                 </div>
                 <div class="row mx-auto">
@@ -132,7 +132,7 @@
                         <div class="text-center text-white border-1 border-bottom border-secondary">
                             <h3 th:text="'Estado del Servicio '+${contrato.proveedor.categoriaServicio}"> </h3>
                         </div>
-                       
+
 
                         <tbody>
 
@@ -145,7 +145,7 @@
 
                                 <th scope="row">Cancelado </th>
                                 <td th:text="${contrato.contratoCancelado} " colspan="3"  ></td>
-                                
+
                             </tr>
                             <tr>
                                 <th scope="row" colspan="4" >Califica el Servicio </th>
@@ -158,7 +158,7 @@
                     </table>
                 </div>
 
-                <!--  COMENTARIOS DEL SERVICIO -->
+                <!--  COMENTARIOS DEL PERFIL PROVEEDOR -->
 
                 <div class="row ">
 
@@ -211,7 +211,10 @@
                                         </div>
                                         <div class="col-4">
                                             <p th:utext="${comentario.id}" class="card-text"><small class="text-body-secondary">Fecha del comentario</small></p>
-                                            <a th:href="@{/eliminar-comentario-usuario/__${contrato.id}__}"><small class="text-body-secondary">Eliminar Comentario</small></a>
+
+
+
+                                            <!--     <a th:href="@{/eliminar-comentario-usuario/__${contrato.id}__}"><small class="text-body-secondary">Eliminar Comentario</small></a>-->
                                             <!-- <a href="url"><small class="text-body-secondary">Editar Comentario</small></a> -->
                                         </div>
                                     </div>
@@ -222,28 +225,32 @@
                                         <div class="accordion-item" th:with="comentarioId=${comentario.id}">
                                             <h2 class="accordion-header">
                                                 <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="'#flush-collapse_' + ${comentarioId}" aria-expanded="false" th:aria-controls="'flush-collapse_' + ${comentarioId}">
-                                                    Editar Comentario
+                                                    Editar Comentario / Eliminar Comentario
                                                 </a>
                                             </h2>
                                             <div th:id="'flush-collapse_' + ${comentarioId}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
-                                                    Placeholder content for this accordion. This is the first item's accordion body.
-                                                    <p th:text="${comentarioId}"></p>
-                                                    <!-- Ahora puedes acceder a las variables del bucle, como comentarioId, dentro del acordeón -->
-
+                                                    <p th:text="${comentarioId}">COMENTARIO</p>
+                                                    <p th:text="${contrato.id}">CONTRATO</p>
 
                                                     <form th:action="@{/modificar-comentario-usuario/__${comentario.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
-                                                        <input hidden th:value="${session.usuariosession.id}" name="id">
+                                                        <input hidden th:value="${session.usuariosession.id}" name="idUser">
                                                         <input hidden th:value="${contrato.proveedor.id}" name="idProveedor">
                                                         <input hidden th:value="${contrato.id}" name="idContrato">
                                                         <div >
                                                             <textarea th:value="${comentario.comentario}" class="form-control comentario" id="comentario" name="comentario" rows="3" th:placeholder="${session.usuariosession.email + ', deja aqui tu comentario'}" required ></textarea>
                                                         </div>
 
-                                                        <button type="submit" class="btn btn-primary ">Comentar</button>
+                                                        <button type="submit" class="btn btn-primary ">Editar Comentario</button>
                                                     </form>
 
+                                                    <form th:action="@{/eliminar-comentario/__${comentario.id}__}" method="post">
+                                                        <input hidden th:value="${session.usuariosession.id}" name="idUser">
+                                                        <input hidden name="idComent" th:value="${comentarioId}">
+                                                        <input hidden name="idContrato" th:value="${contrato.id}">
 
+                                                        <button type="submit" class="btn btn-danger ">Eliminar Comentario</button>
+                                                    </form>
 
                                                 </div>
                                             </div>
@@ -255,17 +262,8 @@
                             </div>
                         </div>
 
-
-
-
-
-
-
                     </div>
                 </div>
-
-
-
 
             </div>
         </div>
