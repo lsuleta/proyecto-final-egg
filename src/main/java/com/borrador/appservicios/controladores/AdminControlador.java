@@ -29,8 +29,9 @@ public class AdminControlador {
     private UsuarioServicio usuarioServicio;
     @Autowired
     private AdminSevicio adminSevicio;
-    
+
     private final String endpointUsuarios = "redirect:/admin/usuarios";
+
     public AdminControlador(AdminSevicio adminSevicio) {
         this.adminSevicio = adminSevicio;
     }
@@ -54,13 +55,12 @@ public class AdminControlador {
 
         return "adm_usr_modificar.html";
     }
-    
-   /* @GetMapping("/modificarRol/{id}")
-    public String cambiarRol(@PathVariable String id) {
-        adminSevicio.cambiarRol(id);
-        return endpointUsuarios;
-    }*/
 
+//    @GetMapping("/modificarRol/{id}")
+//    public String cambiarRol(@PathVariable String id) {
+//        adminSevicio.cambiarRol(id);
+//        return "redirect:/admin/usuarios";
+//    }
     // --- ADMIN CAMBIAR ALTA --- //
     @GetMapping("/Alta/{id}")
     public String cambiarAlta(@PathVariable String id) {
@@ -74,7 +74,7 @@ public class AdminControlador {
         adminSevicio.cambiarRolUser(id);
         return endpointUsuarios;
     }
-    
+
     // --- ADMIN CAMBIAR ROL CLIENTE --- //
     @GetMapping("/modificarRolCliente/{id}")
     public String cambiarRolCliente(@PathVariable String id) {
@@ -107,7 +107,7 @@ public class AdminControlador {
     @GetMapping("/eliminarUsuario/{id}")
     public String eliminarUsuarioBD(@PathVariable String id) {
         adminSevicio.eliminar(id);
-        return endpointUsuarios;
+       return endpointUsuarios;
     }
 
     // --- ADMIN MODIFICAR USUARIO --- //
@@ -118,7 +118,8 @@ public class AdminControlador {
             @RequestParam String apellido,
             @RequestParam String email,
             ModelMap modelo, HttpSession session) throws Exception {
-        
+
+        System.out.println("nombre " + nombre + " apellido " + apellido + " email " + email);
 
         Usuario usuarioactualizado = adminSevicio.actualizar(archivo, id, nombre, apellido, email);
 
@@ -126,8 +127,13 @@ public class AdminControlador {
 
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
 
-        session.setAttribute("usuariosession", usuarioactualizado);
-        
+        if (logueado.getId().equals(usuarioactualizado.getId())) {
+
+            session.setAttribute("usuariosession", usuarioactualizado);
+        } else {
+            session.setAttribute("usuariosession", logueado);
+        }
+
         return endpointUsuarios;
     }
 

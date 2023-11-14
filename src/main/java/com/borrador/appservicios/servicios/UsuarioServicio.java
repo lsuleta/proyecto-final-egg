@@ -151,35 +151,47 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    // --- Actualizar Usuario --- //
     @Transactional
     public Usuario actualizar(String id, String email, String nombre, String apellido, String telefono,
             MultipartFile archivo, @RequestParam(required = true) String password, String password2) throws Exception {
 
+        validar(email, password, password2, nombre, apellido);
+
+        
+        System.out.println("TELEFONO---- "+telefono);
+        
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
         if (respuesta.isPresent()) {
             usuario = respuesta.get();
-
-            // Verificar si el email ya está en uso por otro usuario
-            Usuario usuarioConEmail = usuarioRepositorio.buscarPorEmail(email);
-            if (usuarioConEmail != null && !usuarioConEmail.getId().equals(usuario.getId())) {
-                throw new Exception("El correo electrónico ya está en uso por otro usuario");
-            }
-
             // Verificar la contraseña antes de realizar las actualizaciones
             if (verificarContraseña(usuario, password)) {
+
                 usuario.setNombre(nombre);
                 usuario.setApellido(apellido);
-                //usuario.setEmail(email);
+                usuario.setEmail(email);
 
                 usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
                 cargarImagen(archivo);
+                if(telefono.isEmpty()){
+                    usuario.setTelefono(null);
+                }
+                
+                if (usuario.getRol() != Rol.USER) {
+                    usuario.setTelefono(telefono);
+                } else {
+                    usuario.setTelefono(null);
+                }
 
                 usuarioRepositorio.save(usuario);
                 System.out.println("-------------------------------------------------------------");
                 System.out.println("Perfil Actualizado: " + usuario.getEmail());
                 System.out.println("-------------------------------------------------------------");
+
                 return usuario;
+
             } else {
                 System.out.println("estas en el else ");
                 throw new Exception("La contraseña proporcionada no coincide con la contraseña en la base de datos");

@@ -20,5 +20,9 @@ public interface ContratoRepositorio extends JpaRepository<Contrato, String> {
    List<Contrato> findByCliente(Usuario cliente);
 
    List<Contrato> findByProveedor(Usuario proveedor);
+   
+  
+   
+   List<Contrato> findByClienteAndCliente_Rol(Usuario cliente, String rol);
 
 }

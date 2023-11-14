@@ -70,4 +70,17 @@ public class ClienteControlador {
 
     }
 
+    // --- CANCELAR CONTRATO --- //
+    @GetMapping("/cancelar-contrato/{id}")
+    public String cancelarContrato(@PathVariable String id) throws Excepciones {
+        try {
+            System.out.println("Tratanco de cancelar contrato de id " + id);
+            contratoServicio.contratoCancelar(id);
+            return "perfiles.html";
+
+        } catch (Exception e) {
+            throw new Excepciones("FALLA AL TRATAR DE CANCELAR CONTRATO");
+        }
+    }
+
 }

@@ -143,20 +143,13 @@ public class IndexControlador {
         return "modificar_cliente.html";
     }
 
-    ///funcion actualizar datos de perfil
+    // --- Actualizar Datos Usuario POST FORM ACTUALIZAR USUARIO --- //
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @PostMapping("/perfils/{id}")
-    public String actualizar(
-            @RequestParam MultipartFile archivo,
-            @PathVariable String id,
-            @RequestParam String email,
-            @RequestParam String nombre,
-            @RequestParam String apellido,
-            @RequestParam String telefono,
-            @RequestParam String password,
-            @RequestParam String password2,
-            ModelMap modelo,
-            HttpSession session) {
+    public String actualizar(MultipartFile archivo, @PathVariable String id, @RequestParam String email, @RequestParam String nombre,
+            @RequestParam String apellido, @RequestParam String telefono,
+            @RequestParam String password, @RequestParam String password2, ModelMap modelo, HttpSession session) {
+
         try {
             Usuario usuarioactualizado = usuarioServicio.actualizar(id, email, nombre, apellido, telefono, archivo, password, password2);
 
@@ -172,6 +165,7 @@ public class IndexControlador {
                 return "redirect:/perfil/" + id;
             }
         } catch (Exception ex) {
+
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
             modelo.put("email", email);
@@ -179,6 +173,7 @@ public class IndexControlador {
 
             return "modificar_cliente.html";
         }
+
     }
 
     // --- Eliminar Imagen --- //
@@ -265,6 +260,7 @@ public class IndexControlador {
         List<Usuario> jardineria = usuarioServicio.listarJardineria();
         List<Usuario> varios = usuarioServicio.listarVarios();
 
+        modelo.addAttribute("categorias", Categoria.values());
         modelo.addAttribute("plomeria", plomeria);
         modelo.addAttribute("electricidad", electricidad);
         modelo.addAttribute("salud", salud);
@@ -301,12 +297,115 @@ public class IndexControlador {
             return "redirect:/servicios/proveedor/" + idProveedor;
         } catch (Excepciones ex) {
             System.out.println("1----------- EXCEPCION DE CARGA DE COMENTARIO");
-            // Logger.getLogger(IndexControlador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IndexControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return "servicio_pruebas.html";
     }
 
+    // --- Comentarios en Contrato --- //
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
+    @PostMapping("/servicios/comentario/{id}")
+    public String comentarServicio(@RequestParam String comentario,
+            @RequestParam String id,// id de usuario
+            @RequestParam String idProveedor,
+            @RequestParam String idContrato,
+            ModelMap modelo) {
+
+        try {
+
+            comentarioServicio.persistirComentarioServicio(comentario, id, idProveedor, idContrato);
+
+            modelo.put("exito", "COMENTARIO REALIZADO CORRECTAMENTE");
+            return "redirect:/servicios-contratados/" + id;
+        } catch (Excepciones ex) {
+            System.out.println("1----------- EXCEPCION DE CARGA DE COMENTARIO");
+            Logger.getLogger(IndexControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "servicio_pruebas.html";
+    }
+
+    // --- Modificar Comentarios en Proveedor --- //
+    @PostMapping("/modificar-comentario/{id}")
+    public String modificarComentarioProveedor(@RequestParam String idProv, @RequestParam String idComent, @RequestParam String comentario) {
+
+        try {
+            comentarioServicio.modificarComentarioProveedor(idComent, comentario);
+            System.out.println("---");
+            System.out.println("--- Comentario modificado ---");
+            System.out.println("---");
+            return "redirect:/servicios/proveedor/"+idProv;
+
+        } catch (Exception e) {
+            return "index.html";
+        }
+
+    }
+    
+    // --- eliminar comentario en Proveedor --- //
+    @PostMapping("/eliminar-comentario-proveedor/{id}")
+    public String eliminarComentarioProveedor(@RequestParam String idProv, @RequestParam String idComent) throws Excepciones{
+        try {
+            if(!idComent.isEmpty() && !idProv.isEmpty()){
+                
+                System.out.println("idComentario - "+idComent);
+                System.out.println("idContrato - "+idProv);
+                
+                comentarioServicio.eliminarComentarioProveedor(idComent, idProv);
+                System.out.println("---");
+                System.out.println("--- Comentario eliminado ---");
+                System.out.println("---");
+                return "redirect:/servicios/proveedor/"+idProv;
+            }
+        } catch (Exception e) {
+            throw new Excepciones("ERROR AL ELIMINAR COMENTARIO --- CONTROLADOR ---");
+        }
+        
+        return "index.html";
+    }
+    
+    // --- Modificar Comentarios en contrato --- //
+    @PostMapping("/modificar-comentario-usuario/{id}")
+    public String modificarComentarioContrato(@PathVariable String id,@RequestParam String idUser, @RequestParam String comentario) {
+
+        try {
+            comentarioServicio.modificarComentarioContrato(id, comentario);
+            System.out.println("---");
+            System.out.println("--- Comentario modificado ---");
+            System.out.println("---");
+            return "redirect:/servicios-contratados/"+idUser;
+
+        } catch (Exception e) {
+            return "servicios_contratados_lista.html";
+        }
+
+    }
+
+    // --- eliminar comentario en contrato --- //
+    @PostMapping("/eliminar-comentario/{id}")
+    public String eliminarComentarioContrato(@RequestParam String idUser ,@RequestParam String idContrato, @RequestParam String idComent) throws Excepciones{
+        try {
+            if(!idComent.isEmpty() && !idContrato.isEmpty()){
+                
+                System.out.println("idComentario - "+idComent);
+                System.out.println("idContrato - "+idContrato);
+                
+                comentarioServicio.eliminarComentarioContrato(idComent, idContrato);
+                System.out.println("---");
+                System.out.println("--- Comentario eliminado ---");
+                System.out.println("---");
+                return "redirect:/servicios-contratados/"+idUser;
+
+            }
+        } catch (Exception e) {
+            throw new Excepciones("ERROR AL ELIMINAR COMENTARIO --- CONTROLADOR ---");
+        }
+        
+        return "index.html";
+    }
+ 
+    
     // --- Proveedor Registrar un Servicio --- //
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN', 'ROLE_MODERADOR')")
     @GetMapping("registro-servicio/{id}")
@@ -344,10 +443,21 @@ public class IndexControlador {
             // TRAE CONTRATOS CLIENTE
             List<Contrato> contratosCliente = contratoServicio.listarContratosPorCliente(usuario);
             modelo.addAttribute("contratos", contratosCliente);
-        } else if (usuario.getRol() == Rol.PROVEEDOR) {
+        } 
+        if (usuario.getRol() == Rol.PROVEEDOR) {
             // TRAE CONTRATOS PROVEEDOR
             List<Contrato> contratosProveedor = contratoServicio.listarContratosPorProveedor(usuario);
             modelo.addAttribute("contratos", contratosProveedor);
+        }
+        if (usuario.getRol() == Rol.MODERADOR) {
+            // TRAE CONTRATOS MODERADOR
+            List<Contrato> contratosModerador = contratoServicio.listarContratosPorCliente(usuario);
+            modelo.addAttribute("contratos", contratosModerador);
+        }
+        if (usuario.getRol() == Rol.ADMIN) {
+            // TRAE CONTRATOS MODERADOR
+            List<Contrato> contratosAdministrador = contratoServicio.listarContratosPorCliente(usuario);
+            modelo.addAttribute("contratos", contratosAdministrador);
         }
 
         return "servicios_contratados_lista.html";
