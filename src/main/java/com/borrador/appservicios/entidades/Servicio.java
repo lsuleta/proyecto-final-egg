@@ -40,6 +40,10 @@ public class Servicio {
     private String descripcionServicio;
 
     private Integer precioServicio;
+    
+    private Double calificacionServicio;
+    
+    private String estrellasPromedio;
 
   
 }

@@ -83,4 +83,17 @@ public class ClienteControlador {
         }
     }
 
+    @PostMapping("/calificacion/{id}")
+    public String calificar(@RequestParam Integer calificacion, @RequestParam String IDcontrato) throws Excepciones{
+        try {
+            System.out.println("----------- SE INTENTA CALIFICAR " + calificacion + " ID CONTRATO " + IDcontrato + " ------------");
+            contratoServicio.cargarCalificacion(calificacion, IDcontrato);
+            System.out.println("--------------- SE CALIFICO CORRECTAMENTE ---------------------");
+            return "index.html";
+
+        } catch (Exception e) {
+            throw new Excepciones("NO SE PUDO CALIFICAR EN CONTROLADOR");
+        }
+    }
+
 }

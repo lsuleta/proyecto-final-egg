@@ -97,7 +97,7 @@ public class ContratoServicio {
     public void contratoCancelar(String idContrato) {
 
         Optional<Contrato> resp = contratoRepositorio.findById(idContrato);
-        System.out.println("Servicio cancelar Contrato id "+idContrato);
+        System.out.println("Servicio cancelar Contrato id " + idContrato);
         if (resp.isPresent()) {
             Contrato contrato = resp.get();
             if (contrato.getContratoCancelado() == false) {
@@ -105,7 +105,7 @@ public class ContratoServicio {
                 System.out.println(" --- ");
                 System.out.println("Contrato ya esta cancelado");
                 System.out.println(" --- ");
-            }else{
+            } else {
                 System.out.println(" --- ");
                 System.out.println("El contrato ya esta cancelado");
                 System.out.println(" --- ");
@@ -150,6 +150,52 @@ public class ContratoServicio {
     public List<Contrato> listarContratosPorProveedor(Usuario proveedor) {
         return contratoRepositorio.findByProveedor(proveedor);
     }
+    
+    @Transactional
+    public void cargarCalificacion(Integer calificacion, String IDcontrato) throws Excepciones{
+        Optional<Contrato> resContrato = contratoRepositorio.findById(IDcontrato);
+        if (resContrato.isPresent()) {
+            Contrato contrato = resContrato.get();
+            contrato.getListaCalificaciones().add(calificacion);
+            System.out.println("LISTA " + contrato.getListaCalificaciones());
+            contrato.setPromedio(promediarCalificacion(contrato.getListaCalificaciones()));
+            contrato.getServicio().setCalificacionServicio(promediarCalificacion(contrato.getListaCalificaciones()));
+            contrato.getServicio().setEstrellasPromedio(estrellasCalificacion(promediarCalificacion(contrato.getListaCalificaciones())));
+            
+        }
+    }
 
-   
+    public Double promediarCalificacion(List<Integer> calificaciones) throws Excepciones{
+        if (calificaciones == null || calificaciones.isEmpty()) {
+            throw new Excepciones("LISTA NULA O VACIA");
+        }
+        Double suma = 0.0;
+        for (Integer aux : calificaciones) {
+            suma += aux;
+            System.out.println("SUMA " + suma);
+        }
+        System.out.println("SUMA " + suma);
+        Double resultado = suma / calificaciones.size();
+        System.out.println("TAMAÑO DE LISTA "+ calificaciones.size());
+        System.out.println("RESULTADO " + resultado);
+        return resultado;
+    }
+    
+    public String estrellasCalificacion(Double promedio){
+        switch ((int)Math.floor(promedio)) {
+            case 1:
+                return "⭐";
+            case 2:
+                return "⭐⭐";
+            case 3:
+                return "⭐⭐⭐";
+            case 4:
+                return "⭐⭐⭐⭐";
+            case 5:
+                return "⭐⭐⭐⭐⭐";
+            default:
+                throw new AssertionError();
+        }
+    }
+
 }

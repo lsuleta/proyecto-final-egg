@@ -76,5 +76,7 @@ public class Usuario {
 
     @OneToMany
     private List<Servicio> servicios;
+    
+    private Double promedioGeneral;
 
 }

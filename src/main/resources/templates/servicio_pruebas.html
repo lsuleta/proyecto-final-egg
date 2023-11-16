@@ -79,9 +79,11 @@
                                     <p  th:text="'Dato Proveedor : '+${servicio.proveedor.email}" class="card-text" ></p>
                                     <p th:text="'Servicio ID : '+${servicio.id}" class="card-text" ></p>
                                     <p  th:text="'Precio Servicio : $'+${servicio.precioServicio}" class="card-text" ></p>
-
+                                    <p  th:text="'Calificacion : '+${servicio.estrellasPromedio}" class="card-text" ></p>
+                                    <p  th:text="'Calificacion : '+${servicio.calificacionServicio}" class="card-text" ></p>
+                                    
                                     <div th:if="${session.usuariosession.id != servicio.proveedor.id}" >
-
+                                        
                                         <a th:text="'Contrata el servico de :  '+${proveedor.nombre}" th:href="@{/cita/__${servicio.id}__}" class="btn btn-secondary">ARREGLAR UNA CITA</a>
                                     </div>
 
