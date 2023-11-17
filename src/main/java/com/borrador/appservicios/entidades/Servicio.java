@@ -43,7 +43,7 @@ public class Servicio {
     
     private Double calificacionServicio;
     
-    private String estrellasPromedio;
+    private String estrellasCalificacionServicio;
 
   
 }

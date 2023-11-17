@@ -39,7 +39,7 @@ public class AdminSevicio implements UserDetailsService {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
-    private ImagenRepositorio imagenRepositorio;
+    private UsuarioServicio usuarioServicio;
 
     @Autowired
     private ImagenServicio imagenServicio;
@@ -249,4 +249,30 @@ public class AdminSevicio implements UserDetailsService {
 
     }
 
+    
+        // --- Listas Filtro --- //
+    
+    
+    @Transactional(readOnly = true)
+    public List<Usuario> filtrarUsuarios() {
+        return usuarioRepositorio.listarUsuario();
+    }
+    @Transactional(readOnly = true)
+    public List<Usuario> filtrarProveedor() {
+        return usuarioRepositorio.listarProveedor();
+    }
+    @Transactional(readOnly = true)
+    public List<Usuario> filtrarCliente() {
+        return usuarioRepositorio.listarCliente();
+    }
+    @Transactional(readOnly = true)
+    public List<Usuario> filtrarActivo() {
+        return usuarioRepositorio.listarUsuarioActivo();
+    }
+    @Transactional(readOnly = true)
+    public List<Usuario> filtrarBaja() {
+        return usuarioRepositorio.listarUsuarioBaja();
+    }
+    
+    
 }

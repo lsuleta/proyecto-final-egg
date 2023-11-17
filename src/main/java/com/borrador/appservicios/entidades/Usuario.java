@@ -78,5 +78,5 @@ public class Usuario {
     private List<Servicio> servicios;
     
     private Double promedioGeneral;
-
+    private String promedioGeneralString;
 }

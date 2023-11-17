@@ -150,52 +150,96 @@ public class ContratoServicio {
     public List<Contrato> listarContratosPorProveedor(Usuario proveedor) {
         return contratoRepositorio.findByProveedor(proveedor);
     }
-    
+
     @Transactional
-    public void cargarCalificacion(Integer calificacion, String IDcontrato) throws Excepciones{
-        Optional<Contrato> resContrato = contratoRepositorio.findById(IDcontrato);
-        if (resContrato.isPresent()) {
-            Contrato contrato = resContrato.get();
-            contrato.getListaCalificaciones().add(calificacion);
-            System.out.println("LISTA " + contrato.getListaCalificaciones());
-            contrato.setPromedio(promediarCalificacion(contrato.getListaCalificaciones()));
-            contrato.getServicio().setCalificacionServicio(promediarCalificacion(contrato.getListaCalificaciones()));
-            contrato.getServicio().setEstrellasPromedio(estrellasCalificacion(promediarCalificacion(contrato.getListaCalificaciones())));
+    public void calificacion(String idContrato, Integer num) {
+
+        Optional<Contrato> respContrato = contratoRepositorio.findById(idContrato);
+        if (respContrato.isPresent()) {
+
+            Contrato contrato = respContrato.get();
+            contrato.getCalificaciones().add(num);
+            Double cali = promediar(contrato.getCalificaciones());
+            contrato.setCalificacion(cali);
+            contrato.getServicio().setCalificacionServicio(cali);
+            contrato.setEstrellas(estrellasServicio(cali));
+            contrato.getServicio().setEstrellasCalificacionServicio(estrellasServicio(cali));
             
+            contrato.getProveedor().setPromedioGeneral(promediarGeneral(contrato.getProveedor().getServicios()));
+            contrato.getProveedor().setPromedioGeneralString(estrellasServicio(contrato.getProveedor().getPromedioGeneral()));
+
+            System.out.println("SERVICIO CALIFICACION ----- OK");
+        } else {
+
+            System.out.println("SERVICIO CALIFICACION ----- FAIL");
         }
+
     }
 
-    public Double promediarCalificacion(List<Integer> calificaciones) throws Excepciones{
-        if (calificaciones == null || calificaciones.isEmpty()) {
-            throw new Excepciones("LISTA NULA O VACIA");
+    public static Double promediarGeneral(List<Servicio> serviciosList){
+        if (serviciosList == null || serviciosList.isEmpty()) {
+            throw new IllegalArgumentException("La lista de números no puede ser nula o vacía");
         }
-        Double suma = 0.0;
-        for (Integer aux : calificaciones) {
-            suma += aux;
-            System.out.println("SUMA " + suma);
+        int suma = 0;
+        for (Servicio serv : serviciosList) {
+            suma += serv.getCalificacionServicio();
         }
-        System.out.println("SUMA " + suma);
-        Double resultado = suma / calificaciones.size();
-        System.out.println("TAMAÑO DE LISTA "+ calificaciones.size());
-        System.out.println("RESULTADO " + resultado);
-        return resultado;
+
+        return (double) suma / serviciosList.size();
+        
     }
     
-    public String estrellasCalificacion(Double promedio){
-        switch ((int)Math.floor(promedio)) {
-            case 1:
+    public static Double promediar(List<Integer> listaCalificaciones) {
+        if (listaCalificaciones == null || listaCalificaciones.isEmpty()) {
+            throw new IllegalArgumentException("La lista de números no puede ser nula o vacía");
+        }
+
+        int suma = 0;
+        for (Integer numero : listaCalificaciones) {
+            suma += numero;
+        }
+
+        return (double) suma / listaCalificaciones.size();
+    }
+
+    public static String estrellasServicio(Double num) {
+
+        Integer var = (int) Math.floor(num);
+
+        switch (var) {
+            case 1 -> {
                 return "⭐";
-            case 2:
+            }
+            case 2 -> {
                 return "⭐⭐";
-            case 3:
+            }
+            case 3 -> {
                 return "⭐⭐⭐";
-            case 4:
+            }
+            case 4 -> {
                 return "⭐⭐⭐⭐";
-            case 5:
+            }
+            case 5 -> {
                 return "⭐⭐⭐⭐⭐";
-            default:
+            }
+
+            default ->
                 throw new AssertionError();
         }
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<Contrato> listarContratoIniciado(Usuario usuario) {
+        return contratoRepositorio.findByClienteAndContratoIniciadoIsTrue(usuario);
+    }
+    @Transactional(readOnly = true)
+    public List<Contrato> listarContratoCancelado(Usuario usuario) {
+        return contratoRepositorio.findByClienteAndContratoCanceladoIsTrue(usuario);
+    }
+    @Transactional(readOnly = true)
+    public List<Contrato> listarContratoFinalizado(Usuario usuario) {
+        return contratoRepositorio.findByClienteAndContratoFinalizadoIsTrue(usuario);
     }
 
 }

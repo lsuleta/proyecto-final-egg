@@ -27,15 +27,28 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Modifying
     @Query("UPDATE Usuario u SET u.email = :nuevoEmail WHERE u.id = :usuarioId")
     void actualizarEmail(@Param("nuevoEmail") String nuevoEmail, @Param("usuarioId") String usuarioId);
-
-    @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR'")
-    public List<Usuario> listarProveedor();
-
     
     @Query("SELECT u FROM Usuario u WHERE u.rol = :rol AND u.categoriaServicio IN :categorias")
     List<Usuario> listarProveedoresPorCategoria(
             @Param("rol") Rol rol,
             @Param("categorias") Categoria categorias
     );
+
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'USER'")
+    public List<Usuario> listarUsuario();
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR'")
+    public List<Usuario> listarProveedor();
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'CLIENTE'")
+    public List<Usuario> listarCliente();
+    
+    @Query("SELECT u FROM Usuario u WHERE u.activo = '1'")
+    public List<Usuario> listarUsuarioActivo();
+    @Query("SELECT u FROM Usuario u WHERE u.activo = '0'")
+    public List<Usuario> listarUsuarioBaja();
+    
+    
+    
+    
+    
 
 }

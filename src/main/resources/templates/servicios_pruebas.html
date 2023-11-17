@@ -13,9 +13,9 @@
 
         <div><h3 class="text-center" >Servicios</h3></div>
 
-         <!-- Salud -->
-        
-         <div  class="album py-5 bg-body-tertiary container"> <!-- th:each="categoria : ${categorias}" -->
+        <!-- Salud -->
+
+        <div  class="album py-5 bg-body-tertiary container"> <!-- th:each="categoria : ${categorias}" -->
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
                     <h3  class="text-center" >Salud</h3> <!-- th:text="${categoria.nombre}" -->
@@ -25,8 +25,8 @@
 
                     <div th:each="proveedor : ${salud}"  class="col">
                         <div class="card shadow-sm  proveedor">
-                            <a th:href="@{/imagen/perfil/__${proveedor.id}__}">
-                                <img th:src="@{/imagen/perfil/__${proveedor.id}__}" width="100%" height="225" alt="Servicio foto"/>
+                            <a >
+                                <img style="height: fit-content;" th:src="@{/imagen/perfil/__${proveedor.id}__}" width="100%" height="225" alt="Servicio foto"/>
                             </a>
                             <div class="card-body">
                                 <div class="row pb-3">
@@ -34,8 +34,9 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                                     <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
                                     </div>
                                 </div>
 
@@ -55,9 +56,9 @@
                 </div>
             </div>
         </div>
-        
-         <!-- Plomeria -->
-       
+
+        <!-- Plomeria -->
+
         <div class="album py-5 bg-body-tertiary container">
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
@@ -77,8 +78,10 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+
                                     </div>
                                 </div>
 
@@ -99,8 +102,8 @@
             </div>
         </div>
 
-         <!-- Electricidad -->
-        
+        <!-- Electricidad -->
+
         <div class="album py-5 bg-body-tertiary container">
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
@@ -120,8 +123,10 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                 <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+
                                     </div>
                                 </div>
 
@@ -141,9 +146,9 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- LIMPIEZA -->
-        
+
         <div class="album py-5 bg-body-tertiary container">
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
@@ -163,8 +168,10 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                 <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+
                                     </div>
                                 </div>
 
@@ -184,9 +191,9 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Jardineria -->
-        
+
         <div class="album py-5 bg-body-tertiary container">
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
@@ -206,8 +213,10 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+
                                     </div>
                                 </div>
 
@@ -227,9 +236,9 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Varios -->
-        
+
         <div class="album py-5 bg-body-tertiary container">
             <div class="container">
                 <div class="border-bottom border-top border-secondary mb-3 py-3">
@@ -249,8 +258,10 @@
                                         <p th:text="${proveedor.nombre}"  class="card-text">Médico General</p>
                                     </div>
                                     <div class="col">
-                                        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
-                                        <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>
+                                        <!--             <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                   <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>  -->
+                                        <p th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+
                                     </div>
                                 </div>
 

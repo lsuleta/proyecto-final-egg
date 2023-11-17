@@ -1,6 +1,7 @@
 package com.borrador.appservicios.controladores;
 
 import com.borrador.appservicios.entidades.Usuario;
+import com.borrador.appservicios.excepciones.Excepciones;
 import com.borrador.appservicios.servicios.AdminSevicio;
 import com.borrador.appservicios.servicios.UsuarioServicio;
 import java.util.List;
@@ -107,7 +108,7 @@ public class AdminControlador {
     @GetMapping("/eliminarUsuario/{id}")
     public String eliminarUsuarioBD(@PathVariable String id) {
         adminSevicio.eliminar(id);
-       return endpointUsuarios;
+        return endpointUsuarios;
     }
 
     // --- ADMIN MODIFICAR USUARIO --- //
@@ -142,6 +143,70 @@ public class AdminControlador {
     public String eliminarUsuarioVista(@PathVariable String id, ModelMap modelo) {
         modelo.addAttribute("usuario", usuarioServicio.getOne(id));
         return "eliminar_confirmacion.html";
+    }
+
+    // --- FILTROS LISTA USUARIOS --- //
+    @PostMapping("/filtro")
+    public String filtroLista(@RequestParam String filtro) throws Excepciones {
+
+        System.out.println("ESTA BUSCANDO EL FILTRO DE " + filtro);
+        try {
+
+            if (filtro.equalsIgnoreCase("todos")) {
+                return "redirect:/admin/usuarios";
+            } else if (filtro.equalsIgnoreCase("usuarios")) {
+                return "redirect:/admin/usuarios-filtros-usuarios";
+            } else if (filtro.equalsIgnoreCase("proveedores")) {
+                return "redirect:/admin/usuarios-filtros-proveedores";
+            } else if (filtro.equalsIgnoreCase("clientes")) {
+                return "redirect:/admin/usuarios-filtros-clientes";
+            } else if (filtro.equalsIgnoreCase("activos")) {
+                return "redirect:/admin/usuarios-filtros-activos";
+            } else if (filtro.equalsIgnoreCase("baja")) {
+                return "redirect:/admin/usuarios-filtros-baja";
+            } else {
+                return "redirect:/admin/usuarios";
+            }
+            
+        } catch (Exception e) {
+            throw new Excepciones("Error de Filtro Admin");
+        }
+
+    }
+
+    @GetMapping("/usuarios-filtros-usuarios")
+    public String filtrarUsuarios(ModelMap modelo) {
+        List<Usuario> usuarios = adminSevicio.filtrarUsuarios();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario_list.html";
+    }
+
+    @GetMapping("/usuarios-filtros-proveedores")
+    public String filtrarProveedores(ModelMap modelo) {
+        List<Usuario> usuarios = adminSevicio.filtrarProveedor();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario_list.html";
+    }
+
+    @GetMapping("/usuarios-filtros-clientes")
+    public String filtrarClientes(ModelMap modelo) {
+        List<Usuario> usuarios = adminSevicio.filtrarCliente();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario_list.html";
+    }
+
+    @GetMapping("/usuarios-filtros-activos")
+    public String filtrarActivos(ModelMap modelo) {
+        List<Usuario> usuarios = adminSevicio.filtrarActivo();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario_list.html";
+    }
+
+    @GetMapping("/usuarios-filtros-baja")
+    public String filtrarInactivos(ModelMap modelo) {
+        List<Usuario> usuarios = adminSevicio.filtrarBaja();
+        modelo.addAttribute("usuarios", usuarios);
+        return "usuario_list.html";
     }
 
 }

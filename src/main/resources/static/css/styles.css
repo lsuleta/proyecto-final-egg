@@ -60,7 +60,7 @@
     border-radius:  50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
-   /* margin-left: 20px;*/
+    /* margin-left: 20px;*/
 }
 
 .header .btn button:hover{
@@ -71,14 +71,14 @@
 
 
 .imagen-header {
-    width: 90px; 
-    height: 100%; 
+    width: 90px;
+    height: 100%;
     overflow: hidden;
-    margin-left: 20px; 
+    margin-left: 20px;
 }
 .imagen-header img {
     /*clip: rect(0, 200px, 100px, 0);*/
-    width: 100%; 
+    width: 100%;
     height: 100%;
     margin-top: 0px;
     margin-left: 0px;
@@ -86,21 +86,21 @@
 }
 
 .img-fondo{
-    background-image: url("../images/main/fondo2.jpg");
+    background-image: url("../images/main/fondo2.png");
     background-repeat: no-repeat;
-    
+
     background-size: 100% 100%;
 }
 
 .perfil img{
-   width: 100%;
-   height: 100%;
-   object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .tarjeta-index{
     background-color: #ecf0f3;
-   /* box-shadow: 0px 0px 11px 6px #d1d9e6, 0px 0px 5px 0px #f9f9f9;*/
+    /* box-shadow: 0px 0px 11px 6px #d1d9e6, 0px 0px 5px 0px #f9f9f9;*/
     border: none;
     border-radius: 12px;
 }
@@ -128,7 +128,7 @@
 }
 
 .modal-backdrop {
---bs-backdrop-opacity: 0.7;
+    --bs-backdrop-opacity: 0.7;
 }
 /*----------------------PROVEEDORES -- SERVICIOS -- COMENTARIOS -----------------------------//
 /*Imagen Comentario*/
@@ -147,18 +147,32 @@
 }
 
 .comentarios-container {
-    max-height: 500px; 
-    overflow-y: scroll; 
- 
+    max-height: 500px;
+    overflow-y: scroll;
+
 }
 
 .comentarios-container::-webkit-scrollbar{
-   display: none;
+    display: none;
 }
 
 .proveedor{
-     transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
 }
 .proveedor:hover{
     transform: scale(1.05);
+}
+
+
+
+.lista-filtro {
+    background: none;
+    border: none;
+    color: #007bff; /* Color del enlace */
+    text-decoration: underline; /* Decoración de subrayado como un enlace */
+    cursor: pointer;
+}
+
+.lista-filtro:hover {
+    color: #0056b3; /* Cambia el color al pasar el ratón por encima */
 }

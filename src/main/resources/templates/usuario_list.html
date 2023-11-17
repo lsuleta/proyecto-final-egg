@@ -16,14 +16,65 @@
         <h2 style="color: #DFE2F2">Lista Usuarios:</h2>
     </div>
     <div style="padding: 0px;" >
-        
+
         <!-- Input de busqueda por Js - Nombre o Rol -->
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="filtro" placeholder="">
-            <label for="filtro" class="form-label">Buscar por Nombre / Email / Rol / Activos (true - false) </label>
-            
+            <input style='color:blue!important;text-align: center; font-size:larger; font-weight: 600;' type="text" class="form-control" id="filtro" placeholder="ingrese algo">
+            <label style='font-size: larger; font-weight: 600; color:#27363D; left: 30%;' for="filtro" class="form-label">Filtro Busqueda:  Nombre / Email / Rol / Activos (true - false). </label>
+
+
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar por 
+                </button>
+                <ul class="dropdown-menu">
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="todos" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro ">Todos los Usuarios</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="usuarios" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro ">Usuarios con rol de USER</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="proveedores" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro">Usuarios con rol de PROVEEDOR</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="clientes" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro">Usuarios con rol de CLIENTE</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="activos" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro">Usuarios Activos</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/admin/filtro}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="baja" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro ">Usuarios de Baja</button>
+                            
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+
+
+
         </div>
-        
+
+
         <table class="table table-dark" >
             <thead class="text-center" >
                 <tr >
@@ -46,7 +97,7 @@
                 <tr class="usuario"  >
                     <th scope="row" th:text="${usuario.id}"></th>
 
-                    <td th:text="${usuario.nombre}"></td>
+                    <td th:text="${usuario.nombre}" class="nombre"></td>
                     <td th:text="${usuario.apellido}"></td>  
 
                     <td th:text="${usuario.email}" class="email" ></td>

@@ -362,9 +362,9 @@ public class UsuarioServicio implements UserDetailsService {
     public List<Usuario> listarVarios() {
         return usuarioRepositorio.listarProveedoresPorCategoria(Rol.PROVEEDOR, Categoria.VARIOS);
     }
-    
-    public void promedioGeneral(String IDproveedor){
-        
-    }
 
+    
+
+    
+    
 }

@@ -9,9 +9,42 @@
 <body style="background-color: #F2F2F2">
     <nav th:replace="/fragments/navbar :: nav"></nav>
 
+    <div style="background: #27363D; text-align: center; margin-bottom: -5px;">
+        <h2 style="color: #DFE2F2;">SERVICIOS CONTRATADOS:</h2>
+    </div>
     <!-- LISTA DE CONTRATOS O SERVICIOS CONTRATADOS -->
     <div class="container ">
-        <h3 class="text-center">- SERVICIOS CONTRATADOS -</h3>
+        
+         <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar por 
+                </button>
+                <ul class="dropdown-menu">
+                    <li>  
+                        <form th:action="@{/filtro-contrato/__${session.usuariosession.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="activo" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro ">Contratos Activos</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/filtro-contrato/__${session.usuariosession.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="cancelado" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro ">Contratos Cancelados</button>
+                        </form>
+                    </li>
+                    <li>  
+                        <form th:action="@{/filtro-contrato/__${session.usuariosession.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                            <input hidden type="text" name="filtro" th:value="fin" class="mx-3"  >
+                            <button type="submit" class=" lista-filtro">Contratos Finalizados</button>
+                        </form>
+                    </li>
+                   
+
+                </ul>
+            </div>
+
+
+
         <div th:each="contrato : ${contratos}" class=" bg-dark" >
 
             <div class="mb-3  row border border-3 bg-dark">
@@ -149,15 +182,46 @@
                             </tr>
                             <tr>
                                 <th scope="row" colspan="4" >Califica el Servicio </th>
-                                <td>
-                                    <p th:text="${contrato.promedio}"></p>
-                                    <form th:action="@{/calificacion/__${contrato.proveedor.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
-                                        <input type="number" name="calificacion">
-                                        <input  hidden type="text" name="IDcontrato" th:value="${contrato.id}">
-                                        <button type="submit" class="btn btn-primary ">Calificar</button>
-                                    </form>    
+                                <!--        <td ><a href="url">Calificar</a></td>    -->
+
+
+                                <td >  
+                       
+                                    <p th:text=" 'Calificacion = '+${contrato.calificacion} " ></p>
+                                    <p th:text=" 'estrellas = '+${contrato.estrellas} " ></p>
+
+                                    <div  class="d-flex" >
+
+                                        <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden type="number" th:value="1" name="num">
+                                            <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                                            <button type="submit" class=" btn-primary link-dark ">⭐</button>
+                                        </form>
+                                        <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden type="number" th:value="2" name="num">
+                                            <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                                            <button type="submit" class=" btn-primary link-dark ">⭐</button>
+                                        </form>
+                                        <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden type="number" th:value="3" name="num">
+                                            <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                                            <button type="submit" class=" btn-primary link-dark ">⭐</button>
+                                        </form>
+                                        <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden type="number" th:value="4" name="num">
+                                            <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                                            <button type="submit" class=" btn-primary link-dark ">⭐</button>
+                                        </form>
+                                        <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="fondo">
+                                            <input hidden type="number" th:value="5" name="num">
+                                            <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                                            <button type="submit" class=" btn-primary link-dark ">⭐</button>
+                                        </form>
+
+                                    </div>
+
                                 </td>
-                                <!-- comment  <td ><button><a href="url">Calificar</a></button></td>-->
+
 
                                 <th scope="row" colspan="4" >Cancela el Servicio </th>
                                 <td ><a th:href="@{/cancelar-contrato/__${contrato.id}__}">Cancelar</a></td>
@@ -259,7 +323,7 @@
 
                                                         <button type="submit" class="btn btn-danger ">Eliminar Comentario</button>
                                                     </form>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -282,5 +346,7 @@
         <footer th:replace="/fragments/footer :: footer" > </footer>
     </div>
 
+    
+     <script th:src="@{/js/script-filtro.js}" integrity="" crossorigin="anonymous"></script>
 </body>
 </html>
